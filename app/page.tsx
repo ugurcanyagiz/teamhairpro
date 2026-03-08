@@ -45,11 +45,11 @@ export default function Home() {
       <Navbar />
 
       <main>
-        <section className="relative isolate overflow-hidden border-b border-[#e8dfd4]" aria-labelledby="hero-title">
+        <section className="relative isolate w-full overflow-hidden border-b border-[#e8dfd4]" aria-labelledby="hero-title">
           <div className="absolute inset-0">
-            <Image src="/images/hero-hair.svg" alt="TeamHairPro salon editorial scene" fill priority className="object-cover" sizes="100vw" />
+            <Image src="/andy.png" alt="TeamHairPro salon editorial scene" fill priority className="object-cover object-center" sizes="100vw" />
           </div>
-          <div className="absolute inset-0 bg-[linear-gradient(96deg,rgba(247,242,235,0.95)_0%,rgba(247,242,235,0.88)_42%,rgba(247,242,235,0.72)_60%,rgba(247,242,235,0.78)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(96deg,rgba(247,242,235,0.9)_0%,rgba(247,242,235,0.82)_42%,rgba(247,242,235,0.7)_60%,rgba(247,242,235,0.76)_100%)]" />
           <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-8 lg:py-24">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#917255]">Luxury Salon Experience</p>
