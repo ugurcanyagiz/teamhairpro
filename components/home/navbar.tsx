@@ -4,12 +4,10 @@ import Link from "next/link";
 import { useState } from "react";
 
 const navigationLinks = [
+  { label: "Home", href: "#home" },
   { label: "Services", href: "#services" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Experience", href: "#experience" },
-  { label: "Stylists", href: "#stylists" },
-  { label: "Reviews", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
+  { label: "Proof", href: "#proof" },
+  { label: "Booking", href: "#booking" },
 ];
 
 export function Navbar() {
@@ -18,7 +16,7 @@ export function Navbar() {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#e8e0d6]/80 bg-[#f8f4ee]/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-[#e9dfd4]/80 bg-[#fbf8f3]/90 backdrop-blur-xl">
       <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 lg:px-8" aria-label="Main navigation">
         <Link href="#home" className="text-sm font-semibold tracking-[0.24em] text-[#2f2924] transition hover:text-[#8d7156]">
           TEAMHAIRPRO
@@ -26,7 +24,7 @@ export function Navbar() {
 
         <div className="hidden items-center gap-8 md:flex">
           {navigationLinks.map((item) => (
-            <Link key={item.href} href={item.href} className="text-sm text-[#6f6358] transition hover:text-[#2f2924]">
+            <Link key={item.href} href={item.href} className="text-sm text-[#675b50] transition hover:text-[#2f2924]">
               {item.label}
             </Link>
           ))}
