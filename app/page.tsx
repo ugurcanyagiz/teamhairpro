@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "@/components/home/navbar";
+import { LogoCarousel } from "@/components/home/logo-carousel";
 
 type Service = {
   title: string;
@@ -146,6 +147,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <LogoCarousel />
 
         <section className="border-b border-[#e8dfd4] bg-[#fbf8f4] px-6 py-7 lg:px-8" aria-label="Social proof">
           <div className="mx-auto grid w-full max-w-7xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
