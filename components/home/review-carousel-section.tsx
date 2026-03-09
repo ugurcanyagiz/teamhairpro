@@ -14,41 +14,39 @@ const reviews: Review[] = [
   {
     id: 1,
     quote:
-      "I came in wanting softer dimension and a shape that would still look polished on busy mornings. The consultation was thoughtful, and the result felt tailored to me.",
-    name: "Maya R.",
+      "I had the pleasure of doing my hair with Gigi. She delivered an amazing service. The salon is welcoming and feels like you are getting pampered. I highly recommend Gigi as a colorist and the Palms Salon!",
+    name: "Olga P",
     location: "Brooklyn, NY",
-    source: "Google",
+    source: "Yelp",
   },
   {
     id: 2,
     quote:
-      "From the first welcome to the final style, everything felt calm and intentional. My color looks luminous in every light and grows out beautifully.",
-    name: "Elena P.",
-    location: "Jersey City, NJ",
+      "I've been getting my hair done by Ariel for the past 6 years and he has always given me the blonde Barbie hair of my dreams! This time around I wanted a little change, and he knew exactly what to do!",
+    name: "Jelena G",
+    location: "Brooklyn, NY",
     source: "Yelp",
   },
   {
     id: 3,
     quote:
-      "I trust this team completely for event styling. They listen, refine every detail, and create a look that photographs elegantly without feeling overdone.",
-    name: "Camille T.",
+      "I am new to the city and was looking for a blonde specialist and Trish did NOT disappoint. I went in with some inspo pics and she was amazing at understanding and setting realistic goals.",
+    name: "Paige R",
     location: "New York, NY",
     source: "Google",
   },
   {
     id: 4,
-    quote:
-      "The cut brought movement back to my hair and made everyday styling genuinely easier. It still keeps its shape weeks later, which is rare for me.",
-    name: "Nora L.",
-    location: "Hoboken, NJ",
-    source: "Yelp",
+    quote: "Ariel is amazing with curls. Favorite haircut I've ever had.",
+    name: "Coby C",
+    location: "New York, NY",
+    source: "Google",
   },
   {
     id: 5,
-    quote:
-      "I wanted modern but still timeless, and they struck that balance perfectly. The service felt refined, warm, and completely client-focused.",
-    name: "Ari S.",
-    location: "Queens, NY",
+    quote: "From consultation to finish everything felt calm, intentional, and genuinely client-first.",
+    name: "Elena P",
+    location: "Jersey City, NJ",
     source: "Google",
   },
 ];
@@ -57,20 +55,19 @@ const AUTOPLAY_INTERVAL_MS = 5000;
 const SWIPE_THRESHOLD = 46;
 
 function SourceBadge({ source }: { source: Review["source"] }) {
-  const badgeClass =
-    source === "Google"
-      ? "border-[#e3d6c8] bg-[#faf7f2] text-[#6e5b47]"
-      : "border-[#e0d2c3] bg-[#fdf8f4] text-[#7a4f44]";
+  if (source === "Google") {
+    return (
+      <span className="inline-flex items-center text-xl font-semibold leading-none">
+        <span className="text-[#4285F4]">G</span>
+      </span>
+    );
+  }
 
-  return (
-    <span className={`inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-medium tracking-[0.08em] ${badgeClass}`}>
-      {source}
-    </span>
-  );
+  return <span className="text-sm font-semibold leading-none text-[#1f1a17]">yelp✶</span>;
 }
 
 export function ReviewCarouselSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const [isPointerDown, setIsPointerDown] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
@@ -132,23 +129,25 @@ export function ReviewCarouselSection() {
   };
 
   return (
-    <section id="proof" className="relative overflow-hidden bg-[#b8997f] px-6 py-20 lg:px-8 lg:py-24" aria-labelledby="reviews-heading">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-24 -top-32 h-64 w-64 rounded-full bg-[#d7c2af]/70 blur-3xl" />
-        <div className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-[#c8a98f]/60 blur-3xl" />
+    <section id="proof" className="relative overflow-hidden bg-[#efe1d4] px-4 py-16 md:px-6 md:py-20 lg:py-24" aria-labelledby="reviews-heading">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-[3%] top-[4%] h-[92%] w-[94%] rounded-[8rem] bg-[#b99a82] md:rounded-[9rem]" />
+        <div className="absolute left-[21%] top-[-5rem] h-44 w-72 rounded-[999px] bg-[#efe1d4]" />
+        <div className="absolute right-[16%] top-[-3.4rem] h-52 w-[26rem] rounded-[999px] bg-[#efe1d4]" />
+        <div className="absolute -left-12 bottom-[-7rem] h-80 w-52 rounded-[999px] bg-[#efe1d4]" />
+        <div className="absolute bottom-[-8rem] right-[16%] h-72 w-56 rounded-[999px] bg-[#efe1d4]" />
       </div>
 
-      <div className="relative mx-auto w-full max-w-6xl">
-        <div className="text-center text-[#f8f1e8]">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#f4e9dc]">Client stories</p>
-          <h2 id="reviews-heading" className="mt-5 font-serif text-5xl font-normal leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
-            <span className="block">Talk the Talk</span>
-            <span className="-mt-3 block pl-6 sm:pl-16 lg:pl-24">Walk the Walk.</span>
+      <div className="relative mx-auto w-full max-w-[1320px]">
+        <div className="text-center text-[#f7efe8]">
+          <h2 id="reviews-heading" className="font-serif text-[72px] font-normal uppercase leading-[0.78] tracking-tight sm:text-[84px] lg:text-[92px]">
+            <span className="block">Talk The</span>
+            <span className="-mt-3 block">Talk...</span>
           </h2>
         </div>
 
         <div
-          className="relative mt-14"
+          className="relative mt-6"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onPointerDown={handlePointerDown}
@@ -158,48 +157,55 @@ export function ReviewCarouselSection() {
           aria-roledescription="carousel"
           aria-label="Client reviews"
         >
-          <div className="hidden h-[420px] md:block" style={{ perspective: "1200px" }}>
+          <div className="hidden h-[440px] md:block" style={{ perspective: "1200px" }}>
             {reviews.map((review, index) => {
               const isActive = index === activeIndex;
               const isPrevious = index === previousIndex;
               const isNext = index === nextIndex;
               const isVisible = isActive || isPrevious || isNext;
 
-              let transform = "translateX(0) scale(0.9)";
+              let transform = "translateX(0)";
               let opacity = 0;
               let zIndex = 0;
+              let widthClass = "max-w-[302px]";
+              let paddingClass = "px-7 py-9";
+              let minHeight = "320px";
 
               if (isActive) {
-                transform = "translateX(0) scale(1) rotateZ(0deg)";
+                transform = "translateX(0) scale(1)";
                 opacity = 1;
                 zIndex = 30;
+                widthClass = "max-w-[380px]";
+                paddingClass = "px-8 py-10";
+                minHeight = "430px";
               } else if (isPrevious) {
-                transform = "translateX(-64%) scale(0.92) rotateY(8deg) rotateZ(-1.5deg)";
-                opacity = 0.75;
+                transform = "translateX(-82%) translateY(8px) rotateZ(-1.6deg)";
+                opacity = 1;
                 zIndex = 20;
               } else if (isNext) {
-                transform = "translateX(64%) scale(0.92) rotateY(-8deg) rotateZ(1.5deg)";
-                opacity = 0.75;
+                transform = "translateX(82%) translateY(8px) rotateZ(1.6deg)";
+                opacity = 1;
                 zIndex = 20;
               }
 
               return (
                 <article
                   key={review.id}
-                  className="absolute left-1/2 top-0 w-full max-w-md -translate-x-1/2 rounded-[2rem] border border-[#ece2d8] bg-white px-8 py-10 text-center shadow-[0_28px_40px_rgba(52,35,20,0.16)] transition-all duration-700 ease-out"
+                  className={`absolute left-1/2 top-0 w-full ${widthClass} ${paddingClass} -translate-x-1/2 bg-[#f3f3f3] text-center shadow-[0_12px_18px_rgba(60,41,25,0.24)] transition-all duration-700 ease-out`}
                   style={{
+                    minHeight,
                     transform,
                     opacity,
                     zIndex,
                     visibility: isVisible ? "visible" : "hidden",
-                    transitionDuration: prefersReducedMotion ? "0ms" : "900ms",
+                    clipPath: "polygon(0% 1.6%, 100% 0%, 100% 98.6%, 0% 100%)",
+                    transitionDuration: prefersReducedMotion ? "0ms" : "820ms",
                   }}
                   aria-hidden={!isActive}
                 >
-                  <p className="text-lg leading-relaxed text-[#40362f]">“{review.quote}”</p>
-                  <p className="mt-8 font-serif text-2xl text-[#9a765d]">{review.name}</p>
-                  <p className="mt-1 text-sm uppercase tracking-[0.16em] text-[#8b7b6d]">{review.location}</p>
-                  <div className="mt-5 flex justify-center">
+                  <p className="text-[33px] leading-[1.06] text-[#4f4943]">“{review.quote}”</p>
+                  <p className="mt-7 font-serif text-[43px] leading-none text-[#d3a29b]">{review.name} from {review.location} on</p>
+                  <div className="mt-2.5 flex justify-center">
                     <SourceBadge source={review.source} />
                   </div>
                 </article>
@@ -209,33 +215,40 @@ export function ReviewCarouselSection() {
 
           <div className="md:hidden">
             <article
-              className="mx-auto w-full max-w-md rounded-[1.75rem] border border-[#ece2d8] bg-white px-7 py-9 text-center shadow-[0_24px_32px_rgba(52,35,20,0.16)] transition-transform duration-700"
-              style={{ transform: `translateX(${dragOffset * 0.15}px)` }}
+              className="mx-auto w-full max-w-sm bg-[#f3f3f3] px-6 py-8 text-center shadow-[0_12px_18px_rgba(60,41,25,0.24)] transition-transform duration-700"
+              style={{
+                transform: `translateX(${dragOffset * 0.15}px)`,
+                clipPath: "polygon(0% 1.6%, 100% 0%, 100% 98.6%, 0% 100%)",
+                minHeight: "360px",
+              }}
             >
-              <p className="text-base leading-relaxed text-[#40362f]">“{reviews[activeIndex].quote}”</p>
-              <p className="mt-7 font-serif text-2xl text-[#9a765d]">{reviews[activeIndex].name}</p>
-              <p className="mt-1 text-xs uppercase tracking-[0.16em] text-[#8b7b6d]">{reviews[activeIndex].location}</p>
-              <div className="mt-5 flex justify-center">
+              <p className="text-base leading-relaxed text-[#4f4943]">“{reviews[activeIndex].quote}”</p>
+              <p className="mt-7 font-serif text-4xl leading-none text-[#d3a29b]">{reviews[activeIndex].name}</p>
+              <p className="mt-2 text-xl text-[#d3a29b]">from {reviews[activeIndex].location} on</p>
+              <div className="mt-2.5 flex justify-center">
                 <SourceBadge source={reviews[activeIndex].source} />
               </div>
             </article>
           </div>
 
-          <div className="mt-10 flex justify-center gap-3" aria-label="Review slide selection">
+          <div className="mt-8 flex justify-center gap-2.5" aria-label="Review slide selection">
             {reviews.map((review, index) => (
               <button
                 key={review.id}
                 type="button"
                 onClick={() => goToIndex(index)}
-                className={`h-2.5 w-2.5 rounded-full transition ${
-                  index === activeIndex ? "scale-110 bg-[#f6ede3]" : "bg-[#e7d8ca]/80 hover:bg-[#f6ede3]/90"
-                }`}
+                className={`h-2.5 w-2.5 rounded-full transition ${index === activeIndex ? "bg-[#17120c]" : "bg-[#efe7de] hover:bg-[#f8f2eb]"}`}
                 aria-label={`Show review ${index + 1}`}
                 aria-current={index === activeIndex}
               />
             ))}
           </div>
         </div>
+
+        <p className="mt-10 text-center font-serif text-[74px] uppercase leading-[0.84] tracking-tight text-[#f7efe8] sm:text-[84px] lg:text-[94px]">
+          <span className="block">&apos;Cause We Walk</span>
+          <span className="-mt-3 block">The Walk.</span>
+        </p>
       </div>
     </section>
   );
