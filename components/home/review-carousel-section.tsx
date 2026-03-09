@@ -181,7 +181,7 @@ export function ReviewCarouselSection() {
                 widthClass = "max-w-[336px]";
               }
 
-              return (
+              <div className="md:hidden">
                 <article
                   key={review.id}
                   className={`absolute left-1/2 top-0 w-full ${widthClass} rounded-[0.7rem] border border-[#e4ddd6] bg-[#fbfaf8] px-7 py-8 text-left shadow-[0_24px_44px_rgba(53,40,30,0.14)] transition-all duration-700 ease-out`}
@@ -205,9 +205,7 @@ export function ReviewCarouselSection() {
                     </div>
                   </div>
                 </article>
-              );
-            })}
-          </div>
+              </div>
 
           <div className="md:hidden">
             <article
@@ -223,8 +221,7 @@ export function ReviewCarouselSection() {
                   <SourceBadge source={reviews[activeIndex].source} />
                 </div>
               </div>
-            </article>
-          </div>
+            </div>
 
           <div className="mt-9 flex justify-center gap-2.5" aria-label="Review slide selection">
             {reviews.map((review, index) => (
