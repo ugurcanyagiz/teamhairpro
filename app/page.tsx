@@ -2,35 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { LogoCarousel } from "@/components/home/logo-carousel";
 import { Navbar } from "@/components/home/navbar";
-
-type Stat = {
-  value: string;
-  label: string;
-  detail: string;
-};
-
-const stats: Stat[] = [
-  {
-    value: "10+",
-    label: "Years of Craft",
-    detail: "Expert-led cuts and color tailored to your face shape and routine.",
-  },
-  {
-    value: "500+",
-    label: "Happy Clients",
-    detail: "Returning clients who trust TeamHairPro for consistent premium results.",
-  },
-  {
-    value: "5★",
-    label: "Rated Service",
-    detail: "A calm, thoughtful experience from consultation to final finish.",
-  },
-  {
-    value: "100%",
-    label: "Premium Product Focus",
-    detail: "Professional formulas selected for long-term shine and hair health.",
-  },
-];
+import { ReviewCarouselSection } from "@/components/home/review-carousel-section";
 
 const benefits = [
   "Tailored cuts and styling that complement your natural features",
@@ -117,23 +89,7 @@ export default function Home() {
 
         <LogoCarousel />
 
-        <section id="proof" className="px-6 py-20 lg:px-8 lg:py-24">
-          <div className="mx-auto w-full max-w-6xl">
-            <div className="mx-auto max-w-2xl text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#947559]">The details that build trust</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Less talk, more proof</h2>
-            </div>
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {stats.map((stat) => (
-                <article key={stat.label} className="rounded-3xl border border-[#e7ddd1] bg-[#fffdf9] p-6 text-center shadow-[0_14px_28px_rgba(67,50,34,0.06)]">
-                  <p className="text-4xl font-semibold tracking-tight text-[#2b2520]">{stat.value}</p>
-                  <p className="mt-2 text-sm font-medium uppercase tracking-[0.16em] text-[#8f7358]">{stat.label}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-[#6d6258]">{stat.detail}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ReviewCarouselSection />
 
         <section id="services" className="px-6 pb-20 lg:px-8 lg:pb-24">
           <div className="mx-auto w-full max-w-5xl rounded-[2rem] border border-[#ddd1c4] bg-[#efe6db] p-8 text-center shadow-[0_20px_36px_rgba(74,58,42,0.08)] sm:p-12">
