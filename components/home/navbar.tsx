@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navigationLinks = [
   { label: "Home", href: "#home" },
@@ -10,27 +10,63 @@ const navigationLinks = [
   { label: "Booking", href: "#booking" },
 ];
 
-export function Navbar() {
+type NavbarProps = {
+  overlay?: boolean;
+};
+
+export function Navbar({ overlay = false }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    if (!overlay) return;
+
+    const handleScroll = () => setIsScrolled(window.scrollY > 24);
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [overlay]);
 
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#e9dfd4]/80 bg-[#fbf8f3]/90 backdrop-blur-xl">
-      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 lg:px-8" aria-label="Main navigation">
-        <Link href="#home" className="text-sm font-semibold tracking-[0.24em] text-[#2f2924] transition hover:text-[#8d7156]">
+    <header
+      className={`top-0 z-50 transition-all duration-500 ${
+        overlay
+          ? `fixed inset-x-0 ${
+              isScrolled
+                ? "border-b border-[#e8d8c7]/40 bg-[rgba(36,30,25,0.45)] backdrop-blur-xl"
+                : "bg-transparent"
+            }`
+          : "sticky border-b border-[#e9dfd4]/80 bg-[#fbf8f3]/90 backdrop-blur-xl"
+      }`}
+    >
+      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 lg:px-8" aria-label="Main navigation">
+        <Link
+          href="#home"
+          className={`text-[0.86rem] font-semibold tracking-[0.28em] transition ${overlay ? "text-[#fff8ef] hover:text-white" : "text-[#2f2924] hover:text-[#8d7156]"}`}
+        >
           TEAMHAIRPRO
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-10 md:flex">
           {navigationLinks.map((item) => (
-            <Link key={item.href} href={item.href} className="text-sm text-[#675b50] transition hover:text-[#2f2924]">
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`text-base font-light tracking-[0.09em] transition ${overlay ? "text-[#f7efe4] hover:text-white" : "text-[#675b50] hover:text-[#2f2924]"}`}
+            >
               {item.label}
             </Link>
           ))}
           <Link
             href="#booking"
-            className="rounded-full border border-[#c8b198] bg-[#b99a7b] px-5 py-2 text-sm font-medium text-[#fffaf4] shadow-[0_8px_18px_rgba(149,112,78,0.2)] transition hover:-translate-y-0.5 hover:bg-[#aa8a6d]"
+            className={`rounded-full border px-6 py-2.5 text-sm font-medium shadow-[0_10px_20px_rgba(20,14,10,0.22)] transition hover:-translate-y-0.5 ${
+              overlay
+                ? "border-[#f0dcc7]/80 bg-[#eed8c1]/18 text-[#fffaf4] backdrop-blur-md hover:bg-[#eed8c1]/30"
+                : "border-[#c8b198] bg-[#b99a7b] text-[#fffaf4] hover:bg-[#aa8a6d]"
+            }`}
           >
             Book Now
           </Link>
@@ -41,7 +77,11 @@ export function Navbar() {
           aria-expanded={isMenuOpen}
           aria-controls="mobile-menu"
           onClick={() => setIsMenuOpen((prev) => !prev)}
-          className="inline-flex items-center rounded-lg border border-[#d8cec2] bg-white/70 p-2 text-[#3a312b] transition hover:border-[#b99a7b] md:hidden"
+          className={`inline-flex items-center rounded-lg border p-2 text-sm transition md:hidden ${
+            overlay
+              ? "border-[#f1dfcc]/50 bg-[rgba(247,236,224,0.15)] text-[#fff9f2] hover:border-[#fff4e7]"
+              : "border-[#d8cec2] bg-white/70 text-[#3a312b] hover:border-[#b99a7b]"
+          }`}
         >
           <span className="sr-only">Toggle menu</span>
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -55,17 +95,33 @@ export function Navbar() {
       </nav>
 
       {isMenuOpen ? (
-        <div id="mobile-menu" className="border-t border-[#e8e0d6] bg-[#fcfaf7] px-6 py-5 md:hidden">
+        <div
+          id="mobile-menu"
+          className={`px-6 py-5 md:hidden ${
+            overlay
+              ? "border-t border-[#f0dfcb]/35 bg-[rgba(28,23,19,0.78)] backdrop-blur-2xl"
+              : "border-t border-[#e8e0d6] bg-[#fcfaf7]"
+          }`}
+        >
           <div className="flex flex-col gap-4">
             {navigationLinks.map((item) => (
-              <Link key={item.href} href={item.href} onClick={closeMenu} className="text-sm text-[#6f6358] transition hover:text-[#2f2924]">
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={closeMenu}
+                className={`text-base tracking-[0.08em] transition ${overlay ? "text-[#f6ecdf] hover:text-white" : "text-[#6f6358] hover:text-[#2f2924]"}`}
+              >
                 {item.label}
               </Link>
             ))}
             <Link
               href="#booking"
               onClick={closeMenu}
-              className="mt-2 inline-flex w-full items-center justify-center rounded-full border border-[#c8b198] bg-[#b99a7b] px-5 py-2 text-sm font-medium text-[#fffaf4] shadow-[0_8px_18px_rgba(149,112,78,0.18)] transition hover:bg-[#aa8a6d]"
+              className={`mt-2 inline-flex w-full items-center justify-center rounded-full border px-5 py-2.5 text-sm font-medium transition ${
+                overlay
+                  ? "border-[#f0dcc7]/70 bg-[#eed8c1]/18 text-[#fffaf4] hover:bg-[#eed8c1]/30"
+                  : "border-[#c8b198] bg-[#b99a7b] text-[#fffaf4] hover:bg-[#aa8a6d]"
+              }`}
             >
               Book Now
             </Link>
