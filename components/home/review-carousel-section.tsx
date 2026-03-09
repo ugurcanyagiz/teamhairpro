@@ -186,6 +186,7 @@ export function ReviewCarouselSection() {
                 transform = "translateX(82%) translateY(8px) rotateZ(1.6deg)";
                 opacity = 1;
                 zIndex = 20;
+                widthClass = "max-w-[340px]";
               }
 
               return (
