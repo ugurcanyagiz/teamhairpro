@@ -27,23 +27,23 @@ export function LogoCarousel() {
           </h2>
         </div>
 
-        <div className="logo-carousel-mask group relative mt-8 overflow-hidden rounded-full border border-[#e8ddd1] bg-[#fdfaf6] px-2 py-2.5 shadow-[0_10px_24px_rgba(62,45,28,0.05)] sm:px-3">
+        <div className="logo-carousel-mask logo-carousel-flow group relative mt-8 overflow-hidden rounded-full border border-[#e8ddd1] bg-[#fdfaf6] px-2 py-2.5 shadow-[0_10px_24px_rgba(62,45,28,0.05)] sm:px-3">
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-[#fdfaf6] to-transparent sm:w-16" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-[#fdfaf6] to-transparent sm:w-16" />
 
-          <ul className="logo-marquee-track flex w-max items-center gap-3 sm:gap-4 group-hover:[animation-play-state:paused]" aria-label="Trusted hair product brands">
+          <ul className="logo-marquee-track flex w-max items-center gap-3 sm:gap-5 group-hover:[animation-play-state:paused]" aria-label="Trusted hair product brands">
             {marqueeBrands.map((brand, index) => (
               <li
                 key={`${brand.name}-${index}`}
-                className="group/logo flex min-w-[160px] items-center justify-center rounded-full border border-[#ebe2d7] bg-[#fbf7f2] px-5 py-3 transition sm:min-w-[198px] sm:px-7"
+                className="group/logo flex min-w-[180px] items-center justify-center rounded-full border border-[#ebe2d7] bg-[#fbf7f2] px-5 py-3.5 transition sm:min-w-[220px] sm:px-8"
               >
-                <div className="flex h-8 items-end justify-center">
+                <div className="flex h-10 items-center justify-center sm:h-11">
                   <Image
                     src={brand.logoSrc}
                     alt={brand.name}
-                    width={160}
-                    height={32}
-                    className="h-8 w-auto object-contain opacity-70 grayscale transition duration-300 group-hover/logo:opacity-100 group-hover/logo:grayscale-0"
+                    width={186}
+                    height={44}
+                    className="h-10 w-auto object-contain opacity-70 grayscale transition duration-300 group-hover/logo:opacity-100 group-hover/logo:grayscale-0 sm:h-11"
                   />
                 </div>
               </li>
