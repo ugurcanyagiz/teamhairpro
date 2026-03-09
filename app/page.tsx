@@ -58,21 +58,22 @@ const instagramPosts = [
 export default function Home() {
   return (
     <div id="home" className="min-h-screen bg-[#f7f2eb] text-[#2b2622]">
-      <Navbar />
+      <Navbar overlay />
 
       <main>
         <section className="relative isolate w-full overflow-hidden border-b border-[#e8dfd4]" aria-labelledby="hero-title">
           <div className="absolute inset-0">
             <Image src="/andy.png" alt="TeamHairPro salon editorial scene" fill priority className="object-cover object-center" sizes="100vw" />
           </div>
-          <div className="absolute inset-0 bg-[linear-gradient(96deg,rgba(247,242,235,0.9)_0%,rgba(247,242,235,0.82)_42%,rgba(247,242,235,0.7)_60%,rgba(247,242,235,0.76)_100%)]" />
-          <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-8 lg:py-24">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(32,25,20,0.38)_0%,rgba(39,30,24,0.24)_18%,rgba(247,242,235,0.78)_56%,rgba(247,242,235,0.9)_100%)]" />
+          <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-6 pb-16 pt-28 sm:pt-32 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-8 lg:pb-24 lg:pt-36">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#917255]">Luxury Salon Experience</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#f2e6d7]">Luxury Salon Experience</p>
               <h1 id="hero-title" className="mt-6 max-w-xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-                Luxury Hair, Beautifully Tailored
+                <span className="text-[#fffaf3]">Luxury Hair,</span>{" "}
+                <span className="text-[#f3e4d3]">Beautifully Tailored</span>
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#655a50]">
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#f3e8dc]">
                 Precision cuts, premium color, and modern styling designed around you. Enjoy a warm, elevated salon ritual that feels
                 personal from first consultation to final finish.
               </p>
