@@ -67,6 +67,22 @@ function SourceBadge({ source }: { source: Review["source"] }) {
   return <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#6a5b4f]">Yelp ✶</span>;
 }
 
+function ReviewCardBody({ review }: { review: Review }) {
+  return (
+    <>
+      <p className="text-[11px] tracking-[0.3em] text-[#9b8570]">★★★★★</p>
+      <p className="mt-5 text-[15px] leading-relaxed text-[#4a4038]">“{review.quote}”</p>
+      <div className="mt-7 border-t border-[#e9e1d9] pt-4">
+        <p className="font-serif text-[1.58rem] leading-none text-[#8d6f60]">{review.name}</p>
+        <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-[#7d6d60]">{review.location}</p>
+        <div className="mt-3">
+          <SourceBadge source={review.source} />
+        </div>
+      </div>
+    </>
+  );
+}
+
 export function ReviewCarouselSection() {
   const [activeIndex, setActiveIndex] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
@@ -129,132 +145,107 @@ export function ReviewCarouselSection() {
     clearPointerState();
   };
 
+  const desktopCards = reviews.map((review, index) => {
+    const isActive = index === activeIndex;
+    const isPrevious = index === previousIndex;
+    const isNext = index === nextIndex;
+    const isVisible = isActive || isPrevious || isNext;
+
+    let transform = "translateX(-50%)";
+    let opacity = 0;
+    let zIndex = 0;
+    let widthClass = "max-w-[320px]";
+    let minHeight = "308px";
+
+    if (isActive) {
+      transform = "translateX(-50%) translateY(-8px) rotateZ(-0.8deg)";
+      opacity = 1;
+      zIndex = 40;
+      widthClass = "max-w-[430px]";
+      minHeight = "372px";
+    } else if (isPrevious) {
+      transform = "translateX(-152%) translateY(42px) rotateZ(-6.8deg) rotateY(8deg) scale(0.92)";
+      opacity = 1;
+      zIndex = 25;
+    } else if (isNext) {
+      transform = "translateX(52%) translateY(54px) rotateZ(5.9deg) rotateY(-8deg) scale(0.9)";
+      opacity = 1;
+      zIndex = 25;
+      widthClass = "max-w-[336px]";
+    }
+
+    return (
+      <article
+        key={review.id}
+        className={`absolute left-1/2 top-0 w-full ${widthClass} rounded-[0.7rem] border border-[#e4ddd6] bg-[#fbfaf8] px-7 py-8 text-left shadow-[0_24px_44px_rgba(53,40,30,0.14)] transition-all duration-700 ease-out`}
+        style={{
+          minHeight,
+          transform,
+          opacity,
+          zIndex,
+          visibility: isVisible ? "visible" : "hidden",
+          transitionDuration: prefersReducedMotion ? "0ms" : "820ms",
+        }}
+        aria-hidden={!isActive}
+      >
+        <ReviewCardBody review={review} />
+      </article>
+    );
+  });
+
   return (
-    <section id="proof" className="relative overflow-hidden bg-[#f6f0e8] px-4 py-24 md:px-6 md:py-28 lg:py-32" aria-labelledby="reviews-heading">
-      <div className="relative mx-auto w-full max-w-[1360px]">
-        <div className="relative overflow-hidden rounded-[3.2rem] px-5 py-16 sm:px-8 md:rounded-[4.5rem] md:px-10 md:py-20 lg:px-14 lg:py-24">
-          <div className="pointer-events-none absolute inset-0 bg-[#d8c4b1]" />
-          <div className="pointer-events-none absolute -left-20 top-[-7.5rem] h-48 w-[24rem] rounded-[100%] bg-[#f6f0e8] sm:left-[-8%] sm:w-[28rem] md:h-56 md:w-[35rem]" />
-          <div className="pointer-events-none absolute right-[-8%] top-[-6.5rem] h-44 w-[18rem] rounded-[100%] bg-[#f6f0e8] sm:w-[24rem] md:h-56 md:w-[30rem]" />
-          <div className="pointer-events-none absolute -left-24 bottom-[-9rem] h-72 w-56 rounded-[100%] bg-[#f6f0e8] md:w-72" />
-          <div className="pointer-events-none absolute bottom-[-8rem] right-[8%] h-60 w-56 rounded-[100%] bg-[#f6f0e8] md:h-72 md:w-80" />
-          <div className="pointer-events-none absolute left-[16%] top-[20%] h-24 w-24 rounded-full bg-[#eadccf]/55 blur-2xl" />
-          <div className="pointer-events-none absolute right-[20%] bottom-[18%] h-28 w-28 rounded-full bg-[#e7d5c4]/45 blur-2xl" />
+    <section id="proof" className="relative overflow-hidden bg-[#f5f5f7] px-4 py-24 md:px-6 md:py-28 lg:py-32" aria-labelledby="reviews-heading">
+      <div className="mx-auto w-full max-w-[1280px]">
+        <header className="text-center">
+          <p className="text-[11px] uppercase tracking-[0.32em] text-[#8f7f6e]">Testimonials</p>
+          <h2 id="reviews-heading" className="mt-5 font-serif text-[clamp(2.4rem,7.6vw,5.8rem)] leading-[0.9] tracking-tight text-[#2f2721]">
+            Voices of
+            <span className="block">Quiet Luxury</span>
+          </h2>
+        </header>
 
-          <div className="relative mx-auto w-full max-w-[1180px]">
-            <header className="text-center text-[#f8f3ed]">
-              <h2 id="reviews-heading" className="font-serif text-[clamp(2.6rem,9vw,6.6rem)] font-normal uppercase leading-[0.8] tracking-tight">
-                <span className="block">Words We</span>
-                <span className="-mt-2.5 block">Live By</span>
-              </h2>
-            </header>
+        <div
+          className="relative mt-14 md:mt-16"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={clearPointerState}
+          aria-roledescription="carousel"
+          aria-label="Client reviews"
+        >
+          <div className="hidden h-[470px] md:block" style={{ perspective: "1700px" }}>
+            {desktopCards}
+          </div>
 
-            <div
-              className="relative mt-8 md:mt-10"
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              onPointerDown={handlePointerDown}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-              onPointerCancel={clearPointerState}
-              aria-roledescription="carousel"
-              aria-label="Client reviews"
+          <div className="md:hidden">
+            <article
+              className="mx-auto w-full max-w-sm rounded-[0.7rem] border border-[#e4ddd6] bg-[#fbfaf8] px-6 py-7 text-left shadow-[0_24px_44px_rgba(53,40,30,0.14)] transition-transform duration-700"
+              style={{ transform: `translateX(${dragOffset * 0.15}px)`, minHeight: "330px" }}
             >
-              <div className="hidden h-[460px] md:block" style={{ perspective: "1500px" }}>
-                {reviews.map((review, index) => {
-                  const isActive = index === activeIndex;
-                  const isPrevious = index === previousIndex;
-                  const isNext = index === nextIndex;
-                  const isVisible = isActive || isPrevious || isNext;
+              <ReviewCardBody review={reviews[activeIndex]} />
+            </article>
+          </div>
 
-                  let transform = "translateX(0)";
-                  let opacity = 0;
-                  let zIndex = 0;
-                  let widthClass = "max-w-[305px]";
-                  let minHeight = "290px";
-
-                  if (isActive) {
-                    transform = "translateX(-50%) translateY(-2px) rotateZ(-0.4deg)";
-                    opacity = 1;
-                    zIndex = 30;
-                    widthClass = "max-w-[390px]";
-                    minHeight = "350px";
-                  } else if (isPrevious) {
-                    transform = "translateX(-124%) translateY(48px) rotateZ(-5deg) rotateY(6deg) scale(0.93)";
-                    opacity = 1;
-                    zIndex = 20;
-                  } else if (isNext) {
-                    transform = "translateX(24%) translateY(34px) rotateZ(4.7deg) rotateY(-6deg) scale(0.94)";
-                    opacity = 1;
-                    zIndex = 20;
-                    widthClass = "max-w-[322px]";
-                  }
-
-                  return (
-                    <article
-                      key={review.id}
-                      className={`absolute left-1/2 top-3 w-full ${widthClass} -translate-x-1/2 rounded-[0.45rem] border border-[#e7ddd2] bg-[#f8f4ee] px-6 py-7 text-left shadow-[0_18px_34px_rgba(66,47,31,0.14)] transition-all duration-700 ease-out`}
-                      style={{
-                        minHeight,
-                        transform,
-                        opacity,
-                        zIndex,
-                        visibility: isVisible ? "visible" : "hidden",
-                        transitionDuration: prefersReducedMotion ? "0ms" : "860ms",
-                      }}
-                      aria-hidden={!isActive}
-                    >
-                      <p className="text-sm tracking-[0.22em] text-[#8d7660]">★★★★★</p>
-                      <p className="mt-4 text-[15px] leading-relaxed text-[#51453a]">“{review.quote}”</p>
-                      <div className="mt-6 border-t border-[#e5d9ce] pt-4">
-                        <p className="font-serif text-[1.55rem] leading-none text-[#ab8576]">{review.name}</p>
-                        <p className="mt-2 text-xs uppercase tracking-[0.16em] text-[#7b6b5d]">{review.location}</p>
-                        <div className="mt-2.5">
-                          <SourceBadge source={review.source} />
-                        </div>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-
-              <div className="md:hidden">
-                <article
-                  className="mx-auto w-full max-w-sm rounded-[0.45rem] border border-[#e7ddd2] bg-[#f8f4ee] px-6 py-7 text-left shadow-[0_18px_34px_rgba(66,47,31,0.14)] transition-transform duration-700"
-                  style={{ transform: `translateX(${dragOffset * 0.15}px)`, minHeight: "328px" }}
-                >
-                  <p className="text-sm tracking-[0.22em] text-[#8d7660]">★★★★★</p>
-                  <p className="mt-4 text-[15px] leading-relaxed text-[#51453a]">“{reviews[activeIndex].quote}”</p>
-                  <div className="mt-6 border-t border-[#e5d9ce] pt-4">
-                    <p className="font-serif text-[1.55rem] leading-none text-[#ab8576]">{reviews[activeIndex].name}</p>
-                    <p className="mt-2 text-xs uppercase tracking-[0.16em] text-[#7b6b5d]">{reviews[activeIndex].location}</p>
-                    <div className="mt-2.5">
-                      <SourceBadge source={reviews[activeIndex].source} />
-                    </div>
-                  </div>
-                </article>
-              </div>
-
-              <div className="mt-8 flex justify-center gap-2.5" aria-label="Review slide selection">
-                {reviews.map((review, index) => (
-                  <button
-                    key={review.id}
-                    type="button"
-                    onClick={() => goToIndex(index)}
-                    className={`h-2.5 w-2.5 rounded-full border border-[#9d8571]/40 transition ${index === activeIndex ? "bg-[#705b49]" : "bg-[#f2e7db] hover:bg-[#ede0d3]"}`}
-                    aria-label={`Show review ${index + 1}`}
-                    aria-current={index === activeIndex}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <p className="mt-12 text-center font-serif text-[clamp(2.2rem,7.8vw,5.8rem)] uppercase leading-[0.84] tracking-tight text-[#f8f3ed]">
-              <span className="block">Crafted for</span>
-              <span className="-mt-2.5 block">Your Signature Look.</span>
-            </p>
+          <div className="mt-9 flex justify-center gap-2.5" aria-label="Review slide selection">
+            {reviews.map((review, index) => (
+              <button
+                key={review.id}
+                type="button"
+                onClick={() => goToIndex(index)}
+                className={`h-2.5 w-2.5 rounded-full border border-[#9a8572]/40 transition ${index === activeIndex ? "bg-[#5f4c3e]" : "bg-[#ece7e2] hover:bg-[#dfd6ce]"}`}
+                aria-label={`Show review ${index + 1}`}
+                aria-current={index === activeIndex}
+              />
+            ))}
           </div>
         </div>
+
+        <p className="mt-14 text-center font-serif text-[clamp(2rem,6.4vw,4.8rem)] leading-[0.88] tracking-tight text-[#2f2721]">
+          Precision, warmth,
+          <span className="block">and signature artistry.</span>
+        </p>
       </div>
     </section>
   );
