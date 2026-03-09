@@ -137,27 +137,39 @@ export default function Home() {
         <ReviewCarouselSection />
 
         <section id="services" className="px-6 pb-20 lg:px-8 lg:pb-24" aria-labelledby="instagram-showcase-title">
-          <div className="mx-auto w-full max-w-7xl rounded-[2rem] border border-[#dfd2c4] bg-[linear-gradient(180deg,#f3ebdf_0%,#efe5da_100%)] p-6 shadow-[0_30px_60px_rgba(62,46,31,0.1)] sm:p-8 lg:p-12">
-            <div className="flex flex-col gap-6 border-b border-[#ddcfbf] pb-8 lg:flex-row lg:items-end lg:justify-between">
-              <div className="max-w-2xl">
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#8f7258]">Latest from Instagram</p>
-                <h3 id="instagram-showcase-title" className="mt-3 text-3xl font-semibold tracking-tight text-[#2f2822] sm:text-4xl">
-                  See the latest looks from Team Hair Pro
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-[#6a5d50] sm:text-base">
-                  A curated preview of our newest color work, styling finishes, and occasion-ready artistry. Built with local mock data now,
-                  and structured for a future API feed from <code className="rounded bg-[#f8f1e8] px-1.5 py-0.5 text-xs">/api/instagram-feed</code>.
-                </p>
-              </div>
+          <div className="mx-auto w-full max-w-7xl overflow-hidden rounded-[2rem] border border-[#decdbe] bg-[radial-gradient(circle_at_20%_0%,#f8efe4_0%,#f2e7da_45%,#eee2d5_100%)] p-6 shadow-[0_35px_80px_rgba(74,53,34,0.11)] sm:p-8 lg:p-12">
+            <div className="relative isolate overflow-hidden rounded-[1.6rem] border border-[#ddcbbb] bg-[#fdf8f2] p-6 sm:p-8">
+              <div className="pointer-events-none absolute -left-16 -top-20 h-48 w-48 rounded-full bg-[#f3d8bd]/55 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-20 right-0 h-52 w-52 rounded-full bg-[#dcbba3]/45 blur-3xl" />
 
-              <Link
-                href="https://instagram.com/teamhairpro"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 self-start rounded-full border border-[#ccb69e] bg-[#f8f1e9] px-5 py-2.5 text-sm font-medium text-[#43372d] shadow-[0_10px_20px_rgba(90,67,46,0.08)] transition hover:-translate-y-0.5 hover:border-[#b59474] hover:bg-[#f5ece2]"
-              >
-                Visit Instagram <span aria-hidden>↗</span>
-              </Link>
+              <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div className="max-w-2xl">
+                  <p className="inline-flex items-center rounded-full border border-[#d7bda7] bg-[#f7ebe0] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#8c6846]">
+                    Instagram Highlights
+                  </p>
+                  <h3 id="instagram-showcase-title" className="mt-4 text-3xl font-semibold tracking-tight text-[#2f2822] sm:text-4xl">
+                    Live Looks, Fresh Energy
+                  </h3>
+                  <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#705f4f] sm:text-base">
+                    Team Hair Pro&apos;nun en yeni dönüşümlerini tek bakışta keşfet.
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <div className="flex items-center gap-2 rounded-full border border-[#dcc4ad] bg-[#f9efe5] px-4 py-2 text-xs font-medium text-[#5f4c3b]">
+                    <span className="h-2 w-2 rounded-full bg-[#be8459]" aria-hidden />
+                    Haftalık yeni içerik
+                  </div>
+                  <Link
+                    href="https://instagram.com/teamhairpro"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#c79f7e] bg-[#bd8e69] px-5 py-2.5 text-sm font-medium text-[#fff8f2] shadow-[0_12px_24px_rgba(106,75,49,0.22)] transition hover:-translate-y-0.5 hover:bg-[#ae805c]"
+                  >
+                    @teamhairpro <span aria-hidden>↗</span>
+                  </Link>
+                </div>
+              </div>
             </div>
 
             <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
@@ -167,7 +179,7 @@ export default function Home() {
                   href={post.permalink}
                   target="_blank"
                   rel="noreferrer"
-                  className="group relative isolate overflow-hidden rounded-[1.3rem] border border-[#decfbe] bg-[#e6d7c7] shadow-[0_18px_36px_rgba(73,54,36,0.12)] transition duration-500 hover:-translate-y-1"
+                  className="group relative isolate overflow-hidden rounded-[1.4rem] border border-[#dcc7b4] bg-[#ead7c6] shadow-[0_18px_40px_rgba(73,54,36,0.14)] transition duration-500 hover:-translate-y-1"
                   aria-label={`View Instagram post: ${post.caption}`}
                 >
                   <div className="relative aspect-[4/5] overflow-hidden">
@@ -178,18 +190,17 @@ export default function Home() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                       className="object-cover object-center transition duration-700 group-hover:scale-[1.04]"
                     />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(35,26,19,0.12)_0%,rgba(35,26,19,0.24)_42%,rgba(25,19,14,0.74)_100%)] transition duration-500 group-hover:bg-[linear-gradient(180deg,rgba(35,26,19,0.08)_0%,rgba(35,26,19,0.28)_40%,rgba(25,19,14,0.8)_100%)]" />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(35,26,19,0.08)_0%,rgba(35,26,19,0.18)_40%,rgba(25,19,14,0.72)_100%)] transition duration-500 group-hover:bg-[linear-gradient(180deg,rgba(35,26,19,0.03)_0%,rgba(35,26,19,0.22)_38%,rgba(25,19,14,0.8)_100%)]" />
                   </div>
 
                   <div className="absolute inset-x-0 bottom-0 z-10 p-5 text-[#fffaf4]">
-                    <div className="inline-flex items-center rounded-full border border-[#e7d8c7]/60 bg-[#f9eee1]/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] backdrop-blur-sm">
+                    <div className="inline-flex items-center rounded-full border border-[#e7d8c7]/65 bg-[#f9eee1]/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] backdrop-blur-sm">
                       {post.type}
                     </div>
-                    <p className="mt-3 max-w-[28ch] text-sm leading-relaxed text-[#f8f1e8]">{post.caption}</p>
                     <div className="mt-4 flex items-center justify-between text-xs text-[#e6d8c9]">
                       <span>{post.date}</span>
                       <span className="inline-flex items-center gap-1 text-[#fff4e8] opacity-90 transition group-hover:translate-x-0.5">
-                        View Post <span aria-hidden>→</span>
+                        İncele <span aria-hidden>→</span>
                       </span>
                     </div>
                   </div>
