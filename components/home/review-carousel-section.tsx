@@ -57,13 +57,30 @@ const SWIPE_THRESHOLD = 46;
 function SourceBadge({ source }: { source: Review["source"] }) {
   if (source === "Google") {
     return (
-      <span className="inline-flex items-center text-xl font-semibold leading-none">
-        <span className="text-[#4285F4]">G</span>
+      <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-[#6a5b4f]">
+        <span className="text-sm leading-none text-[#4285F4]">G</span>
+        <span>Google</span>
       </span>
     );
   }
 
-  return <span className="text-sm font-semibold leading-none text-[#1f1a17]">yelp✶</span>;
+  return <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#6a5b4f]">Yelp ✶</span>;
+}
+
+function ReviewCardBody({ review }: { review: Review }) {
+  return (
+    <>
+      <p className="text-[11px] tracking-[0.3em] text-[#9b8570]">★★★★★</p>
+      <p className="mt-5 text-[15px] leading-relaxed text-[#4a4038]">“{review.quote}”</p>
+      <div className="mt-7 border-t border-[#e9e1d9] pt-4">
+        <p className="font-serif text-[1.58rem] leading-none text-[#8d6f60]">{review.name}</p>
+        <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-[#7d6d60]">{review.location}</p>
+        <div className="mt-3">
+          <SourceBadge source={review.source} />
+        </div>
+      </div>
+    </>
+  );
 }
 
 export function ReviewCarouselSection() {
@@ -128,26 +145,67 @@ export function ReviewCarouselSection() {
     clearPointerState();
   };
 
-  return (
-    <section id="proof" className="relative overflow-hidden bg-[#efe1d4] px-4 py-16 md:px-6 md:py-20 lg:py-24" aria-labelledby="reviews-heading">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-[3%] top-[4%] h-[92%] w-[94%] rounded-[8rem] bg-[#b99a82] md:rounded-[9rem]" />
-        <div className="absolute left-[21%] top-[-5rem] h-44 w-72 rounded-[999px] bg-[#efe1d4]" />
-        <div className="absolute right-[16%] top-[-3.4rem] h-52 w-[26rem] rounded-[999px] bg-[#efe1d4]" />
-        <div className="absolute -left-12 bottom-[-7rem] h-80 w-52 rounded-[999px] bg-[#efe1d4]" />
-        <div className="absolute bottom-[-8rem] right-[16%] h-72 w-56 rounded-[999px] bg-[#efe1d4]" />
-      </div>
+  const desktopCards = reviews.map((review, index) => {
+    const isActive = index === activeIndex;
+    const isPrevious = index === previousIndex;
+    const isNext = index === nextIndex;
+    const isVisible = isActive || isPrevious || isNext;
 
-      <div className="relative mx-auto w-full max-w-[1320px]">
-        <div className="text-center text-[#f7efe8]">
-          <h2 id="reviews-heading" className="font-serif text-[72px] font-normal uppercase leading-[0.78] tracking-tight sm:text-[84px] lg:text-[92px]">
-            <span className="block">Talk The</span>
-            <span className="-mt-3 block">Talk...</span>
+    let transform = "translateX(-50%)";
+    let opacity = 0;
+    let zIndex = 0;
+    let widthClass = "max-w-[320px]";
+    let minHeight = "308px";
+
+    if (isActive) {
+      transform = "translateX(-50%) translateY(-8px) rotateZ(-0.8deg)";
+      opacity = 1;
+      zIndex = 40;
+      widthClass = "max-w-[430px]";
+      minHeight = "372px";
+    } else if (isPrevious) {
+      transform = "translateX(-152%) translateY(42px) rotateZ(-6.8deg) rotateY(8deg) scale(0.92)";
+      opacity = 1;
+      zIndex = 25;
+    } else if (isNext) {
+      transform = "translateX(52%) translateY(54px) rotateZ(5.9deg) rotateY(-8deg) scale(0.9)";
+      opacity = 1;
+      zIndex = 25;
+      widthClass = "max-w-[336px]";
+    }
+
+    return (
+      <article
+        key={review.id}
+        className={`absolute left-1/2 top-0 w-full ${widthClass} rounded-[0.7rem] border border-[#e4ddd6] bg-[#fbfaf8] px-7 py-8 text-left shadow-[0_24px_44px_rgba(53,40,30,0.14)] transition-all duration-700 ease-out`}
+        style={{
+          minHeight,
+          transform,
+          opacity,
+          zIndex,
+          visibility: isVisible ? "visible" : "hidden",
+          transitionDuration: prefersReducedMotion ? "0ms" : "820ms",
+        }}
+        aria-hidden={!isActive}
+      >
+        <ReviewCardBody review={review} />
+      </article>
+    );
+  });
+
+  return (
+    <section id="proof" className="relative overflow-hidden bg-[#f5f5f7] px-4 py-24 md:px-6 md:py-28 lg:py-32" aria-labelledby="reviews-heading">
+      <div className="mx-auto w-full max-w-[1280px]">
+        <header className="text-center">
+          <p className="text-[11px] uppercase tracking-[0.32em] text-[#8f7f6e]">Testimonials</p>
+          <h2 id="reviews-heading" className="mt-5 font-serif text-[clamp(2.4rem,7.6vw,5.8rem)] leading-[0.9] tracking-tight text-[#2f2721]">
+            Voices of
+            <span className="block">Quiet Luxury</span>
           </h2>
-        </div>
+        </header>
 
         <div
-          className="relative mt-6"
+          className="relative mt-14 md:mt-16"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onPointerDown={handlePointerDown}
@@ -157,88 +215,26 @@ export function ReviewCarouselSection() {
           aria-roledescription="carousel"
           aria-label="Client reviews"
         >
-          <div className="hidden h-[440px] md:block" style={{ perspective: "1200px" }}>
-            {reviews.map((review, index) => {
-              const isActive = index === activeIndex;
-              const isPrevious = index === previousIndex;
-              const isNext = index === nextIndex;
-              const isVisible = isActive || isPrevious || isNext;
-
-              let transform = "translateX(0)";
-              let opacity = 0;
-              let zIndex = 0;
-              let widthClass = "max-w-[302px]";
-              let paddingClass = "px-7 py-9";
-              let minHeight = "320px";
-
-              if (isActive) {
-                transform = "translateX(0) scale(1)";
-                opacity = 1;
-                zIndex = 30;
-                widthClass = "max-w-[380px]";
-                paddingClass = "px-8 py-10";
-                minHeight = "430px";
-              } else if (isPrevious) {
-                transform = "translateX(-82%) translateY(8px) rotateZ(-1.6deg)";
-                opacity = 1;
-                zIndex = 20;
-              } else if (isNext) {
-                transform = "translateX(82%) translateY(8px) rotateZ(1.6deg)";
-                opacity = 1;
-                zIndex = 20;
-                widthClass = "max-w-[340px]";
-              }
-
-              return (
-                <article
-                  key={review.id}
-                  className={`absolute left-1/2 top-0 w-full ${widthClass} ${paddingClass} -translate-x-1/2 bg-[#f3f3f3] text-center shadow-[0_12px_18px_rgba(60,41,25,0.24)] transition-all duration-700 ease-out`}
-                  style={{
-                    minHeight,
-                    transform,
-                    opacity,
-                    zIndex,
-                    visibility: isVisible ? "visible" : "hidden",
-                    clipPath: "polygon(0% 1.6%, 100% 0%, 100% 98.6%, 0% 100%)",
-                    transitionDuration: prefersReducedMotion ? "0ms" : "820ms",
-                  }}
-                  aria-hidden={!isActive}
-                >
-                  <p className="text-[33px] leading-[1.06] text-[#4f4943]">“{review.quote}”</p>
-                  <p className="mt-7 font-serif text-[43px] leading-none text-[#d3a29b]">{review.name} from {review.location} on</p>
-                  <div className="mt-2.5 flex justify-center">
-                    <SourceBadge source={review.source} />
-                  </div>
-                </article>
-              );
-            })}
+          <div className="hidden h-[470px] md:block" style={{ perspective: "1700px" }}>
+            {desktopCards}
           </div>
 
           <div className="md:hidden">
             <article
-              className="mx-auto w-full max-w-sm bg-[#f3f3f3] px-6 py-8 text-center shadow-[0_12px_18px_rgba(60,41,25,0.24)] transition-transform duration-700"
-              style={{
-                transform: `translateX(${dragOffset * 0.15}px)`,
-                clipPath: "polygon(0% 1.6%, 100% 0%, 100% 98.6%, 0% 100%)",
-                minHeight: "360px",
-              }}
+              className="mx-auto w-full max-w-sm rounded-[0.7rem] border border-[#e4ddd6] bg-[#fbfaf8] px-6 py-7 text-left shadow-[0_24px_44px_rgba(53,40,30,0.14)] transition-transform duration-700"
+              style={{ transform: `translateX(${dragOffset * 0.15}px)`, minHeight: "330px" }}
             >
-              <p className="text-base leading-relaxed text-[#4f4943]">“{reviews[activeIndex].quote}”</p>
-              <p className="mt-7 font-serif text-4xl leading-none text-[#d3a29b]">{reviews[activeIndex].name}</p>
-              <p className="mt-2 text-xl text-[#d3a29b]">from {reviews[activeIndex].location} on</p>
-              <div className="mt-2.5 flex justify-center">
-                <SourceBadge source={reviews[activeIndex].source} />
-              </div>
+              <ReviewCardBody review={reviews[activeIndex]} />
             </article>
           </div>
 
-          <div className="mt-8 flex justify-center gap-2.5" aria-label="Review slide selection">
+          <div className="mt-9 flex justify-center gap-2.5" aria-label="Review slide selection">
             {reviews.map((review, index) => (
               <button
                 key={review.id}
                 type="button"
                 onClick={() => goToIndex(index)}
-                className={`h-2.5 w-2.5 rounded-full transition ${index === activeIndex ? "bg-[#17120c]" : "bg-[#efe7de] hover:bg-[#f8f2eb]"}`}
+                className={`h-2.5 w-2.5 rounded-full border border-[#9a8572]/40 transition ${index === activeIndex ? "bg-[#5f4c3e]" : "bg-[#ece7e2] hover:bg-[#dfd6ce]"}`}
                 aria-label={`Show review ${index + 1}`}
                 aria-current={index === activeIndex}
               />
@@ -246,9 +242,9 @@ export function ReviewCarouselSection() {
           </div>
         </div>
 
-        <p className="mt-10 text-center font-serif text-[74px] uppercase leading-[0.84] tracking-tight text-[#f7efe8] sm:text-[84px] lg:text-[94px]">
-          <span className="block">&apos;Cause We Walk</span>
-          <span className="-mt-3 block">The Walk.</span>
+        <p className="mt-14 text-center font-serif text-[clamp(2rem,6.4vw,4.8rem)] leading-[0.88] tracking-tight text-[#2f2721]">
+          Precision, warmth,
+          <span className="block">and signature artistry.</span>
         </p>
       </div>
     </section>
