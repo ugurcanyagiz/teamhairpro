@@ -217,6 +217,24 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      <footer className="border-t border-[#e1d4c5] bg-[#f2e7db] px-6 py-10" aria-label="Site information">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#8f7459]">Info</p>
+            <h2 className="text-2xl font-semibold tracking-tight text-[#2d261f] sm:text-3xl">Crafted for a premium portfolio presence</h2>
+            <p className="max-w-2xl text-sm leading-relaxed text-[#64574b] sm:text-base">
+              Team Hair Pro showcases modern salon expertise with a polished editorial flow, blending elegant visuals and trusted service
+              information in one refined experience.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-[#dbcbb9] bg-[#f8f1e8] px-5 py-4 text-sm text-[#5b4d40] shadow-[0_14px_30px_rgba(79,57,36,0.12)] md:max-w-xs">
+            <p className="font-medium tracking-wide text-[#3c3128]">Powered by ugurcanyagiz.com</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#8f7459]">Digital Portfolio Integration</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
