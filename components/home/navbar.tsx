@@ -1,127 +1,70 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-
-const navigationLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Proof", href: "#proof" },
-  { label: "Booking", href: "#booking" },
-];
+import { useState } from "react";
 
 type NavbarProps = {
   overlay?: boolean;
 };
 
+const navigationLinks = [
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Call", href: "#call" },
+  { label: "Instagram", href: "#instagram" },
+];
+
 export function Navbar({ overlay = false }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    if (!overlay) return;
-
-    const handleScroll = () => setIsScrolled(window.scrollY > 24);
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [overlay]);
-
-  const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <header
-      className={`top-0 z-50 transition-all duration-500 ${
-        overlay
-          ? `fixed inset-x-0 ${
-              isScrolled
-                ? "border-b border-[#e8d8c7]/40 bg-[rgba(36,30,25,0.45)] backdrop-blur-xl"
-                : "bg-transparent"
-            }`
-          : "sticky border-b border-[#e9dfd4]/80 bg-[#fbf8f3]/90 backdrop-blur-xl"
-      }`}
-    >
-      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 lg:px-8" aria-label="Main navigation">
-        <Link
-          href="#home"
-          className={`text-[0.86rem] font-semibold tracking-[0.28em] transition ${overlay ? "text-[#fff8ef] hover:text-white" : "text-[#2f2924] hover:text-[#8d7156]"}`}
-        >
-          TEAMHAIRPRO
-        </Link>
-
-        <div className="hidden items-center gap-10 md:flex">
-          {navigationLinks.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`text-base font-light tracking-[0.09em] transition ${overlay ? "text-[#f7efe4] hover:text-white" : "text-[#675b50] hover:text-[#2f2924]"}`}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <Link
-            href="#booking"
-            className={`rounded-full border px-6 py-2.5 text-sm font-medium shadow-[0_10px_20px_rgba(20,14,10,0.22)] transition hover:-translate-y-0.5 ${
-              overlay
-                ? "border-[#f0dcc7]/80 bg-[#eed8c1]/18 text-[#fffaf4] backdrop-blur-md hover:bg-[#eed8c1]/30"
-                : "border-[#c8b198] bg-[#b99a7b] text-[#fffaf4] hover:bg-[#aa8a6d]"
-            }`}
-          >
-            Book Now
-          </Link>
-        </div>
-
+    <header className={`z-40 w-full border-b border-[rgba(0,0,0,0.08)] bg-white/95 backdrop-blur ${overlay ? "sticky top-0" : ""}`}>
+      <nav className="mx-auto grid w-full max-w-6xl grid-cols-[auto_1fr_auto] items-center px-4 py-5 sm:px-6" aria-label="Main navigation">
         <button
           type="button"
           aria-expanded={isMenuOpen}
           aria-controls="mobile-menu"
           onClick={() => setIsMenuOpen((prev) => !prev)}
-          className={`inline-flex items-center rounded-lg border p-2 text-sm transition md:hidden ${
-            overlay
-              ? "border-[#f1dfcc]/50 bg-[rgba(247,236,224,0.15)] text-[#fff9f2] hover:border-[#fff4e7]"
-              : "border-[#d8cec2] bg-white/70 text-[#3a312b] hover:border-[#b99a7b]"
-          }`}
+          className="inline-flex h-10 w-10 items-center justify-center text-[#181818] md:hidden"
         >
           <span className="sr-only">Toggle menu</span>
-          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
-            {isMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 6l12 12M6 18L18 6" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />
-            )}
+          <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.8">
+            {isMenuOpen ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 6l12 12M6 18L18 6" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />}
           </svg>
         </button>
+
+        <Link href="#home" className="justify-self-center text-3xl font-semibold tracking-[0.14em] text-[#111111] sm:text-4xl">
+          TEAMHAIRPRO
+        </Link>
+
+        <div className="hidden items-center gap-8 md:flex">
+          {navigationLinks.map((item) => (
+            <Link key={item.href} href={item.href} className="text-sm uppercase tracking-[0.18em] text-[#383431] transition hover:text-black">
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        <span className="h-10 w-10 md:hidden" />
       </nav>
 
       {isMenuOpen ? (
-        <div
-          id="mobile-menu"
-          className={`px-6 py-5 md:hidden ${
-            overlay
-              ? "border-t border-[#f0dfcb]/35 bg-[rgba(28,23,19,0.78)] backdrop-blur-2xl"
-              : "border-t border-[#e8e0d6] bg-[#fcfaf7]"
-          }`}
-        >
-          <div className="flex flex-col gap-4">
+        <div id="mobile-menu" className="border-t border-[rgba(0,0,0,0.08)] bg-[#f7f6f4] px-5 py-5 md:hidden">
+          <div className="flex flex-col items-center gap-4">
             {navigationLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={closeMenu}
-                className={`text-base tracking-[0.08em] transition ${overlay ? "text-[#f6ecdf] hover:text-white" : "text-[#6f6358] hover:text-[#2f2924]"}`}
+                onClick={() => setIsMenuOpen(false)}
+                className="text-sm uppercase tracking-[0.2em] text-[#272320]"
               >
                 {item.label}
               </Link>
             ))}
             <Link
               href="#booking"
-              onClick={closeMenu}
-              className={`mt-2 inline-flex w-full items-center justify-center rounded-full border px-5 py-2.5 text-sm font-medium transition ${
-                overlay
-                  ? "border-[#f0dcc7]/70 bg-[#eed8c1]/18 text-[#fffaf4] hover:bg-[#eed8c1]/30"
-                  : "border-[#c8b198] bg-[#b99a7b] text-[#fffaf4] hover:bg-[#aa8a6d]"
-              }`}
+              onClick={() => setIsMenuOpen(false)}
+              className="mt-1 inline-flex rounded-md border border-[#d7cabd] bg-[#dfd1c6] px-7 py-2.5 text-xs font-semibold uppercase tracking-[0.15em] text-[#141414]"
             >
               Book Now
             </Link>
