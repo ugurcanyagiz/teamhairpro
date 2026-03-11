@@ -3,29 +3,66 @@
 import Link from "next/link";
 import { useState } from "react";
 
+type NavItem = { label: string; href: string };
+
+const leftLinks: NavItem[] = [
+  { label: "Home", href: "#home" },
+  { label: "Salon Services", href: "#about" },
+  { label: "Facial", href: "#call" },
+  { label: "Gift Certificate", href: "#instagram" },
+];
+
+const rightLinks: NavItem[] = [
+  { label: "Our Team", href: "#about" },
+  { label: "Contact Us", href: "#call" },
+  { label: "Our Policies", href: "#instagram" },
+];
+
+const mobileLinks = [...leftLinks, ...rightLinks.filter((link) => !leftLinks.some((left) => left.label === link.label))];
+
 type NavbarProps = {
   overlay?: boolean;
 };
-
-const navigationLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Call", href: "#call" },
-  { label: "Instagram", href: "#instagram" },
-];
 
 export function Navbar({ overlay = false }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className={`z-40 w-full border-b border-[rgba(0,0,0,0.08)] bg-white/95 backdrop-blur ${overlay ? "sticky top-0" : ""}`}>
-      <nav className="mx-auto grid w-full max-w-6xl grid-cols-[auto_1fr_auto] items-center px-4 py-5 sm:px-6" aria-label="Main navigation">
+    <header className={`z-40 w-full border-b border-[rgba(0,0,0,0.1)] bg-[#f8f6f2]/95 backdrop-blur ${overlay ? "sticky top-0" : ""}`}>
+      <nav className="mx-auto hidden w-full max-w-[1300px] grid-cols-[1fr_auto_1fr] items-center gap-8 px-8 py-5 lg:grid" aria-label="Main navigation">
+        <ul className="flex items-center gap-9 justify-self-start">
+          {leftLinks.map((item) => (
+            <li key={item.label}>
+              <Link href={item.href} className="text-[0.9rem] uppercase tracking-[0.14em] text-[#2a2724] transition hover:text-black">
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <Link href="#home" className="justify-self-center text-[3.2rem] font-semibold uppercase tracking-[0.12em] text-black leading-none">
+          Nulux
+          <span className="mt-1 block text-center text-[1.2rem] font-normal tracking-[0.12em]">Salon &amp; Spa</span>
+        </Link>
+
+        <ul className="flex items-center justify-self-end gap-9">
+          {rightLinks.map((item) => (
+            <li key={item.label}>
+              <Link href={item.href} className="text-[0.9rem] uppercase tracking-[0.14em] text-[#2a2724] transition hover:text-black">
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav className="mx-auto flex w-full items-center justify-between px-4 py-4 lg:hidden" aria-label="Mobile navigation">
         <button
           type="button"
           aria-expanded={isMenuOpen}
           aria-controls="mobile-menu"
           onClick={() => setIsMenuOpen((prev) => !prev)}
-          className="inline-flex h-10 w-10 items-center justify-center text-[#181818] md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center text-[#181818]"
         >
           <span className="sr-only">Toggle menu</span>
           <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -33,41 +70,22 @@ export function Navbar({ overlay = false }: NavbarProps) {
           </svg>
         </button>
 
-        <Link href="#home" className="justify-self-center text-3xl font-semibold tracking-[0.14em] text-[#111111] sm:text-4xl">
-          TEAMHAIRPRO
+        <Link href="#home" className="text-center text-3xl font-semibold uppercase tracking-[0.12em] text-black leading-none">
+          Nulux
+          <span className="mt-0.5 block text-[0.85rem] font-normal tracking-[0.11em]">Salon &amp; Spa</span>
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {navigationLinks.map((item) => (
-            <Link key={item.href} href={item.href} className="text-sm uppercase tracking-[0.18em] text-[#383431] transition hover:text-black">
-              {item.label}
-            </Link>
-          ))}
-        </div>
-
-        <span className="h-10 w-10 md:hidden" />
+        <span className="h-10 w-10" />
       </nav>
 
       {isMenuOpen ? (
-        <div id="mobile-menu" className="border-t border-[rgba(0,0,0,0.08)] bg-[#f7f6f4] px-5 py-5 md:hidden">
-          <div className="flex flex-col items-center gap-4">
-            {navigationLinks.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm uppercase tracking-[0.2em] text-[#272320]"
-              >
+        <div id="mobile-menu" className="border-t border-[rgba(0,0,0,0.1)] bg-[#f8f6f2] px-5 py-5 lg:hidden">
+          <div className="flex flex-col items-center gap-3">
+            {mobileLinks.map((item) => (
+              <Link key={item.label} href={item.href} onClick={() => setIsMenuOpen(false)} className="text-sm uppercase tracking-[0.16em] text-[#272320]">
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="#booking"
-              onClick={() => setIsMenuOpen(false)}
-              className="mt-1 inline-flex rounded-md border border-[#d7cabd] bg-[#dfd1c6] px-7 py-2.5 text-xs font-semibold uppercase tracking-[0.15em] text-[#141414]"
-            >
-              Book Now
-            </Link>
           </div>
         </div>
       ) : null}
