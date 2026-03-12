@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -25,15 +26,15 @@ type NavbarProps = {
 };
 
 const navLinkClass =
-  "group relative inline-flex items-center pb-1 text-[0.76rem] font-medium uppercase tracking-[0.15em] text-[#2c2824] transition duration-300 hover:text-[#171311]";
+  "group relative inline-flex items-center pb-1 text-[0.74rem] font-medium uppercase tracking-[0.16em] text-[#2b2622] transition duration-300 hover:text-[#12100f]";
 
 export function Navbar({ overlay = false }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className={`z-40 w-full border-b border-[rgba(0,0,0,0.09)] bg-[#f7f2eb]/95 backdrop-blur ${overlay ? "sticky top-0" : ""}`}>
-      <nav className="mx-auto hidden w-full max-w-[1320px] grid-cols-[1fr_auto_1fr] items-center gap-5 px-8 py-4 xl:grid" aria-label="Main navigation">
-        <ul className="flex min-w-0 items-center gap-5 justify-self-start 2xl:gap-7">
+    <header className={`z-40 w-full border-b border-[rgba(40,30,20,0.12)] bg-[#f9f7f3]/95 backdrop-blur ${overlay ? "sticky top-0" : ""}`}>
+      <nav className="mx-auto hidden w-full max-w-[1180px] grid-cols-[1fr_auto_1fr] items-center gap-6 px-6 py-5 xl:grid" aria-label="Main navigation">
+        <ul className="flex min-w-0 items-center gap-5 justify-self-start 2xl:gap-6">
           {leftLinks.map((item) => (
             <li key={item.label}>
               <Link href={item.href} className={navLinkClass}>
@@ -44,12 +45,11 @@ export function Navbar({ overlay = false }: NavbarProps) {
           ))}
         </ul>
 
-        <Link href="#home" className="justify-self-center text-center leading-none text-[#151210]">
-          <span className="block text-[2.3rem] font-semibold uppercase tracking-[0.14em]">TEAM HAIR PRO</span>
-          <span className="mt-1 block text-[0.72rem] font-medium uppercase tracking-[0.34em] text-[#5a534d]">Salon &amp; Spa</span>
+        <Link href="#home" className="flex items-center justify-center justify-self-center" aria-label="Team Hair Pro home">
+          <Image src="/logo.svg" alt="Team Hair Pro" width={292} height={88} priority className="h-auto w-[250px] 2xl:w-[292px]" />
         </Link>
 
-        <ul className="flex min-w-0 items-center justify-self-end gap-5 2xl:gap-7">
+        <ul className="flex min-w-0 items-center justify-self-end gap-5 2xl:gap-6">
           {rightLinks.map((item) => (
             <li key={item.label}>
               <Link href={item.href} className={navLinkClass}>
@@ -61,7 +61,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
         </ul>
       </nav>
 
-      <nav className="mx-auto flex w-full items-center justify-between px-4 py-4 sm:px-5 xl:hidden" aria-label="Mobile navigation">
+      <nav className="mx-auto flex w-full items-center justify-between px-4 py-3.5 sm:px-5 xl:hidden" aria-label="Mobile navigation">
         <button
           type="button"
           aria-expanded={isMenuOpen}
@@ -75,16 +75,15 @@ export function Navbar({ overlay = false }: NavbarProps) {
           </svg>
         </button>
 
-        <Link href="#home" className="text-center leading-none text-black">
-          <span className="block text-[1.3rem] font-semibold uppercase tracking-[0.12em]">TEAM HAIR PRO</span>
-          <span className="mt-1 block text-[0.58rem] font-medium uppercase tracking-[0.28em] text-[#58514c]">Salon &amp; Spa</span>
+        <Link href="#home" className="flex items-center justify-center" aria-label="Team Hair Pro home">
+          <Image src="/logo.svg" alt="Team Hair Pro" width={210} height={64} priority className="h-auto w-[165px] sm:w-[190px]" />
         </Link>
 
         <span className="h-10 w-10" />
       </nav>
 
       {isMenuOpen ? (
-        <div id="mobile-menu" className="border-t border-[rgba(0,0,0,0.1)] bg-[#f7f2eb] px-5 py-5 xl:hidden">
+        <div id="mobile-menu" className="border-t border-[rgba(0,0,0,0.1)] bg-[#f9f7f3] px-5 py-5 xl:hidden">
           <div className="flex flex-col items-center gap-3.5">
             {mobileLinks.map((item) => (
               <Link

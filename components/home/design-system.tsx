@@ -51,8 +51,8 @@ export function BeigeButton({ href, children, className = "" }: BeigeButtonProps
 
 export function ContactBanner() {
   return (
-    <div className="border-b border-[rgba(0,0,0,0.09)] bg-[#f3ece4] px-4 py-2.5 text-center sm:py-3">
-      <p className="text-[0.67rem] font-medium uppercase tracking-[0.16em] text-[#2f2a25] sm:text-[0.74rem]">
+    <div className="border-b border-[rgba(55,45,34,0.12)] bg-[#d9cbbc] px-4 py-1.5 text-center sm:py-2">
+      <p className="text-[0.68rem] font-medium tracking-[0.07em] text-[#1f1812] sm:text-[0.74rem]">
         (201) 927-1711 • 9 W Railroad Ave, Tenafly, NJ 07670
       </p>
     </div>
