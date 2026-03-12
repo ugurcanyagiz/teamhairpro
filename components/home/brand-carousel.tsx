@@ -6,11 +6,9 @@ export function BrandCarousel() {
   const loopedLogos = [...logos, ...logos];
 
   return (
-    <section aria-label="Trusted brands" className="bg-[#f5f2ee] px-5 py-12 sm:px-6 sm:py-14">
+    <section aria-label="Brand logos" className="bg-[#f5f2ee] px-5 py-12 sm:px-6 sm:py-14">
       <div className="mx-auto w-full max-w-7xl">
-        <p className="text-center text-[0.68rem] font-medium uppercase tracking-[0.26em] text-[#6e6761]">Trusted Brands</p>
-
-        <div className="brand-carousel group relative mt-7 overflow-hidden">
+        <div className="brand-carousel group relative overflow-hidden">
           <div className="brand-carousel__edge brand-carousel__edge--left" aria-hidden />
           <div className="brand-carousel__edge brand-carousel__edge--right" aria-hidden />
 
