@@ -51,10 +51,22 @@ export function BeigeButton({ href, children, className = "" }: BeigeButtonProps
 }
 
 export function ContactBanner() {
+  const address = "9 W Railroad Ave, Tenafly, NJ 07670";
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+
   return (
     <div className="border-b border-[rgba(55,45,34,0.12)] bg-[#d9cbbc] px-4 py-1.5 text-center sm:py-2">
       <p className="text-[0.68rem] font-medium tracking-[0.07em] text-[#1f1812] sm:text-[0.74rem]">
-        (201) 927-1711 • 9 W Railroad Ave, Tenafly, NJ 07670
+        (201) 927-1711 •{" "}
+        <Link
+          href={mapsUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="underline decoration-[rgba(31,24,18,0.45)] underline-offset-2 transition hover:decoration-[rgba(31,24,18,0.9)]"
+          aria-label={`${address} on Google Maps`}
+        >
+          {address}
+        </Link>
       </p>
     </div>
   );
