@@ -17,12 +17,13 @@ type CenteredSectionProps = {
   description?: ReactNode;
   children?: ReactNode;
   className?: string;
+  contentClassName?: string;
 };
 
-export function CenteredSection({ id, label, heading, description, children, className = "" }: CenteredSectionProps) {
+export function CenteredSection({ id, label, heading, description, children, className = "", contentClassName = "max-w-6xl" }: CenteredSectionProps) {
   return (
     <section id={id} className={`px-5 py-18 sm:px-6 sm:py-24 lg:py-28 ${className}`.trim()}>
-      <div className="mx-auto flex w-full max-w-6xl flex-col items-center text-center">
+      <div className={`mx-auto flex w-full flex-col items-center text-center ${contentClassName}`.trim()}>
         {label ? <div>{label}</div> : null}
         {heading ? <h2 className="mt-8 text-3xl leading-tight tracking-[0.03em] text-[#111111] sm:text-4xl">{heading}</h2> : null}
         {description ? <p className="mt-6 max-w-3xl text-base leading-8 text-[#4f4944] sm:text-lg">{description}</p> : null}
@@ -103,7 +104,7 @@ export function InstagramShowcase({
   profileImage,
 }: InstagramShowcaseProps) {
   return (
-    <article className="mt-8 w-full max-w-5xl rounded-[1.6rem] border border-[rgba(23,20,17,0.12)] bg-white p-5 text-left shadow-[0_8px_24px_rgba(20,16,12,0.05)] sm:mt-10 sm:p-7 lg:p-8">
+    <article className="mt-8 w-full rounded-[1.75rem] border border-[rgba(23,20,17,0.1)] bg-white p-5 text-left shadow-[0_18px_45px_rgba(20,16,12,0.06)] sm:mt-10 sm:p-8 lg:p-10">
       <div className="flex flex-col gap-4 border-b border-[rgba(19,16,14,0.1)] pb-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:pb-6">
         <div className="flex items-center gap-3.5">
           <span className="relative grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full bg-[linear-gradient(135deg,#1f1a16,#5e5043)] text-sm font-semibold uppercase tracking-[0.14em] text-[#f9f2ea]">
@@ -130,25 +131,25 @@ export function InstagramShowcase({
         </Link>
       </div>
 
-      <div className="mt-5 grid grid-cols-2 gap-2.5 sm:mt-6 sm:gap-3 md:grid-cols-3">
+      <div className="mt-6 grid grid-cols-2 gap-3.5 sm:mt-7 sm:gap-4 md:grid-cols-3 lg:gap-5">
         {posts.map((post) => (
           <Link
             key={post.id}
             href={post.permalink}
             target="_blank"
             rel="noreferrer"
-            className="group relative overflow-hidden rounded-xl"
+            className="group relative overflow-hidden rounded-2xl border border-[rgba(17,14,12,0.08)] bg-[#f3ede7] shadow-[0_12px_28px_rgba(18,14,11,0.08)]"
             aria-label={post.caption}
           >
-            <div className="relative aspect-square w-full bg-[#eae4de]">
+            <div className="relative aspect-[4/5] w-full bg-[#eae4de]">
               <Image
                 src={post.image}
                 alt={post.caption}
                 fill
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
-                className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 420px"
+                className="object-cover transition duration-500 group-hover:scale-[1.04]"
               />
-              <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(14,12,10,0.22),rgba(14,12,10,0.04))] opacity-0 transition duration-300 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(14,12,10,0.32),rgba(14,12,10,0.06)_48%,rgba(14,12,10,0.02))] opacity-0 transition duration-300 group-hover:opacity-100" />
             </div>
           </Link>
         ))}
