@@ -8,6 +8,7 @@ import {
 } from "@/components/home/design-system";
 import { Navbar } from "@/components/home/navbar";
 import { BrandCarousel } from "@/components/home/brand-carousel";
+import { ServicesSpotlight } from "@/components/home/services-spotlight";
 
 const instagramPosts = [
   {
@@ -57,6 +58,7 @@ export default function Home() {
       <main>
         <HeroImageSection />
         <BrandCarousel />
+        <ServicesSpotlight />
 
         <section id="call" className="relative isolate overflow-hidden px-5 py-22 sm:px-6 sm:py-28">
           <div className="callus-mobile-strip absolute inset-0 sm:hidden" aria-hidden>
