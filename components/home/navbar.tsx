@@ -7,20 +7,17 @@ import { usePathname } from "next/navigation";
 
 type NavItem = { label: string; href: string };
 
-const leftLinks: NavItem[] = [
+const navLinks: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Salon Services", href: "/services" },
-  { label: "Facial", href: "#call" },
-  { label: "Gift Certificate", href: "#instagram" },
-];
-
-const rightLinks: NavItem[] = [
-  { label: "Our Team", href: "#about" },
+  { label: "Services", href: "/services" },
+  { label: "Stylists", href: "#about" },
+  { label: "About", href: "#about" },
   { label: "Contact Us", href: "#call" },
-  { label: "Our Policies", href: "#instagram" },
 ];
 
-const mobileLinks = [...leftLinks, ...rightLinks.filter((link) => !leftLinks.some((left) => left.label === link.label))];
+const leftLinks = navLinks.slice(0, 3);
+const rightLinks = navLinks.slice(3);
+const mobileLinks = navLinks;
 
 type NavbarProps = {
   overlay?: boolean;

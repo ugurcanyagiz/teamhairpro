@@ -83,7 +83,7 @@ const socialLinks = [
 
 export default function Home() {
   return (
-    <div id="home" className="min-h-screen bg-[#f5f2ee] text-[#201d1b] antialiased">
+    <div id="home" className="min-h-screen bg-[#fbfbfd] text-[#201d1b] antialiased">
       <ContactBanner />
       <Navbar overlay />
 
@@ -91,7 +91,7 @@ export default function Home() {
         <HeroImageSection />
         <BrandCarousel />
 
-        <CenteredSection id="about" className="border-b border-[rgba(0,0,0,0.08)] bg-[#f5f2ee]" label={<SectionLabel>ABOUT TEAM HAIR PRO</SectionLabel>}>
+        <CenteredSection id="about" className="border-b border-[rgba(0,0,0,0.08)] bg-[#fbfbfd]" label={<SectionLabel>ABOUT TEAM HAIR PRO</SectionLabel>}>
           <div className="mt-12 w-full max-w-3xl space-y-16 text-center">
             <article>
               <h2 className="text-[clamp(1.85rem,2.6vw,2.5rem)] font-medium tracking-[0.03em] text-[#161311]">We are here for you</h2>
