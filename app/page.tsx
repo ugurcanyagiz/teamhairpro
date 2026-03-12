@@ -109,11 +109,13 @@ export default function Home() {
         </CenteredSection>
 
         <section id="call" className="relative isolate overflow-hidden px-5 py-22 sm:px-6 sm:py-28">
-          <Image src="/andy.png" alt="Relaxing spa texture" fill sizes="100vw" className="object-cover" />
-          <div className="absolute inset-0 bg-black/48" />
+          <Image src="/callus.svg" alt="Call us section visual" fill sizes="100vw" className="object-cover" />
+          <div className="absolute inset-0 bg-black/28" />
           <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center text-center">
-            <h2 className="text-4xl font-semibold uppercase tracking-[0.14em] text-white sm:text-5xl">Call Us</h2>
-            <a href="tel:2019271711" className="mt-8 inline-flex rounded-full border border-[#f4e8dc] bg-[#f4e8dc] px-10 py-3.5 text-lg font-semibold tracking-[0.18em] text-[#1a1614] shadow-[0_14px_34px_rgba(0,0,0,0.2)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#efe0d1]">
+            <h2 className="inline-flex rounded-full border border-white bg-white px-11 py-3.5 text-3xl font-semibold uppercase tracking-[0.14em] text-[#101010] [font-family:var(--font-league-spartan)] sm:text-4xl">
+              Call Us
+            </h2>
+            <a href="tel:2019271711" className="mt-8 inline-flex rounded-full border border-white bg-white px-10 py-3.5 text-lg font-semibold tracking-[0.18em] text-[#111111] shadow-[0_14px_34px_rgba(0,0,0,0.2)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#f7f7f7] [font-family:var(--font-league-spartan)]">
               201 · 927 · 1711
             </a>
           </div>
