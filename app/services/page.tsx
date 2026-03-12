@@ -156,7 +156,7 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <div className="min-h-screen bg-[#f5f2ee] text-[#171412] antialiased">
+    <div className="min-h-screen bg-[#ffffff] text-[#111111] antialiased">
       <ContactBanner />
       <Navbar overlay />
 
@@ -167,8 +167,8 @@ export default function ServicesPage() {
               <span className="text-[0.56rem] font-semibold uppercase tracking-[0.18em] text-[#f2eee9]">Hair Service Descriptions</span>
             </div>
 
-            <h1 className="mt-6 text-[clamp(1.95rem,4.2vw,3.1rem)] font-medium uppercase tracking-[0.07em] text-[#14110f]">Our Services</h1>
-            <p className="mt-4 max-w-2xl text-[0.92rem] leading-7 text-[#403833] sm:text-[0.97rem]">
+            <h1 className="mt-6 text-[clamp(1.95rem,4.2vw,3.1rem)] font-medium uppercase tracking-[0.07em] text-[#111111]">Our Services</h1>
+            <p className="mt-4 max-w-2xl text-[0.92rem] leading-7 text-[#2d2d2d] sm:text-[0.97rem]">
               Team Hair Pro offers tailored salon services designed around your hair goals, schedule, and maintenance preferences.
             </p>
 
@@ -177,7 +177,7 @@ export default function ServicesPage() {
                 <Link
                   key={category.id}
                   href={`#${category.id}`}
-                  className="inline-flex border border-[rgba(0,0,0,0.24)] bg-transparent px-3 py-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-[#1a1614] transition hover:bg-[rgba(0,0,0,0.04)]"
+                  className="inline-flex border border-[rgba(0,0,0,0.24)] bg-transparent px-3 py-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-[#111111] transition hover:bg-[rgba(0,0,0,0.04)]"
                 >
                   {category.title}
                 </Link>
@@ -191,8 +191,8 @@ export default function ServicesPage() {
             {serviceCategories.map((category, categoryIndex) => (
               <section key={category.id} id={category.id} className={`scroll-mt-32 ${categoryIndex > 0 ? "mt-10" : ""}`}>
                 <header className="border-b border-[rgba(0,0,0,0.16)] pb-3">
-                  <h2 className="text-[1.5rem] font-medium uppercase tracking-[0.08em] text-[#14110f]">{category.title}</h2>
-                  <p className="mt-2 text-[0.72rem] leading-5 tracking-[0.01em] text-[#6a5f56]">{category.subtitle}</p>
+                  <h2 className="text-[1.5rem] font-medium uppercase tracking-[0.08em] text-[#111111]">{category.title}</h2>
+                  <p className="mt-2 text-[0.72rem] leading-5 tracking-[0.01em] text-[#3f3f3f]">{category.subtitle}</p>
                 </header>
 
                 <div className="divide-y divide-[rgba(0,0,0,0.12)]">
@@ -200,17 +200,17 @@ export default function ServicesPage() {
                     <article key={service.name} className="py-5 sm:py-6">
                       <div className="flex items-start justify-between gap-5">
                         <div>
-                          <h3 className="text-[1.06rem] font-medium uppercase leading-6 tracking-[0.1em] text-[#14110f]">{service.name}</h3>
-                          <p className="mt-1 text-[0.62rem] font-medium uppercase tracking-[0.08em] text-[#534a43]">{service.duration}</p>
+                          <h3 className="text-[1.06rem] font-medium uppercase leading-6 tracking-[0.1em] text-[#111111]">{service.name}</h3>
+                          <p className="mt-1 text-[0.62rem] font-medium uppercase tracking-[0.08em] text-[#444444]">{service.duration}</p>
                         </div>
-                        <p className="shrink-0 text-right text-[0.83rem] font-semibold tracking-[0.04em] text-[#14110f]">{service.price}</p>
+                        <p className="shrink-0 text-right text-[0.83rem] font-semibold tracking-[0.04em] text-[#111111]">{service.price}</p>
                       </div>
 
-                      <p className="mt-3 max-w-2xl text-[0.72rem] leading-[1.6] text-[#3e3732] sm:text-[0.74rem]">{service.description}</p>
+                      <p className="mt-3 max-w-2xl text-[0.72rem] leading-[1.6] text-[#2f2f2f] sm:text-[0.74rem]">{service.description}</p>
 
                       {service.consultationRequired ? (
                         <div className="mt-3 inline-flex items-center gap-2 border border-[rgba(0,0,0,0.2)] bg-[rgba(0,0,0,0.03)] px-2.5 py-1">
-                          <span className="text-[0.55rem] font-semibold uppercase tracking-[0.11em] text-[#4a3f37]">Consultation Required</span>
+                          <span className="text-[0.55rem] font-semibold uppercase tracking-[0.11em] text-[#2f2f2f]">Consultation Required</span>
                         </div>
                       ) : null}
                     </article>
@@ -222,10 +222,10 @@ export default function ServicesPage() {
         </section>
 
         <section className="px-5 pb-16 sm:px-6 sm:pb-20">
-          <div className="mx-auto w-full max-w-3xl border border-[rgba(0,0,0,0.17)] bg-[#f2ece5] px-5 py-6 sm:px-6 sm:py-7">
+          <div className="mx-auto w-full max-w-3xl border border-[rgba(0,0,0,0.17)] bg-[#fcfcfc] px-5 py-6 sm:px-6 sm:py-7">
             <SectionLabel>CUSTOM COLOR CONSULTATION</SectionLabel>
-            <h2 className="mt-5 text-[1.4rem] font-medium uppercase leading-tight tracking-[0.07em] text-[#15110f]">Need a custom color transformation?</h2>
-            <p className="mt-4 max-w-2xl text-[0.82rem] leading-6 text-[#3f3833] sm:text-[0.87rem]">
+            <h2 className="mt-5 text-[1.4rem] font-medium uppercase leading-tight tracking-[0.07em] text-[#111111]">Need a custom color transformation?</h2>
+            <p className="mt-4 max-w-2xl text-[0.82rem] leading-6 text-[#2f2f2f] sm:text-[0.87rem]">
               Book a consultation for highlights and balayage services to confirm your personalized plan, final timing, and pricing.
             </p>
             <div className="mt-6 flex flex-wrap gap-2.5">
