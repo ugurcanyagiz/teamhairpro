@@ -3,7 +3,7 @@ import {
   CenteredSection,
   ContactBanner,
   HeroImageSection,
-  InstagramGrid,
+  InstagramShowcase,
   SectionLabel,
   SocialIconRow,
 } from "@/components/home/design-system";
@@ -138,8 +138,8 @@ export default function Home() {
           </form>
 
           <div id="instagram" className="mt-14">
-            <SectionLabel>INSTAGRAM</SectionLabel>
-            <InstagramGrid posts={instagramPosts} />
+            <SectionLabel>LATEST FROM INSTAGRAM</SectionLabel>
+            <InstagramShowcase posts={instagramPosts} handle="teamhairpro" subtitle="Follow our latest work" />
           </div>
         </CenteredSection>
       </main>
