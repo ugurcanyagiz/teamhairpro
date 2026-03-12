@@ -119,7 +119,11 @@ export default function Home() {
           </div>
         </section>
 
-        <CenteredSection className="border-b border-[rgba(0,0,0,0.08)]" label={<SectionLabel>FOLLOW US</SectionLabel>}>
+        <CenteredSection
+          className="border-b border-[rgba(0,0,0,0.08)] bg-white"
+          contentClassName="max-w-[86rem]"
+          label={<SectionLabel>FOLLOW US</SectionLabel>}
+        >
           <SocialIconRow links={socialLinks} />
 
           <form className="mt-14 grid w-full max-w-5xl items-center gap-4 rounded-2xl border border-[rgba(0,0,0,0.08)] bg-[#f7f4f0] p-4 sm:grid-cols-[auto_1fr_auto] sm:gap-3 sm:p-5">
@@ -137,7 +141,7 @@ export default function Home() {
             </button>
           </form>
 
-          <div id="instagram" className="mt-14">
+          <div id="instagram" className="mt-16 w-full">
             <SectionLabel>LATEST FROM INSTAGRAM</SectionLabel>
             <InstagramShowcase posts={instagramPosts} handle="teamhairpro" subtitle="Follow our latest work" />
           </div>
