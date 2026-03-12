@@ -72,10 +72,33 @@ body {
   .brand-carousel__track {
     animation-duration: 28s;
   }
+
+  .callus-mobile-strip__track {
+    display: flex;
+    width: 200%;
+    height: 100%;
+    animation: callus-mobile-marquee 18s linear infinite;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .brand-carousel__track {
     animation: none;
+  }
+
+  .callus-mobile-strip__track {
+    animation: none;
+  }
+}
+
+@keyframes callus-mobile-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
   }
 }

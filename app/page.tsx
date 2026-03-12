@@ -59,7 +59,17 @@ export default function Home() {
         <BrandCarousel />
 
         <section id="call" className="relative isolate overflow-hidden px-5 py-22 sm:px-6 sm:py-28">
-          <Image src="/callus.svg" alt="Call us section visual" fill sizes="100vw" className="object-cover" />
+          <div className="callus-mobile-strip absolute inset-0 sm:hidden" aria-hidden>
+            <div className="callus-mobile-strip__track">
+              <div className="relative h-full w-full shrink-0">
+                <Image src="/callus.svg" alt="" fill sizes="100vw" className="object-cover" />
+              </div>
+              <div className="relative h-full w-full shrink-0">
+                <Image src="/callus.svg" alt="" fill sizes="100vw" className="object-cover" />
+              </div>
+            </div>
+          </div>
+          <Image src="/callus.svg" alt="Call us section visual" fill sizes="100vw" className="hidden object-cover sm:block" />
           <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center text-center">
             <h2 className="inline-flex rounded-full border border-white bg-white px-11 py-3.5 text-3xl font-semibold uppercase tracking-[0.14em] text-[#101010] [font-family:var(--font-league-spartan)] sm:text-4xl">
               Call Us
