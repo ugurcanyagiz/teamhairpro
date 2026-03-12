@@ -1,14 +1,5 @@
 import Link from "next/link";
 
-const popularServices = [
-  "Balayage",
-  "Highlights",
-  "L'Oréal INOA Color",
-  "Keratin Complex",
-  "Women’s Haircut",
-  "Blow Dry & Finish",
-];
-
 export function ServicesSpotlight() {
   return (
     <section className="border-y border-[rgba(0,0,0,0.08)] bg-[linear-gradient(130deg,#f7f3ed_0%,#efe8df_48%,#f8f5f0_100%)] px-5 py-12 sm:px-6 sm:py-14">
@@ -22,18 +13,7 @@ export function ServicesSpotlight() {
             From seamless balayage and dimensional highlights to smooth keratin finishes, discover the most requested services on our menu—all delivered with tailored consultation and premium care.
           </p>
 
-          <div className="mt-7 flex flex-wrap gap-2.5">
-            {popularServices.map((service) => (
-              <span
-                key={service}
-                className="inline-flex items-center rounded-full border border-[rgba(0,0,0,0.14)] bg-white px-4 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.13em] text-[#201b18] sm:text-[0.65rem]"
-              >
-                {service}
-              </span>
-            ))}
-          </div>
-
-          <div className="mt-7">
+          <div className="mt-7 flex justify-end">
             <Link
               href="/services"
               className="inline-flex items-center justify-center rounded-full border border-[#15110f] bg-[#15110f] px-6 py-2.5 text-[0.63rem] font-semibold uppercase tracking-[0.16em] text-[#f6f1ea] transition hover:-translate-y-0.5 hover:bg-[#090807]"
