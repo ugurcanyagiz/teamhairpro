@@ -3,12 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 type NavItem = { label: string; href: string };
 
 const leftLinks: NavItem[] = [
-  { label: "Home", href: "#home" },
-  { label: "Salon Services", href: "#about" },
+  { label: "Home", href: "/" },
+  { label: "Salon Services", href: "/services" },
   { label: "Facial", href: "#call" },
   { label: "Gift Certificate", href: "#instagram" },
 ];
@@ -30,6 +31,12 @@ const navLinkClass =
 
 export function Navbar({ overlay = false }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const getNavHref = (href: string) => {
+    if (!href.startsWith("#")) return href;
+    return pathname === "/" ? href : `/${href}`;
+  };
 
   return (
     <header className={`z-40 w-full border-b border-[rgba(40,30,20,0.12)] bg-[#f9f7f3]/95 backdrop-blur ${overlay ? "sticky top-0" : ""}`}>
@@ -37,7 +44,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
         <ul className="flex min-w-0 items-center gap-7 justify-self-start 2xl:gap-8">
           {leftLinks.map((item) => (
             <li key={item.label}>
-              <Link href={item.href} className={navLinkClass}>
+              <Link href={getNavHref(item.href)} className={navLinkClass}>
                 {item.label}
                 <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-current transition duration-300 group-hover:scale-x-100" />
               </Link>
@@ -45,14 +52,14 @@ export function Navbar({ overlay = false }: NavbarProps) {
           ))}
         </ul>
 
-        <Link href="#home" className="flex items-center justify-center justify-self-center" aria-label="Team Hair Pro home">
+        <Link href="/" className="flex items-center justify-center justify-self-center" aria-label="Team Hair Pro home">
           <Image src="/logo.svg" alt="Team Hair Pro" width={292} height={88} priority className="h-auto w-[250px] 2xl:w-[292px]" />
         </Link>
 
         <ul className="flex min-w-0 items-center justify-self-end gap-7 2xl:gap-8">
           {rightLinks.map((item) => (
             <li key={item.label}>
-              <Link href={item.href} className={navLinkClass}>
+              <Link href={getNavHref(item.href)} className={navLinkClass}>
                 {item.label}
                 <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-current transition duration-300 group-hover:scale-x-100" />
               </Link>
@@ -75,7 +82,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
           </svg>
         </button>
 
-        <Link href="#home" className="flex items-center justify-center" aria-label="Team Hair Pro home">
+        <Link href="/" className="flex items-center justify-center" aria-label="Team Hair Pro home">
           <Image src="/logo.svg" alt="Team Hair Pro" width={210} height={64} priority className="h-auto w-[165px] sm:w-[190px]" />
         </Link>
 
@@ -88,7 +95,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
             {mobileLinks.map((item) => (
               <Link
                 key={item.label}
-                href={item.href}
+                href={getNavHref(item.href)}
                 onClick={() => setIsMenuOpen(false)}
                 className="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-[#272320] transition duration-300 hover:opacity-70"
               >
