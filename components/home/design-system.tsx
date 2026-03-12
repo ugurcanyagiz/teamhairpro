@@ -89,31 +89,71 @@ type InstagramPost = {
   permalink: string;
 };
 
-export function InstagramGrid({ posts }: { posts: InstagramPost[] }) {
+type InstagramShowcaseProps = {
+  posts: InstagramPost[];
+  handle?: string;
+  subtitle?: string;
+  profileImage?: string;
+};
+
+export function InstagramShowcase({
+  posts,
+  handle = "teamhairpro",
+  subtitle = "Follow our latest work",
+  profileImage,
+}: InstagramShowcaseProps) {
   return (
-    <div className="mt-11 grid w-full grid-cols-2 gap-3 sm:mt-12 sm:gap-4 md:grid-cols-3">
-      {posts.map((post) => (
+    <article className="mt-8 w-full max-w-5xl rounded-[1.6rem] border border-[rgba(23,20,17,0.12)] bg-white p-5 text-left shadow-[0_8px_24px_rgba(20,16,12,0.05)] sm:mt-10 sm:p-7 lg:p-8">
+      <div className="flex flex-col gap-4 border-b border-[rgba(19,16,14,0.1)] pb-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:pb-6">
+        <div className="flex items-center gap-3.5">
+          <span className="relative grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full bg-[linear-gradient(135deg,#1f1a16,#5e5043)] text-sm font-semibold uppercase tracking-[0.14em] text-[#f9f2ea]">
+            {profileImage ? <Image src={profileImage} alt="Team Hair Pro Instagram avatar" fill sizes="44px" className="object-cover" /> : "TH"}
+          </span>
+          <div>
+            <p className="text-sm font-semibold tracking-[0.04em] text-[#14110f]">{handle}</p>
+            <p className="mt-1 text-xs tracking-[0.06em] text-[#7a6f65]">{subtitle}</p>
+          </div>
+        </div>
+
         <Link
-          key={post.id}
-          href={post.permalink}
+          href={`https://instagram.com/${handle.replace("@", "")}`}
           target="_blank"
           rel="noreferrer"
-          className="group relative overflow-hidden rounded-2xl"
-          aria-label={post.caption}
+          className="inline-flex h-10 items-center justify-center gap-2.5 rounded-full border border-[rgba(29,24,20,0.12)] bg-[linear-gradient(110deg,#151210,#2c251f)] px-5 text-[0.67rem] font-semibold uppercase tracking-[0.17em] text-[#f8efe7] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_22px_rgba(16,13,10,0.2)]"
         >
-          <div className="relative aspect-square w-full bg-[#eae4de]">
-            <Image
-              src={post.image}
-              alt={post.caption}
-              fill
-              sizes="(max-width: 640px) 50vw, (max-width: 900px) 33vw, 25vw"
-              className="object-cover transition duration-500 md:group-hover:scale-[1.045]"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(16,14,12,0.34),rgba(16,14,12,0))] opacity-0 transition duration-300 group-hover:opacity-100" />
-          </div>
+          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+            <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+          </svg>
+          Follow on Instagram
         </Link>
-      ))}
-    </div>
+      </div>
+
+      <div className="mt-5 grid grid-cols-2 gap-2.5 sm:mt-6 sm:gap-3 md:grid-cols-3">
+        {posts.map((post) => (
+          <Link
+            key={post.id}
+            href={post.permalink}
+            target="_blank"
+            rel="noreferrer"
+            className="group relative overflow-hidden rounded-xl"
+            aria-label={post.caption}
+          >
+            <div className="relative aspect-square w-full bg-[#eae4de]">
+              <Image
+                src={post.image}
+                alt={post.caption}
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
+                className="object-cover transition duration-500 group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(14,12,10,0.22),rgba(14,12,10,0.04))] opacity-0 transition duration-300 group-hover:opacity-100" />
+            </div>
+          </Link>
+        ))}
+      </div>
+    </article>
   );
 }
 
