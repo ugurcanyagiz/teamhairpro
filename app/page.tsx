@@ -82,37 +82,37 @@ const socialLinks = [
 
 export default function Home() {
   return (
-    <div id="home" className="min-h-screen bg-[#f5f2ee] text-[#201d1b]">
+    <div id="home" className="min-h-screen bg-[#f5f2ee] text-[#201d1b] antialiased">
       <ContactBanner />
       <Navbar overlay />
 
       <main>
         <HeroImageSection />
 
-        <CenteredSection id="about" className="border-b border-[rgba(0,0,0,0.08)] bg-[#f5f2ee]" label={<SectionLabel>ABOUT NULUX</SectionLabel>}>
-          <div className="mt-10 w-full max-w-2xl space-y-14 text-center">
+        <CenteredSection id="about" className="border-b border-[rgba(0,0,0,0.08)] bg-[#f5f2ee]" label={<SectionLabel>ABOUT TEAM HAIR PRO</SectionLabel>}>
+          <div className="mt-12 w-full max-w-3xl space-y-16 text-center">
             <article>
-              <h2 className="text-[clamp(1.7rem,2.6vw,2.35rem)] font-normal tracking-[0.02em] text-[#161311]">We are here for you</h2>
-              <p className="mt-6 text-lg leading-8 text-[#4c4743]">
+              <h2 className="text-[clamp(1.85rem,2.6vw,2.5rem)] font-medium tracking-[0.03em] text-[#161311]">We are here for you</h2>
+              <p className="mt-6 text-[1.02rem] leading-8 text-[#4f4944] sm:text-lg">
                 Our team of talented and experienced stylists and technicians is here to deliver your ideal hair, skincare, and self-care routine. We provide an elevated one-stop experience designed to boost confidence and leave you feeling refreshed.
               </p>
             </article>
-            <article className="border-t border-[rgba(0,0,0,0.09)] pt-12">
-              <h3 className="text-[clamp(1.65rem,2.4vw,2.2rem)] font-normal tracking-[0.02em] text-[#161311]">Specialists Who Care</h3>
-              <p className="mt-6 text-lg leading-8 text-[#4c4743]">
+            <article className="border-t border-[rgba(0,0,0,0.09)] pt-14">
+              <h3 className="text-[clamp(1.75rem,2.4vw,2.32rem)] font-medium tracking-[0.03em] text-[#161311]">Specialists Who Care</h3>
+              <p className="mt-6 text-[1.02rem] leading-8 text-[#4f4944] sm:text-lg">
                 We believe every guest is naturally beautiful and unique. Through personalized consultation and intentional artistry, we enhance your natural features and create looks that feel timeless, polished, and unmistakably yours.
               </p>
             </article>
           </div>
         </CenteredSection>
 
-        <section id="call" className="relative isolate overflow-hidden px-5 py-22 sm:px-6 sm:py-24">
+        <section id="call" className="relative isolate overflow-hidden px-5 py-22 sm:px-6 sm:py-28">
           <Image src="/andy.png" alt="Relaxing spa texture" fill sizes="100vw" className="object-cover" />
           <div className="absolute inset-0 bg-black/48" />
           <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center text-center">
-            <h2 className="text-4xl font-semibold uppercase tracking-[0.14em] text-white sm:text-5xl">Call Us At</h2>
-            <a href="tel:2012921919" className="mt-8 inline-flex border border-[#decebf] bg-[#f1e4d8] px-10 py-3 text-lg font-semibold tracking-[0.2em] text-[#13100f]">
-              201 · 292 · 1919
+            <h2 className="text-4xl font-semibold uppercase tracking-[0.14em] text-white sm:text-5xl">Call Us</h2>
+            <a href="tel:2019271711" className="mt-8 inline-flex rounded-full border border-[#f4e8dc] bg-[#f4e8dc] px-10 py-3.5 text-lg font-semibold tracking-[0.18em] text-[#1a1614] shadow-[0_14px_34px_rgba(0,0,0,0.2)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#efe0d1]">
+              201 · 927 · 1711
             </a>
           </div>
         </section>
@@ -120,7 +120,7 @@ export default function Home() {
         <CenteredSection className="border-b border-[rgba(0,0,0,0.08)]" label={<SectionLabel>FOLLOW US</SectionLabel>}>
           <SocialIconRow links={socialLinks} />
 
-          <form className="mt-12 grid w-full max-w-5xl items-center gap-4 border border-[rgba(0,0,0,0.08)] bg-[#f7f4f0] p-4 sm:grid-cols-[auto_1fr_auto] sm:gap-3 sm:p-5">
+          <form className="mt-14 grid w-full max-w-5xl items-center gap-4 rounded-2xl border border-[rgba(0,0,0,0.08)] bg-[#f7f4f0] p-4 sm:grid-cols-[auto_1fr_auto] sm:gap-3 sm:p-5">
             <label htmlFor="subscribe-email" className="text-3xl font-semibold uppercase tracking-[0.05em] text-[#191614]">
               Subscribe
             </label>
@@ -128,9 +128,9 @@ export default function Home() {
               id="subscribe-email"
               type="email"
               placeholder="Email"
-              className="h-11 border border-[rgba(0,0,0,0.12)] bg-white px-4 text-sm outline-none focus:border-[#baa79a]"
+              className="h-11 rounded-full border border-[rgba(0,0,0,0.12)] bg-white px-4 text-sm outline-none transition focus:border-[#9f8878]"
             />
-            <button type="submit" className="h-11 border border-[#d8cabf] bg-[#e8d8cb] px-7 text-xs font-semibold uppercase tracking-[0.16em] text-[#141414] transition hover:bg-[#dfccbe]">
+            <button type="submit" className="h-11 rounded-full border border-[#201d1b] bg-[#201d1b] px-7 text-xs font-semibold uppercase tracking-[0.16em] text-[#f4efe9] transition duration-300 hover:bg-[#12100f]">
               Sign Up
             </button>
           </form>
