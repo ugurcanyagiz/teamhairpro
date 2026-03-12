@@ -119,19 +119,77 @@ export function InstagramGrid({ posts }: { posts: InstagramPost[] }) {
 
 export function HeroImageSection() {
   return (
-    <section className="relative flex min-h-[66vh] w-full items-center justify-center overflow-hidden px-5 py-16 text-center sm:min-h-[72vh] sm:py-20" aria-label="Salon hero image">
+    <section className="relative isolate flex min-h-[70vh] w-full items-center overflow-hidden px-5 py-16 sm:min-h-[75vh] sm:px-6 sm:py-20" aria-label="Salon hero image">
       <Image src="/andy.png" alt="Interior of Team Hair Pro salon" fill priority sizes="100vw" className="object-cover object-center" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(12,10,9,0.48),rgba(12,10,9,0.34))]" />
-      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center rounded-[1.75rem] border border-[rgba(255,255,255,0.24)] bg-[rgba(20,16,13,0.46)] px-6 py-10 backdrop-blur-[2px] sm:px-10 sm:py-12">
-        <SectionLabel>PREMIUM CONSULTATIONS FOR MODERN HAIR &amp; BEAUTY</SectionLabel>
-        <h1 className="mt-6 text-[clamp(1.95rem,5vw,4.4rem)] font-medium uppercase leading-[1.06] tracking-[0.08em] text-[#f8f4ef] sm:max-w-3xl">
-          TEAM HAIR PRO
-        </h1>
-        <p className="mt-5 max-w-2xl text-sm leading-7 tracking-[0.03em] text-[#ece5dd] sm:text-base sm:leading-8">
-          Experience personalized hair artistry, expert care, and elevated styling tailored to your features, lifestyle, and vision.
-        </p>
-        <BeigeButton href="#call" className="mt-9">Book Now</BeigeButton>
+      <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(11,10,9,0.7)_0%,rgba(11,10,9,0.56)_40%,rgba(11,10,9,0.24)_100%)]" />
+      <div className="relative z-10 mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-14">
+        <div className="max-w-xl text-left text-[#f9f5f1]">
+          <p className="inline-flex rounded-full border border-[rgba(255,255,255,0.35)] bg-[rgba(255,255,255,0.1)] px-4 py-1.5 text-[0.64rem] font-medium tracking-[0.28em] text-[#f6ede3]">
+            PREMIUM HAIR &amp; BEAUTY EXPERIENCE
+          </p>
+          <h1 className="mt-6 text-[clamp(2rem,5vw,4rem)] font-medium leading-[1.08] tracking-[0.03em] text-white">
+            Effortless Booking, Elevated Beauty Care
+          </h1>
+          <p className="mt-6 max-w-lg text-sm leading-7 tracking-[0.02em] text-[#ece4dc] sm:text-base sm:leading-8">
+            Schedule your next salon experience with expert styling, personalized care, and a seamless reservation process designed around you.
+          </p>
+          <BeigeButton href="#call" className="mt-9 px-12 py-4 text-[0.68rem] tracking-[0.22em] shadow-[0_16px_35px_rgba(15,12,10,0.4)]">
+            BOOK NOW
+          </BeigeButton>
+          <p className="mt-4 text-xs tracking-[0.08em] text-[#dfd1c2] sm:text-sm">Consultation-first appointments. Walk-ins welcome based on availability.</p>
+        </div>
+
+        <HeroBookingCard />
       </div>
     </section>
+  );
+}
+
+function HeroBookingCard() {
+  return (
+    <aside className="w-full max-w-xl justify-self-end rounded-[1.75rem] border border-[rgba(255,255,255,0.36)] bg-[rgba(251,247,243,0.96)] p-6 text-[#211b17] shadow-[0_28px_70px_rgba(0,0,0,0.24)] backdrop-blur-[1px] sm:p-7" aria-label="Quick reservation panel">
+      <div className="flex items-start justify-between gap-3 border-b border-[rgba(26,22,19,0.12)] pb-5">
+        <div>
+          <p className="text-[0.67rem] font-semibold uppercase tracking-[0.22em] text-[#7f6553]">Booking Assistant</p>
+          <h2 className="mt-2 text-2xl font-medium tracking-[0.02em] text-[#181310]">Quick Reservation</h2>
+        </div>
+        <span className="rounded-full bg-[#efe2d4] px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[#705644]">Vagaro Ready</span>
+      </div>
+
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <BookingField label="Service" value="Select service" />
+        <BookingField label="Stylist" value="No preference" />
+        <BookingField label="Preferred Date" value="Choose date" />
+        <BookingField label="Preferred Time" value="Choose time" />
+      </div>
+
+      <button
+        type="button"
+        className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full border border-[#1d1714] bg-[#1d1714] px-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#f8f1ea] transition duration-300 hover:-translate-y-0.5 hover:bg-[#0f0d0b]"
+      >
+        Continue Booking
+      </button>
+
+      <p className="mt-4 text-center text-[0.7rem] uppercase tracking-[0.14em] text-[#7e6d61]">Future integration point for Vagaro widget embed</p>
+    </aside>
+  );
+}
+
+type BookingFieldProps = {
+  label: string;
+  value: string;
+};
+
+function BookingField({ label, value }: BookingFieldProps) {
+  return (
+    <label className="block rounded-2xl border border-[rgba(26,22,19,0.13)] bg-white px-4 py-3">
+      <span className="text-[0.62rem] font-semibold uppercase tracking-[0.17em] text-[#7f6553]">{label}</span>
+      <span className="mt-1.5 flex items-center justify-between text-sm text-[#2a2420]">
+        {value}
+        <svg viewBox="0 0 24 24" className="h-4 w-4 text-[#8e7868]" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+          <path d="m7 10 5 5 5-5" />
+        </svg>
+      </span>
+    </label>
   );
 }
