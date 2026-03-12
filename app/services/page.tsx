@@ -156,26 +156,28 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <div className="min-h-screen bg-[#f5f2ee] text-[#201d1b] antialiased">
+    <div className="min-h-screen bg-[#f5f2ee] text-[#171412] antialiased">
       <ContactBanner />
       <Navbar overlay />
 
       <main>
-        <section className="border-b border-[rgba(0,0,0,0.08)] px-5 py-16 sm:px-6 sm:py-20">
-          <div className="mx-auto w-full max-w-6xl">
-            <SectionLabel>SALON SERVICES</SectionLabel>
-            <h1 className="mt-8 text-[clamp(2rem,4.6vw,3.6rem)] font-medium leading-[1.08] tracking-[0.03em] text-[#161311]">Our Services</h1>
-            <p className="mt-6 max-w-3xl text-[1.02rem] leading-8 text-[#4f4944] sm:text-lg">
-              Team Hair Pro offers tailored hair and beauty services designed around your goals, hair type, and lifestyle. Browse by category to compare timing,
-              pricing, and treatment options at a glance.
+        <section className="border-b border-[rgba(0,0,0,0.1)] px-5 pb-12 pt-14 sm:px-6 sm:pb-16 sm:pt-16">
+          <div className="mx-auto w-full max-w-3xl">
+            <div className="inline-flex border border-[#111] bg-[#111] px-2 py-0.5">
+              <span className="text-[0.56rem] font-semibold uppercase tracking-[0.18em] text-[#f2eee9]">Hair Service Descriptions</span>
+            </div>
+
+            <h1 className="mt-6 text-[clamp(1.95rem,4.2vw,3.1rem)] font-medium uppercase tracking-[0.07em] text-[#14110f]">Our Services</h1>
+            <p className="mt-4 max-w-2xl text-[0.92rem] leading-7 text-[#403833] sm:text-[0.97rem]">
+              Team Hair Pro offers tailored salon services designed around your hair goals, schedule, and maintenance preferences.
             </p>
 
-            <nav aria-label="Service categories" className="mt-10 flex flex-wrap gap-2.5 sm:gap-3">
+            <nav aria-label="Service categories" className="mt-6 flex flex-wrap gap-2.5">
               {serviceCategories.map((category) => (
                 <Link
                   key={category.id}
                   href={`#${category.id}`}
-                  className="inline-flex rounded-full border border-[rgba(29,22,18,0.16)] bg-[#f8f4ef] px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[#2f2925] transition duration-300 hover:border-[rgba(29,22,18,0.3)] hover:bg-[#f1e9e1]"
+                  className="inline-flex border border-[rgba(0,0,0,0.24)] bg-transparent px-3 py-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-[#1a1614] transition hover:bg-[rgba(0,0,0,0.04)]"
                 >
                   {category.title}
                 </Link>
@@ -184,38 +186,33 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        <section className="px-5 py-14 sm:px-6 sm:py-18">
-          <div className="mx-auto flex w-full max-w-6xl flex-col gap-9 sm:gap-11">
-            {serviceCategories.map((category) => (
-              <section key={category.id} id={category.id} className="scroll-mt-32 rounded-3xl border border-[rgba(0,0,0,0.08)] bg-[#f7f4f0] p-5 shadow-[0_8px_26px_rgba(25,19,16,0.05)] sm:p-7 lg:p-8">
-                <header className="border-b border-[rgba(0,0,0,0.08)] pb-5 sm:pb-6">
-                  <h2 className="text-[clamp(1.4rem,2.4vw,2rem)] font-medium tracking-[0.02em] text-[#171311]">{category.title}</h2>
-                  <p className="mt-3 max-w-3xl text-sm leading-7 text-[#5b534c] sm:text-base">{category.subtitle}</p>
+        <section className="px-5 py-12 sm:px-6 sm:py-14">
+          <div className="mx-auto w-full max-w-3xl">
+            {serviceCategories.map((category, categoryIndex) => (
+              <section key={category.id} id={category.id} className={`scroll-mt-32 ${categoryIndex > 0 ? "mt-10" : ""}`}>
+                <header className="border-b border-[rgba(0,0,0,0.16)] pb-3">
+                  <h2 className="text-[1.5rem] font-medium uppercase tracking-[0.08em] text-[#14110f]">{category.title}</h2>
+                  <p className="mt-2 text-[0.72rem] leading-5 tracking-[0.01em] text-[#6a5f56]">{category.subtitle}</p>
                 </header>
 
-                <div className="mt-5 grid gap-3.5 sm:mt-6 sm:gap-4">
+                <div className="divide-y divide-[rgba(0,0,0,0.12)]">
                   {category.services.map((service) => (
-                    <article key={service.name} className="rounded-2xl border border-[rgba(0,0,0,0.09)] bg-[#fbf9f6] p-4 transition duration-300 hover:border-[rgba(33,27,23,0.18)] sm:p-5">
-                      <div className="flex flex-col gap-3 sm:gap-3.5">
-                        <div className="flex flex-wrap items-start justify-between gap-2.5">
-                          <h3 className="text-lg font-medium tracking-[0.01em] text-[#181310] sm:text-[1.23rem]">{service.name}</h3>
-                          {service.consultationRequired ? (
-                            <span className="inline-flex rounded-full border border-[rgba(122,78,49,0.24)] bg-[#efe1d3] px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-[#6b4c37]">
-                              Consultation Required
-                            </span>
-                          ) : null}
+                    <article key={service.name} className="py-5 sm:py-6">
+                      <div className="flex items-start justify-between gap-5">
+                        <div>
+                          <h3 className="text-[1.06rem] font-medium uppercase leading-6 tracking-[0.1em] text-[#14110f]">{service.name}</h3>
+                          <p className="mt-1 text-[0.62rem] font-medium uppercase tracking-[0.08em] text-[#534a43]">{service.duration}</p>
                         </div>
-
-                        <div className="flex flex-wrap gap-x-5 gap-y-1 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#6d6258] sm:gap-x-6">
-                          <span>Duration: {service.duration}</span>
-                          <span>Price: {service.price}</span>
-                        </div>
-
-                        <p className="text-sm leading-7 text-[#4b4440] sm:text-[0.96rem]">{service.description}</p>
-                        {service.consultationRequired ? (
-                          <p className="text-xs leading-6 tracking-[0.02em] text-[#68584c]">Final price and timing are confirmed during your consultation based on hair length, density, and desired result.</p>
-                        ) : null}
+                        <p className="shrink-0 text-right text-[0.83rem] font-semibold tracking-[0.04em] text-[#14110f]">{service.price}</p>
                       </div>
+
+                      <p className="mt-3 max-w-2xl text-[0.72rem] leading-[1.6] text-[#3e3732] sm:text-[0.74rem]">{service.description}</p>
+
+                      {service.consultationRequired ? (
+                        <div className="mt-3 inline-flex items-center gap-2 border border-[rgba(0,0,0,0.2)] bg-[rgba(0,0,0,0.03)] px-2.5 py-1">
+                          <span className="text-[0.55rem] font-semibold uppercase tracking-[0.11em] text-[#4a3f37]">Consultation Required</span>
+                        </div>
+                      ) : null}
                     </article>
                   ))}
                 </div>
@@ -224,24 +221,23 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        <section className="px-5 pb-18 sm:px-6 sm:pb-24">
-          <div className="mx-auto w-full max-w-6xl rounded-[1.8rem] border border-[rgba(0,0,0,0.12)] bg-[linear-gradient(130deg,#1f1915,#2d241e)] p-7 text-[#f5ede4] shadow-[0_20px_60px_rgba(18,14,12,0.35)] sm:p-10">
-            <p className="text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-[#d9c1ad]">Custom Color Consultation</p>
-            <h2 className="mt-4 text-[clamp(1.6rem,3.2vw,2.5rem)] font-medium tracking-[0.02em]">Need a custom color transformation?</h2>
-            <p className="mt-5 max-w-3xl text-sm leading-7 text-[#efe3d8] sm:text-base">
-              For highlights and balayage services, we recommend scheduling a consultation first. Your stylist will create a personalized color plan and confirm
-              exact timing and pricing before your appointment.
+        <section className="px-5 pb-16 sm:px-6 sm:pb-20">
+          <div className="mx-auto w-full max-w-3xl border border-[rgba(0,0,0,0.17)] bg-[#f2ece5] px-5 py-6 sm:px-6 sm:py-7">
+            <SectionLabel>CUSTOM COLOR CONSULTATION</SectionLabel>
+            <h2 className="mt-5 text-[1.4rem] font-medium uppercase leading-tight tracking-[0.07em] text-[#15110f]">Need a custom color transformation?</h2>
+            <p className="mt-4 max-w-2xl text-[0.82rem] leading-6 text-[#3f3833] sm:text-[0.87rem]">
+              Book a consultation for highlights and balayage services to confirm your personalized plan, final timing, and pricing.
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-2.5">
               <Link
                 href="tel:2019271711"
-                className="inline-flex items-center justify-center rounded-full border border-[#f3e7da] bg-[#f3e7da] px-7 py-3 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#1e1713] transition duration-300 hover:-translate-y-0.5 hover:bg-[#ead9c8]"
+                className="inline-flex items-center justify-center border border-[#14110f] bg-[#14110f] px-5 py-2.5 text-[0.61rem] font-semibold uppercase tracking-[0.16em] text-[#f2ece5] transition hover:bg-[#090807]"
               >
-                Book Consultation
+                Schedule Now
               </Link>
               <Link
                 href="/"
-                className="inline-flex items-center justify-center rounded-full border border-[rgba(245,237,228,0.5)] px-7 py-3 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#f5ede4] transition duration-300 hover:border-[#f5ede4] hover:bg-[rgba(245,237,228,0.08)]"
+                className="inline-flex items-center justify-center border border-[rgba(0,0,0,0.3)] px-5 py-2.5 text-[0.61rem] font-semibold uppercase tracking-[0.16em] text-[#1d1917] transition hover:bg-[rgba(0,0,0,0.05)]"
               >
                 Back to Home
               </Link>
