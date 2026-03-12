@@ -8,6 +8,7 @@ import {
   SocialIconRow,
 } from "@/components/home/design-system";
 import { Navbar } from "@/components/home/navbar";
+import { BrandCarousel } from "@/components/home/brand-carousel";
 
 const instagramPosts = [
   {
@@ -88,6 +89,7 @@ export default function Home() {
 
       <main>
         <HeroImageSection />
+        <BrandCarousel />
 
         <CenteredSection id="about" className="border-b border-[rgba(0,0,0,0.08)] bg-[#f5f2ee]" label={<SectionLabel>ABOUT TEAM HAIR PRO</SectionLabel>}>
           <div className="mt-12 w-full max-w-3xl space-y-16 text-center">
