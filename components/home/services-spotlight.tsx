@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef } from "react";
+
 const WRITE_REVIEW_URL = "https://google.com"; // TODO: Replace with the Team Hair Pro Google review URL.
 
 type Review = {
@@ -90,12 +94,31 @@ function VerifiedBadge() {
 }
 
 export function ServicesSpotlight() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollByAmount = (direction: "left" | "right") => {
+    const container = scrollRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    const amount = container.clientWidth * 0.8;
+
+    container.scrollBy({
+      left: direction === "left" ? -amount : amount,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <section
       className="google-reviews-enter relative overflow-hidden border-y border-[rgba(17,17,17,0.08)] bg-white px-5 py-18 sm:px-6 sm:py-24 lg:py-28"
       aria-labelledby="google-testimonials-heading"
     >
-      <h2 id="google-testimonials-heading" className="sr-only">Google Reviews</h2>
+      <h2 id="google-testimonials-heading" className="sr-only">
+        Google Reviews
+      </h2>
       <div className="relative mx-auto w-full max-w-[76rem] rounded-[2rem] border border-[rgba(17,17,17,0.07)] bg-[#f8f8f6] px-4 py-5 shadow-[0_26px_70px_rgba(17,17,17,0.08)] sm:px-7 sm:py-7 lg:rounded-[2.2rem] lg:px-9 lg:py-8">
         <header className="flex flex-col items-center justify-between gap-5 rounded-[1.4rem] border border-[rgba(17,17,17,0.06)] bg-[#f3f3f1] px-5 py-4 sm:flex-row sm:px-7">
           <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
@@ -115,30 +138,53 @@ export function ServicesSpotlight() {
           </a>
         </header>
 
-        <div className="mt-5 overflow-x-auto pb-3">
-          <div className="grid min-w-max snap-x snap-mandatory grid-flow-col auto-cols-[minmax(17.2rem,1fr)] gap-4 sm:auto-cols-[minmax(19rem,1fr)] lg:auto-cols-[minmax(19rem,1fr)]">
-            {reviews.map((review) => (
-              <article
-                key={review.id}
-                className="group snap-start rounded-[1.1rem] border border-[rgba(17,17,17,0.08)] bg-[#efefed] p-4 shadow-[0_10px_24px_rgba(16,16,16,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(16,16,16,0.1)]"
-              >
-                <header className="min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <h3 className="truncate text-[1.02rem] font-semibold text-[#13110f]">{review.name}</h3>
-                    {review.verified ? <VerifiedBadge /> : null}
+        <div className="relative mt-5">
+          <button
+            type="button"
+            onClick={() => scrollByAmount("left")}
+            aria-label="Scroll reviews left"
+            className="absolute left-0 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white md:inline-flex"
+          >
+            ‹
+          </button>
+
+          <div
+            ref={scrollRef}
+            className="overflow-x-auto pb-3 [scrollbar-width:thin] [scrollbar-color:#98928d_transparent]"
+          >
+            <div className="grid min-w-max snap-x snap-mandatory grid-flow-col auto-cols-[minmax(16.5rem,18.5rem)] gap-4 sm:auto-cols-[minmax(18rem,20.5rem)]">
+              {reviews.map((review) => (
+                <article
+                  key={review.id}
+                  className="group snap-start rounded-[1.1rem] border border-[rgba(17,17,17,0.08)] bg-[#efefed] p-4 shadow-[0_10px_24px_rgba(16,16,16,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(16,16,16,0.1)]"
+                >
+                  <header className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <h3 className="truncate text-[1.02rem] font-semibold text-[#13110f]">{review.name}</h3>
+                      {review.verified ? <VerifiedBadge /> : null}
+                    </div>
+                    <p className="mt-0.5 text-sm text-[#79736d]">{review.timeAgo}</p>
+                  </header>
+
+                  <div className="mt-3 flex items-center justify-between">
+                    <Stars count={review.rating} />
+                    <span className="text-xs font-medium uppercase tracking-[0.12em] text-[#7e7873]">Google</span>
                   </div>
-                  <p className="mt-0.5 text-sm text-[#79736d]">{review.timeAgo}</p>
-                </header>
 
-                <div className="mt-3 flex items-center justify-between">
-                  <Stars count={review.rating} />
-                  <span className="text-xs font-medium uppercase tracking-[0.12em] text-[#7e7873]">Google</span>
-                </div>
-
-                <p className="mt-3 text-[1rem] leading-7 text-[#27221f]">{review.review}</p>
-              </article>
-            ))}
+                  <p className="mt-3 text-[1rem] leading-7 text-[#27221f]">{review.review}</p>
+                </article>
+              ))}
+            </div>
           </div>
+
+          <button
+            type="button"
+            onClick={() => scrollByAmount("right")}
+            aria-label="Scroll reviews right"
+            className="absolute right-0 top-1/2 z-10 hidden h-10 w-10 translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white md:inline-flex"
+          >
+            ›
+          </button>
         </div>
 
         <div className="mt-2 flex items-center justify-center gap-2" aria-hidden>
