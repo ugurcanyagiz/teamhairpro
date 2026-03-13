@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f1ea;
+  --background: #ffffff;
   --foreground: #2a2420;
 }
 
@@ -44,12 +44,12 @@ body {
 
 .brand-carousel__edge--left {
   left: 0;
-  background: linear-gradient(to right, #f5f2ee 16%, rgba(245, 242, 238, 0));
+  background: linear-gradient(to right, #ffffff 16%, rgba(255, 255, 255, 0));
 }
 
 .brand-carousel__edge--right {
   right: 0;
-  background: linear-gradient(to left, #f5f2ee 16%, rgba(245, 242, 238, 0));
+  background: linear-gradient(to left, #ffffff 16%, rgba(255, 255, 255, 0));
 }
 
 @keyframes brand-ticker {
@@ -100,5 +100,23 @@ body {
 
   to {
     transform: translate3d(-50%, 0, 0);
+  }
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .luxury-float {
+    animation: luxury-float 9s ease-in-out infinite;
+  }
+}
+
+@keyframes luxury-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
   }
 }

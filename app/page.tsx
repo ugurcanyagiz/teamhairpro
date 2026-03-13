@@ -51,7 +51,7 @@ const instagramPosts = [
 
 export default function Home() {
   return (
-    <div id="home" className="min-h-screen bg-[#fbfbfd] text-[#201d1b] antialiased">
+    <div id="home" className="min-h-screen bg-white text-[#201d1b] antialiased">
       <ContactBanner />
       <Navbar overlay />
 
