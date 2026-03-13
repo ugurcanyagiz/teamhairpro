@@ -64,7 +64,7 @@ const reviews: Review[] = [
 
 function GoogleWordmark() {
   return (
-    <span className="text-[1.55rem] font-medium leading-none tracking-[-0.03em]" aria-label="Google">
+    <span className="text-[1.25rem] font-medium leading-none tracking-[-0.03em]" aria-label="Google">
       <span className="text-[#4285F4]">G</span>
       <span className="text-[#EA4335]">o</span>
       <span className="text-[#FBBC05]">o</span>
@@ -125,19 +125,19 @@ export function ServicesSpotlight() {
       </h2>
 
       <div className="mx-auto w-full max-w-[30rem]">
-        <header className="flex w-full flex-col items-center justify-between gap-5 rounded-[1.4rem] border border-[rgba(17,17,17,0.08)] bg-[#f3f3f1] px-5 py-4 sm:flex-row sm:px-6">
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+        <header className="flex w-full items-center justify-between gap-3 rounded-[1.4rem] border border-[rgba(17,17,17,0.08)] bg-[#f3f3f1] px-4 py-3 sm:px-5">
+          <div className="flex min-w-0 flex-nowrap items-center gap-2.5 whitespace-nowrap">
             <GoogleWordmark />
-            <span className="text-[2rem] font-semibold leading-none text-[#161311]">5.0</span>
+            <span className="text-[2.1rem] font-semibold leading-none text-[#161311]">5.0</span>
             <Stars count={5} />
-            <span className="text-sm font-medium text-[#6f6963]">(174)</span>
+            <span className="text-[1.05rem] font-medium text-[#6f6963]">(174)</span>
           </div>
 
           <a
             href={WRITE_REVIEW_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-11 items-center justify-center rounded-full border border-[#1f66dc] bg-[#2f7af5] px-6 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(47,122,245,0.26)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#1f66dc]"
+            className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[#1f66dc] bg-[#2f7af5] px-4 text-[0.95rem] font-semibold leading-none text-white shadow-[0_12px_24px_rgba(47,122,245,0.26)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#1f66dc]"
           >
             Write a Review
           </a>
