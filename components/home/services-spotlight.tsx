@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const WRITE_REVIEW_URL = "https://google.com"; // TODO: Replace with the Team Hair Pro Google review URL.
+const WRITE_REVIEW_URL = "https://maps.app.goo.gl/kfL3Ls7x8Jn6xe9v7";
 const AUTO_ADVANCE_MS = 5500;
 
 type Review = {
@@ -124,8 +124,8 @@ export function ServicesSpotlight() {
         Google Reviews
       </h2>
 
-      <div className="mx-auto w-full max-w-[72rem]">
-        <header className="mx-auto flex w-full max-w-[68rem] flex-col items-center justify-between gap-5 rounded-[1.4rem] border border-[rgba(17,17,17,0.08)] bg-[#f3f3f1] px-5 py-4 sm:flex-row sm:px-7">
+      <div className="mx-auto w-full max-w-[30rem]">
+        <header className="flex w-full flex-col items-center justify-between gap-5 rounded-[1.4rem] border border-[rgba(17,17,17,0.08)] bg-[#f3f3f1] px-5 py-4 sm:flex-row sm:px-6">
           <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
             <GoogleWordmark />
             <span className="text-[2rem] font-semibold leading-none text-[#161311]">5.0</span>
@@ -152,12 +152,12 @@ export function ServicesSpotlight() {
             type="button"
             onClick={() => goToIndex(activeIndex - 1)}
             aria-label="Show previous review"
-            className="absolute left-1/2 top-1/2 z-10 inline-flex h-10 w-10 -translate-x-[13.5rem] -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white sm:-translate-x-[16.4rem]"
+            className="absolute left-2 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white sm:-left-12"
           >
             ‹
           </button>
 
-          <div className="mx-auto w-full max-w-[24rem] overflow-hidden rounded-[1.25rem] border border-[rgba(17,17,17,0.08)] bg-[#efefed] shadow-[0_16px_40px_rgba(16,16,16,0.08)] sm:max-w-[30rem]">
+          <div className="w-full overflow-hidden rounded-[1.25rem] border border-[rgba(17,17,17,0.08)] bg-[#efefed] shadow-[0_16px_40px_rgba(16,16,16,0.08)]">
             <div
               className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
               style={{ transform: `translate3d(-${activeIndex * 100}%, 0, 0)` }}
@@ -187,7 +187,7 @@ export function ServicesSpotlight() {
             type="button"
             onClick={() => goToIndex(activeIndex + 1)}
             aria-label="Show next review"
-            className="absolute left-1/2 top-1/2 z-10 inline-flex h-10 w-10 translate-x-[13.5rem] -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white sm:translate-x-[16.4rem]"
+            className="absolute right-2 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white sm:-right-12"
           >
             ›
           </button>
