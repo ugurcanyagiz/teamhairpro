@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const WRITE_REVIEW_URL = "https://google.com"; // TODO: Replace with the Team Hair Pro Google review URL.
 
 type Review = {
@@ -9,7 +7,6 @@ type Review = {
   rating: number;
   timeAgo: string;
   review: string;
-  image?: string;
   verified?: boolean;
   source: "Google";
 };
@@ -23,7 +20,6 @@ const reviews: Review[] = [
     timeAgo: "1 month ago",
     review:
       "Great experience at Hair Pro. Andy and his team are thoughtful, professional, and incredibly talented. My color looks dimensional, my cut sits perfectly, and the finish lasted beautifully all week.",
-    image: "/ins4.png", // Replace with a dedicated review photo in /public when available.
     verified: true,
     source: "Google",
   },
@@ -46,7 +42,6 @@ const reviews: Review[] = [
     timeAgo: "2 months ago",
     review:
       "I am in love with my hairstyle. The artistry is amazing and the results still look fresh weeks later. Team Hair Pro truly understands texture, shape, and how to create a polished luxury look.",
-    image: "/ins2.png", // Replace with a dedicated review photo in /public when available.
     verified: true,
     source: "Google",
   },
@@ -171,11 +166,6 @@ export function ServicesSpotlight() {
                 <p className="mt-3 text-[1rem] leading-7 text-[#27221f]">{review.review}</p>
                 <span className="mt-1 inline-flex text-[0.94rem] font-medium text-[#1a73e8]">Read more</span>
 
-                {review.image ? (
-                  <div className="relative mt-4 h-48 overflow-hidden rounded-[0.9rem] border border-[rgba(17,17,17,0.1)] bg-[#ddd]">
-                    <Image src={review.image} alt={`${review.name} review photo`} fill sizes="(max-width: 1024px) 70vw, 18vw" className="object-cover" />
-                  </div>
-                ) : null}
               </article>
             ))}
           </div>
