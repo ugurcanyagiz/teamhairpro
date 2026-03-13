@@ -117,14 +117,15 @@ export function ServicesSpotlight() {
 
   return (
     <section
-      className="google-reviews-enter relative overflow-hidden border-y border-[rgba(17,17,17,0.08)] bg-white px-5 py-18 sm:px-6 sm:py-24 lg:py-28"
+      className="google-reviews-enter relative border-y border-[rgba(17,17,17,0.08)] bg-white px-5 py-18 sm:px-6 sm:py-24 lg:py-28"
       aria-labelledby="google-testimonials-heading"
     >
       <h2 id="google-testimonials-heading" className="sr-only">
         Google Reviews
       </h2>
-      <div className="relative mx-auto w-full max-w-[76rem] rounded-[2rem] border border-[rgba(17,17,17,0.07)] bg-[#f8f8f6] px-4 py-5 shadow-[0_26px_70px_rgba(17,17,17,0.08)] sm:px-7 sm:py-7 lg:rounded-[2.2rem] lg:px-9 lg:py-8">
-        <header className="flex flex-col items-center justify-between gap-5 rounded-[1.4rem] border border-[rgba(17,17,17,0.06)] bg-[#f3f3f1] px-5 py-4 sm:flex-row sm:px-7">
+
+      <div className="mx-auto w-full max-w-[72rem]">
+        <header className="mx-auto flex w-full max-w-[68rem] flex-col items-center justify-between gap-5 rounded-[1.4rem] border border-[rgba(17,17,17,0.08)] bg-[#f3f3f1] px-5 py-4 sm:flex-row sm:px-7">
           <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
             <GoogleWordmark />
             <span className="text-[2rem] font-semibold leading-none text-[#161311]">5.0</span>
@@ -143,7 +144,7 @@ export function ServicesSpotlight() {
         </header>
 
         <div
-          className="relative mt-5"
+          className="relative mt-7"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
@@ -151,21 +152,21 @@ export function ServicesSpotlight() {
             type="button"
             onClick={() => goToIndex(activeIndex - 1)}
             aria-label="Show previous review"
-            className="absolute left-2 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white"
+            className="absolute left-1/2 top-1/2 z-10 inline-flex h-10 w-10 -translate-x-[13.5rem] -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white sm:-translate-x-[16.4rem]"
           >
             ‹
           </button>
 
-          <div className="overflow-hidden rounded-[1.15rem] border border-[rgba(17,17,17,0.07)] bg-[#efefed]">
+          <div className="mx-auto w-full max-w-[24rem] overflow-hidden rounded-[1.25rem] border border-[rgba(17,17,17,0.08)] bg-[#efefed] shadow-[0_16px_40px_rgba(16,16,16,0.08)] sm:max-w-[30rem]">
             <div
               className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
               style={{ transform: `translate3d(-${activeIndex * 100}%, 0, 0)` }}
             >
               {reviews.map((review) => (
-                <article key={review.id} className="w-full shrink-0 p-4 sm:p-6">
+                <article key={review.id} className="w-full shrink-0 p-5 sm:p-6">
                   <header className="min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <h3 className="truncate text-[1.02rem] font-semibold text-[#13110f]">{review.name}</h3>
+                      <h3 className="truncate text-[1.05rem] font-semibold text-[#13110f]">{review.name}</h3>
                       {review.verified ? <VerifiedBadge /> : null}
                     </div>
                     <p className="mt-0.5 text-sm text-[#79736d]">{review.timeAgo}</p>
@@ -176,7 +177,7 @@ export function ServicesSpotlight() {
                     <span className="text-xs font-medium uppercase tracking-[0.12em] text-[#7e7873]">Google</span>
                   </div>
 
-                  <p className="mt-3 max-w-[58rem] text-[1rem] leading-7 text-[#27221f]">{review.review}</p>
+                  <p className="mt-3 text-[1rem] leading-8 text-[#27221f]">{review.review}</p>
                 </article>
               ))}
             </div>
@@ -186,7 +187,7 @@ export function ServicesSpotlight() {
             type="button"
             onClick={() => goToIndex(activeIndex + 1)}
             aria-label="Show next review"
-            className="absolute right-2 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white"
+            className="absolute left-1/2 top-1/2 z-10 inline-flex h-10 w-10 translate-x-[13.5rem] -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white sm:translate-x-[16.4rem]"
           >
             ›
           </button>
