@@ -125,8 +125,8 @@ export function ServicesSpotlight() {
       </h2>
 
       <div className="mx-auto w-full max-w-[30rem]">
-        <header className="flex w-full items-center justify-between gap-3 rounded-[1.4rem] border border-[rgba(17,17,17,0.08)] bg-[#f3f3f1] px-4 py-3 sm:px-5">
-          <div className="flex min-w-0 flex-nowrap items-center gap-2.5 whitespace-nowrap">
+        <header className="flex w-full flex-col items-center gap-3 rounded-[1.4rem] border border-[rgba(17,17,17,0.08)] bg-[#f3f3f1] px-4 py-3 sm:flex-row sm:justify-between sm:px-5">
+          <div className="flex min-w-0 flex-nowrap items-center justify-center gap-2.5 whitespace-nowrap sm:justify-start">
             <GoogleWordmark />
             <span className="text-[2.1rem] font-semibold leading-none text-[#161311]">5.0</span>
             <Stars count={5} />
@@ -137,7 +137,7 @@ export function ServicesSpotlight() {
             href={WRITE_REVIEW_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[#1f66dc] bg-[#2f7af5] px-4 text-[0.95rem] font-semibold leading-none text-white shadow-[0_12px_24px_rgba(47,122,245,0.26)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#1f66dc]"
+            className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[#1f66dc] bg-[#2f7af5] px-4 text-[0.95rem] font-semibold leading-none text-white shadow-[0_12px_24px_rgba(47,122,245,0.26)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#1f66dc] sm:self-auto"
           >
             Write a Review
           </a>
