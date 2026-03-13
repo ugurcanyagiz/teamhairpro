@@ -1,101 +1,247 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { type UIEvent, useEffect, useMemo, useRef, useState } from "react";
 
-type GoogleReview = {
+type Testimonial = {
   id: number;
-  author: string;
+  name: string;
+  review: string;
+  rating: number;
+  source: "Google";
   timeAgo: string;
-  text: string;
 };
 
-const googleReviews: GoogleReview[] = [
+const testimonials: Testimonial[] = [
   {
     id: 1,
-    author: "hilal akbalık",
-    timeAgo: "a month ago",
-    text: "Great experience at Hair Pro. Andy and his team are professional, talented, and truly artistic — you can tell they care about the details. Highly recommend!",
+    name: "Sofia M.",
+    review:
+      "Every detail feels intentional, from the consultation to the final style. My color looks luminous in every light and still feels effortlessly natural.",
+    rating: 5,
+    source: "Google",
+    timeAgo: "2 weeks ago",
   },
   {
     id: 2,
-    author: "Ann Real",
-    timeAgo: "8 months ago",
-    text: "I've tried many hair salons in New York and New Jersey, but none of them could do my hair like Andy ...Professional, friendly, and incredibly efficient. I'm so grateful for the beautiful, natural blonde look you created with such ease and without making it feel like a chore. Definitely a big yes, yes, yes!",
+    name: "Nina R.",
+    review:
+      "The team is warm, precise, and incredibly consistent. I trust them completely for cuts, color, and styling before important events.",
+    rating: 5,
+    source: "Google",
+    timeAgo: "1 month ago",
   },
   {
     id: 3,
-    author: "Cindy Garzon",
-    timeAgo: "a month ago",
-    text: "Khan is the best!! I absolutely loved my color, and the products he uses are amazing. I live in NY, but I went to NJ where he is because it's simply worth it. I couldn't be happier with the results!",
+    name: "Elena P.",
+    review:
+      "I asked for softness and movement, and they delivered exactly that. The result was polished, modern, and genuinely flattering.",
+    rating: 5,
+    source: "Google",
+    timeAgo: "3 weeks ago",
   },
   {
     id: 4,
-    author: "canan uslugel",
-    timeAgo: "3 months ago",
-    text: "I came in with dull, uneven hair, and I left with the most beautiful transformation. The color is rich, shiny, and perfectly blended, and the haircut gave my hair so much shape and freshness. My hair looks healthier, smoother, and so much more vibrant than before. I'm really happy with the result amazing work!",
+    name: "Camila T.",
+    review:
+      "This is the first salon where I feel truly understood. Their artistry is refined, and the experience always feels calm and elevated.",
+    rating: 5,
+    source: "Google",
+    timeAgo: "5 days ago",
+  },
+  {
+    id: 5,
+    name: "Lara G.",
+    review:
+      "From tone matching to finishing, the level of professionalism is exceptional. I leave feeling confident every single time.",
+    rating: 5,
+    source: "Google",
+    timeAgo: "2 months ago",
+  },
+  {
+    id: 6,
+    name: "Maya D.",
+    review:
+      "The atmosphere is beautiful without ever feeling rushed. My stylist balanced healthy hair goals with a result that looks editorial.",
+    rating: 5,
+    source: "Google",
+    timeAgo: "4 weeks ago",
   },
 ];
 
-const AUTOPLAY_MS = 4800;
+const AUTO_ADVANCE_MS = 5600;
+
+function stars(rating: number) {
+  return "★".repeat(Math.max(0, Math.min(5, rating)));
+}
 
 export function ServicesSpotlight() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
+
+  const featured = useMemo(() => testimonials[activeIndex], [activeIndex]);
 
   useEffect(() => {
-    const interval = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % googleReviews.length);
-    }, AUTOPLAY_MS);
-
-    return () => window.clearInterval(interval);
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const setPreference = () => setPrefersReducedMotion(mediaQuery.matches);
+    setPreference();
+    mediaQuery.addEventListener("change", setPreference);
+    return () => mediaQuery.removeEventListener("change", setPreference);
   }, []);
+
+  useEffect(() => {
+    const element = sectionRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.25, rootMargin: "0px 0px -10% 0px" },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion || isPaused) return;
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % testimonials.length);
+    }, AUTO_ADVANCE_MS);
+
+    return () => window.clearInterval(timer);
+  }, [isPaused, prefersReducedMotion]);
+
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+
+    const card = rail.querySelector<HTMLElement>(`[data-review-index='${activeIndex}']`);
+    if (!card) return;
+
+    card.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [activeIndex, prefersReducedMotion]);
+
+  const handleRailScroll = (event: UIEvent<HTMLDivElement>) => {
+    const current = event.currentTarget;
+    const cardWidth = current.firstElementChild?.clientWidth;
+    if (!cardWidth) return;
+
+    const styles = window.getComputedStyle(current);
+    const gap = Number.parseFloat(styles.columnGap || styles.gap || "0");
+    const nextIndex = Math.round(current.scrollLeft / (cardWidth + gap));
+    if (nextIndex !== activeIndex && nextIndex >= 0 && nextIndex < testimonials.length) {
+      setActiveIndex(nextIndex);
+    }
+  };
 
   return (
     <section
-      className="border-y border-[rgba(0,0,0,0.08)] bg-[linear-gradient(130deg,#f7f3ed_0%,#efe8df_48%,#f8f5f0_100%)] px-5 py-12 sm:px-6 sm:py-14"
+      ref={sectionRef}
+      className="relative overflow-hidden border-y border-[rgba(17,17,17,0.08)] bg-white px-5 py-18 sm:px-6 sm:py-24 lg:py-28"
       aria-labelledby="google-testimonials-heading"
     >
-      <div className="mx-auto w-full max-w-5xl">
-        <header className="text-center">
-          <p className="text-[0.63rem] font-semibold uppercase tracking-[0.2em] text-[#6e6157]">Google Testimonials</p>
+      <div className="pointer-events-none absolute left-1/2 top-28 h-72 w-[min(82vw,56rem)] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(220,220,214,0.24)_0%,rgba(255,255,255,0)_72%)]" aria-hidden />
+
+      <div className="relative mx-auto w-full max-w-[74rem]">
+        <header className="mx-auto max-w-3xl text-center">
+          <p
+            className={`text-[0.64rem] font-semibold uppercase tracking-[0.28em] text-[#66615a] transition duration-700 ${
+              isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+            }`}
+          >
+            GOOGLE TESTIMONIALS
+          </p>
           <h2
             id="google-testimonials-heading"
-            className="mt-3 text-[clamp(1.6rem,3.8vw,2.4rem)] font-medium leading-tight tracking-[0.03em] text-[#15110f]"
+            className={`mt-5 text-[clamp(1.95rem,4.4vw,3.25rem)] font-medium leading-[1.08] tracking-[0.01em] text-[#161412] transition duration-700 delay-75 ${
+              isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+            }`}
           >
             Guests love their Hair Pro experience
           </h2>
+          <div
+            className={`mt-5 inline-flex items-center gap-3 rounded-full border border-[rgba(17,17,17,0.08)] bg-[#fafaf8] px-5 py-2.5 text-[0.72rem] font-medium uppercase tracking-[0.12em] text-[#5f5952] transition duration-700 delay-150 ${
+              isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+            }`}
+          >
+            <span className="text-[0.86rem] tracking-[0.18em] text-[#b0893f]">★★★★★</span>
+            <span>4.9/5 based on 120+ Google reviews</span>
+          </div>
         </header>
 
-        <div className="relative mt-8">
-          <div className="overflow-hidden rounded-[2rem] border border-[rgba(17,17,17,0.1)] bg-[rgba(255,255,255,0.72)] shadow-[0_16px_50px_rgba(21,17,14,0.08)] backdrop-blur-[1.5px]">
-            <div
-              className="flex transition-transform duration-700 ease-out"
-              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-            >
-              {googleReviews.map((review) => (
-                <article key={review.id} className="w-full shrink-0 px-6 py-8 text-left sm:px-10 sm:py-10">
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="text-[1rem] font-semibold text-[#171311] sm:text-[1.1rem]">{review.author}</p>
-                    <span className="inline-flex items-center gap-2 rounded-full border border-[#d8d2cc] bg-white/80 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-[#5f544b]">
-                      <span className="text-[#f9b51e]">★★★★★</span>
-                      Google
-                    </span>
-                  </div>
-
-                  <p className="mt-2 text-[0.72rem] uppercase tracking-[0.15em] text-[#8a7b70]">{review.timeAgo}</p>
-                  <p className="mt-5 text-[0.98rem] leading-8 text-[#3e3732] sm:text-[1.08rem]">“{review.text}”</p>
-                </article>
-              ))}
+        <article
+          className={`luxury-float relative mx-auto mt-11 max-w-4xl rounded-[2rem] border border-[rgba(17,17,17,0.08)] bg-white px-6 py-8 text-center shadow-[0_24px_70px_rgba(17,17,17,0.08)] transition duration-700 delay-200 sm:px-10 sm:py-11 ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+          }`}
+        >
+          <span className="pointer-events-none absolute left-8 top-4 text-5xl leading-none text-[rgba(28,25,22,0.08)] sm:left-10 sm:top-6 sm:text-6xl" aria-hidden>
+            “
+          </span>
+          <p className="text-[clamp(1.25rem,2.6vw,2.05rem)] leading-[1.45] tracking-[0.01em] text-[#1e1b18]">
+            {featured.review}
+          </p>
+          <footer className="mt-8 border-t border-[rgba(17,17,17,0.08)] pt-6 sm:mt-9">
+            <p className="text-[1.03rem] font-medium tracking-[0.02em] text-[#191613]">{featured.name}</p>
+            <div className="mt-2 flex flex-wrap items-center justify-center gap-2.5 text-[0.68rem] uppercase tracking-[0.15em] text-[#6b655e]">
+              <span>{stars(featured.rating)}</span>
+              <span>·</span>
+              <span>{featured.source} Review</span>
+              <span>·</span>
+              <span>{featured.timeAgo}</span>
             </div>
+          </footer>
+        </article>
+
+        <div
+          className={`mt-10 transition duration-700 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <div
+            ref={railRef}
+            className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            onScroll={handleRailScroll}
+            aria-label="More Google testimonials"
+          >
+            {testimonials.map((testimonial, index) => (
+              <article
+                key={testimonial.id}
+                data-review-index={index}
+                className={`group min-w-[83%] snap-center rounded-[1.5rem] border bg-[#fafaf8] p-5 shadow-[0_14px_36px_rgba(17,17,17,0.05)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(17,17,17,0.09)] sm:min-w-[48%] lg:min-w-[31%] ${
+                  index === activeIndex
+                    ? "border-[rgba(17,17,17,0.14)]"
+                    : "border-[rgba(17,17,17,0.08)] hover:border-[rgba(17,17,17,0.14)]"
+                }`}
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-sm font-medium text-[#181512]">{testimonial.name}</p>
+                  <span className="inline-flex items-center rounded-full border border-[rgba(17,17,17,0.08)] bg-white px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#6a655f]">
+                    Google
+                  </span>
+                </div>
+                <p className="mt-2 text-[0.64rem] uppercase tracking-[0.13em] text-[#8a847e]">{testimonial.timeAgo}</p>
+                <p className="mt-4 text-[0.95rem] leading-7 text-[#3d3832]">{testimonial.review}</p>
+                <p className="mt-4 text-[0.76rem] tracking-[0.19em] text-[#b0893f]">{stars(testimonial.rating)}</p>
+              </article>
+            ))}
           </div>
 
-          <div className="mt-6 flex justify-center gap-2.5" aria-label="Testimonials controls">
-            {googleReviews.map((review, index) => (
+          <div className="mt-6 flex justify-center gap-2.5" aria-label="Testimonial progress indicators">
+            {testimonials.map((testimonial, index) => (
               <button
-                key={review.id}
+                key={testimonial.id}
                 type="button"
                 onClick={() => setActiveIndex(index)}
-                className={`h-2.5 w-2.5 rounded-full border border-[#9a8572]/40 transition ${
-                  index === activeIndex ? "bg-[#5f4c3e]" : "bg-[#ece7e2] hover:bg-[#dfd6ce]"
+                className={`h-2.5 rounded-full border border-[rgba(17,17,17,0.14)] transition ${
+                  index === activeIndex ? "w-7 bg-[#25211e]" : "w-2.5 bg-[#ecebe8] hover:bg-[#d8d5d1]"
                 }`}
                 aria-label={`Show testimonial ${index + 1}`}
                 aria-current={index === activeIndex}
