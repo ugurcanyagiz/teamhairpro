@@ -116,68 +116,60 @@ export function ServicesSpotlight() {
   }, [isPaused]);
 
   return (
-    <section
-      className="google-reviews-enter relative border-y border-[rgba(17,17,17,0.08)] bg-white px-5 py-18 sm:px-6 sm:py-24 lg:py-28"
-      aria-labelledby="google-testimonials-heading"
-    >
+    <section className="google-reviews-enter relative px-5 py-[80px] sm:px-6" aria-labelledby="google-testimonials-heading">
       <h2 id="google-testimonials-heading" className="sr-only">
         Google Reviews
       </h2>
 
-      <div className="mx-auto w-full max-w-[30rem]">
-        <header className="flex w-full flex-col items-center gap-3 rounded-[1.4rem] border border-[rgba(17,17,17,0.08)] bg-[#f3f3f1] px-4 py-3 sm:flex-row sm:justify-between sm:px-5">
-          <div className="flex min-w-0 flex-nowrap items-center justify-center gap-2.5 whitespace-nowrap sm:justify-start">
-            <GoogleWordmark />
-            <span className="text-[2.1rem] font-semibold leading-none text-[#161311]">5.0</span>
-            <Stars count={5} />
-            <span className="text-[1.05rem] font-medium text-[#6f6963]">(174)</span>
-          </div>
+      <div className="mx-auto w-full max-w-4xl">
+        <header className="flex w-full items-center justify-center gap-2.5 whitespace-nowrap">
+          <GoogleWordmark />
+          <span className="text-[2.1rem] font-semibold leading-none text-[#161311]">5.0</span>
+          <Stars count={5} />
+          <span className="text-[1.05rem] font-medium text-[#6f6963]">(174)</span>
+        </header>
 
+        <div className="mt-6 flex justify-center">
           <a
             href={WRITE_REVIEW_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[#1f66dc] bg-[#2f7af5] px-4 text-[0.95rem] font-semibold leading-none text-white shadow-[0_12px_24px_rgba(47,122,245,0.26)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#1f66dc] sm:self-auto"
+            className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[#1f66dc] bg-[#2f7af5] px-4 text-[0.95rem] font-semibold leading-none text-white transition duration-300 hover:-translate-y-0.5 hover:bg-[#1f66dc]"
           >
             Write a Review
           </a>
-        </header>
+        </div>
 
-        <div
-          className="relative mt-7"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
+        <div className="relative mt-10" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
           <button
             type="button"
             onClick={() => goToIndex(activeIndex - 1)}
             aria-label="Show previous review"
-            className="absolute left-2 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white sm:-left-12"
+            className="absolute left-0 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-[#2b2825] transition hover:bg-black/5 sm:-left-12"
           >
             ‹
           </button>
 
-          <div className="w-full overflow-hidden rounded-[1.25rem] border border-[rgba(17,17,17,0.08)] bg-[#efefed] shadow-[0_16px_40px_rgba(16,16,16,0.08)]">
+          <div className="w-full overflow-hidden">
             <div
               className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
               style={{ transform: `translate3d(-${activeIndex * 100}%, 0, 0)` }}
             >
               {reviews.map((review) => (
-                <article key={review.id} className="w-full shrink-0 p-5 sm:p-6">
+                <article key={review.id} className="w-full shrink-0 px-10 sm:px-16">
                   <header className="min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <h3 className="truncate text-[1.05rem] font-semibold text-[#13110f]">{review.name}</h3>
+                      <h3 className="truncate text-[1.08rem] font-bold text-[#13110f]">{review.name}</h3>
                       {review.verified ? <VerifiedBadge /> : null}
                     </div>
-                    <p className="mt-0.5 text-sm text-[#79736d]">{review.timeAgo}</p>
+                    <p className="mt-1 text-sm text-[#88827d]">{review.timeAgo}</p>
                   </header>
 
-                  <div className="mt-3 flex items-center justify-between">
+                  <div className="mt-4">
                     <Stars count={review.rating} />
-                    <span className="text-xs font-medium uppercase tracking-[0.12em] text-[#7e7873]">Google</span>
                   </div>
 
-                  <p className="mt-3 text-[1rem] leading-8 text-[#27221f]">{review.review}</p>
+                  <p className="mt-4 text-[1rem] leading-8 text-[#27221f]">{review.review}</p>
                 </article>
               ))}
             </div>
@@ -187,13 +179,13 @@ export function ServicesSpotlight() {
             type="button"
             onClick={() => goToIndex(activeIndex + 1)}
             aria-label="Show next review"
-            className="absolute right-2 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(17,17,17,0.16)] bg-white/95 text-[#2b2825] shadow-[0_10px_22px_rgba(0,0,0,0.1)] transition hover:bg-white sm:-right-12"
+            className="absolute right-0 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-[#2b2825] transition hover:bg-black/5 sm:-right-12"
           >
             ›
           </button>
         </div>
 
-        <div className="mt-4 flex items-center justify-center gap-2" aria-label="Review pagination">
+        <div className="mt-8 flex items-center justify-center gap-2" aria-label="Review pagination">
           {reviews.map((review, index) => (
             <button
               key={review.id}
