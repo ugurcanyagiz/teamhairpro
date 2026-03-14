@@ -3,51 +3,12 @@ import {
   CenteredSection,
   ContactBanner,
   HeroImageSection,
-  InstagramShowcase,
   SectionLabel,
 } from "@/components/home/design-system";
 import { Navbar } from "@/components/home/navbar";
 import { BrandCarousel } from "@/components/home/brand-carousel";
 import { ServicesSpotlight } from "@/components/home/services-spotlight";
-
-const instagramPosts = [
-  {
-    id: "1",
-    image: "/ins1.png",
-    caption: "Soft dimensional color with a polished, natural finish.",
-    permalink: "https://instagram.com/teamhairpro",
-  },
-  {
-    id: "2",
-    image: "/ins2.png",
-    caption: "Refined styling designed for movement, shine, and balance.",
-    permalink: "https://instagram.com/teamhairpro",
-  },
-  {
-    id: "3",
-    image: "/ins3.png",
-    caption: "Bridal-ready texture with elegant detail and softness.",
-    permalink: "https://instagram.com/teamhairpro",
-  },
-  {
-    id: "4",
-    image: "/ins4.png",
-    caption: "Healthy-hair-focused care with a luminous result.",
-    permalink: "https://instagram.com/teamhairpro",
-  },
-  {
-    id: "5",
-    image: "/ins5.png",
-    caption: "A transformation tailored to facial harmony and tone.",
-    permalink: "https://instagram.com/teamhairpro",
-  },
-  {
-    id: "6",
-    image: "/ins6.png",
-    caption: "Premium finishing work for a smooth and elevated look.",
-    permalink: "https://instagram.com/teamhairpro",
-  },
-];
+import { InstagramEmbedSection } from "@/components/home/instagram-embed";
 
 export default function Home() {
   return (
@@ -94,9 +55,7 @@ export default function Home() {
             </p>
           </article>
 
-          <div id="instagram" className="mt-16 w-full max-w-5xl">
-            <InstagramShowcase posts={instagramPosts} handle="teamhairpro" subtitle="Follow our latest work" />
-          </div>
+          <InstagramEmbedSection />
         </CenteredSection>
       </main>
     </div>
