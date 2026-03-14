@@ -1,83 +1,69 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const WRITE_REVIEW_URL = "https://maps.app.goo.gl/kfL3Ls7x8Jn6xe9v7";
-const AUTO_ADVANCE_MS = 5500;
+const AUTO_ADVANCE_MS = 7000;
 
 type Review = {
   id: string;
   name: string;
+  role: string;
   rating: number;
   timeAgo: string;
   review: string;
-  verified?: boolean;
 };
 
 const reviews: Review[] = [
   {
     id: "hilal-akbalik",
     name: "Hilal Akbalik",
+    role: "Google Review",
     rating: 5,
     timeAgo: "1 month ago",
     review:
-      "Great experience at Hair Pro. Andy and his team are thoughtful, professional, and incredibly talented. My color looks dimensional, my cut sits perfectly, and the finish lasted beautifully all week.",
-    verified: true,
+      "Andy and his team created exactly the dimensional color I had in mind. Every detail felt intentional, and my hair held its shape and shine beautifully all week.",
   },
   {
     id: "cindy-garzon",
     name: "Cindy Garzon",
+    role: "Google Review",
     rating: 5,
     timeAgo: "1 month ago",
     review:
-      "Khan is the best. He listened to everything I asked for and elevated the final look. The salon feels calm and luxurious, and the entire team is warm, attentive, and consistent every time.",
-    verified: true,
+      "Khan listened closely and refined every step of the cut. The final finish looked polished, modern, and still effortless days later.",
   },
   {
     id: "simge-cicek",
     name: "Simge Cicek",
+    role: "Google Review",
     rating: 5,
     timeAgo: "2 months ago",
     review:
-      "I am in love with my hairstyle. The artistry is amazing and the results still look fresh weeks later. Team Hair Pro truly understands texture, shape, and how to create a polished luxury look.",
-    verified: true,
+      "TeamHairPro understands balance and texture in a way that feels rare. The whole appointment was calm, elevated, and genuinely luxurious.",
   },
   {
     id: "emily-tepper",
     name: "Emily Tepper",
+    role: "Google Review",
     rating: 5,
     timeAgo: "3 weeks ago",
     review:
-      "From consultation to blowout, everything was exceptional. The tone match and precision cut were exactly what I wanted, and the attention to detail made the whole appointment feel elevated.",
-    verified: true,
+      "From consultation to finish, everything felt thoughtful. The tone match was precise and the shape framed my face better than I expected.",
   },
   {
     id: "nora-vasquez",
     name: "Nora Vasquez",
+    role: "Google Review",
     rating: 5,
     timeAgo: "3 months ago",
     review:
-      "I have finally found my salon. The team is punctual, skilled, and consistent, and my hair has never felt healthier. Beautiful atmosphere, excellent service, and stunning color work.",
-    verified: true,
+      "The consistency here is unmatched. My color remains luminous, my hair feels healthier, and the studio atmosphere always feels refined.",
   },
 ];
 
-function GoogleWordmark() {
-  return (
-    <span className="text-[1.25rem] font-medium leading-none tracking-[-0.03em]" aria-label="Google">
-      <span className="text-[#4285F4]">G</span>
-      <span className="text-[#EA4335]">o</span>
-      <span className="text-[#FBBC05]">o</span>
-      <span className="text-[#4285F4]">g</span>
-      <span className="text-[#34A853]">l</span>
-      <span className="text-[#EA4335]">e</span>
-    </span>
-  );
-}
-
 function Stars({ count }: { count: number }) {
   return (
-    <div className="flex items-center gap-0.5 text-[1.2rem] leading-none text-[#E8A823]" aria-label={`${count} star rating`}>
+    <div className="flex items-center gap-0.5 text-[0.92rem] leading-none text-[#b98b3a]" aria-label={`${count} star rating`}>
       {Array.from({ length: count }).map((_, index) => (
         <span key={index}>★</span>
       ))}
@@ -85,116 +71,111 @@ function Stars({ count }: { count: number }) {
   );
 }
 
-function VerifiedBadge() {
+function ReviewMeta({ review }: { review: Review }) {
   return (
-    <svg viewBox="0 0 20 20" className="h-4 w-4" aria-hidden>
-      <circle cx="10" cy="10" r="9" fill="#1A73E8" />
-      <path d="M8.5 12.8 6 10.4l1.1-1.1 1.4 1.4 4.2-4.2 1.1 1.1-5.3 5.2Z" fill="#fff" />
-    </svg>
+    <div className="flex items-center gap-2 text-[0.76rem] tracking-[0.08em] text-[#7a7169] uppercase">
+      <span>{review.role}</span>
+      <span aria-hidden>•</span>
+      <span>{review.timeAgo}</span>
+    </div>
   );
 }
 
 export function ServicesSpotlight() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  const goToIndex = (index: number) => {
-    const length = reviews.length;
-    setActiveIndex(((index % length) + length) % length);
-  };
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const featuredReview = reviews[activeIndex];
+  const supportingReviews = reviews.filter((review) => review.id !== featuredReview.id).slice(0, 3);
 
   useEffect(() => {
-    if (isPaused) {
+    const node = sectionRef.current;
+    if (!node) {
       return;
     }
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % reviews.length);
     }, AUTO_ADVANCE_MS);
 
     return () => window.clearInterval(timer);
-  }, [isPaused]);
+  }, []);
 
   return (
-    <section className="google-reviews-enter relative px-5 py-[80px] sm:px-6" aria-labelledby="google-testimonials-heading">
-      <h2 id="google-testimonials-heading" className="sr-only">
-        Google Reviews
-      </h2>
+    <section ref={sectionRef} className="testimonial-composition relative isolate overflow-hidden bg-[#fcfbf9] px-5 py-[84px] sm:px-6 sm:py-28">
+      <div className="pointer-events-none absolute -left-20 top-8 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(195,151,91,0.2),rgba(252,251,249,0))] blur-2xl" aria-hidden />
+      <div className="pointer-events-none absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(66,51,35,0.12),rgba(252,251,249,0))] blur-3xl" aria-hidden />
 
-      <div className="mx-auto w-full max-w-4xl">
-        <header className="flex w-full items-center justify-center gap-2.5 whitespace-nowrap">
-          <GoogleWordmark />
-          <span className="text-[2.1rem] font-semibold leading-none text-[#161311]">5.0</span>
-          <Stars count={5} />
-          <span className="text-[1.05rem] font-medium text-[#6f6963]">(174)</span>
-        </header>
-
-        <div className="mt-6 flex justify-center">
-          <a
-            href={WRITE_REVIEW_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[#1f66dc] bg-[#2f7af5] px-4 text-[0.95rem] font-semibold leading-none text-white transition duration-300 hover:-translate-y-0.5 hover:bg-[#1f66dc]"
-          >
-            Write a Review
-          </a>
-        </div>
-
-        <div className="relative mt-10" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
-          <button
-            type="button"
-            onClick={() => goToIndex(activeIndex - 1)}
-            aria-label="Show previous review"
-            className="absolute left-0 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-[#2b2825] transition hover:bg-black/5 sm:-left-12"
-          >
-            ‹
-          </button>
-
-          <div className="w-full overflow-hidden">
-            <div
-              className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-              style={{ transform: `translate3d(-${activeIndex * 100}%, 0, 0)` }}
-            >
-              {reviews.map((review) => (
-                <article key={review.id} className="w-full shrink-0 px-10 sm:px-16">
-                  <header className="min-w-0">
-                    <div className="flex items-center gap-1.5">
-                      <h3 className="truncate text-[1.08rem] font-bold text-[#13110f]">{review.name}</h3>
-                      {review.verified ? <VerifiedBadge /> : null}
-                    </div>
-                    <p className="mt-1 text-sm text-[#88827d]">{review.timeAgo}</p>
-                  </header>
-
-                  <div className="mt-4">
-                    <Stars count={review.rating} />
-                  </div>
-
-                  <p className="mt-4 text-[1rem] leading-8 text-[#27221f]">{review.review}</p>
-                </article>
-              ))}
-            </div>
+      <div className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-[1.2fr_0.85fr] lg:items-end">
+        <article
+          className={`group rounded-[2rem] border border-white/70 bg-white/95 p-7 shadow-[0_40px_85px_rgba(48,32,18,0.12),0_1px_0_rgba(255,255,255,0.85)_inset] backdrop-blur-sm transition duration-600 ease-[cubic-bezier(0.22,1,0.36,1)] sm:p-10 ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+          }`}
+        >
+          <div className="flex items-center justify-between gap-4">
+            <ReviewMeta review={featuredReview} />
+            <Stars count={featuredReview.rating} />
           </div>
 
-          <button
-            type="button"
-            onClick={() => goToIndex(activeIndex + 1)}
-            aria-label="Show next review"
-            className="absolute right-0 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-[#2b2825] transition hover:bg-black/5 sm:-right-12"
-          >
-            ›
-          </button>
-        </div>
+          <p className="mt-8 text-[1.34rem] leading-[1.75] tracking-[0.01em] text-[#1f1a16] sm:text-[1.5rem]">
+            “{featuredReview.review}”
+          </p>
 
-        <div className="mt-8 flex items-center justify-center gap-2" aria-label="Review pagination">
-          {reviews.map((review, index) => (
-            <button
+          <footer className="mt-10 flex items-center justify-between gap-3 border-t border-[#f0ebe6] pt-6">
+            <div>
+              <p className="text-[1.04rem] font-medium tracking-[0.02em] text-[#171311]">{featuredReview.name}</p>
+              <p className="mt-1 text-sm text-[#7f766f]">Verified client</p>
+            </div>
+
+            <div className="flex items-center gap-1.5" aria-label="Review pagination">
+              {reviews.map((review, index) => (
+                <button
+                  key={review.id}
+                  type="button"
+                  aria-label={`Show testimonial ${index + 1}`}
+                  aria-current={index === activeIndex ? "true" : undefined}
+                  onClick={() => setActiveIndex(index)}
+                  className={`h-1.5 rounded-full transition-all duration-300 hover:bg-[#54453a] ${
+                    index === activeIndex ? "w-6 bg-[#2d241e]" : "w-1.5 bg-[#cbbeb2]"
+                  }`}
+                />
+              ))}
+            </div>
+          </footer>
+        </article>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+          {supportingReviews.map((review, index) => (
+            <article
               key={review.id}
-              type="button"
-              aria-label={`Go to review ${index + 1}`}
-              aria-current={index === activeIndex ? "true" : undefined}
-              onClick={() => goToIndex(index)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${index === activeIndex ? "w-5 bg-[#2f2c29]" : "w-1.5 bg-[#b6b0aa] hover:bg-[#8f8a84]"}`}
-            />
+              className={`testimonial-support-card rounded-[1.35rem] border border-white/75 bg-white/90 p-5 shadow-[0_20px_50px_rgba(38,25,14,0.09),0_1px_0_rgba(255,255,255,0.8)_inset] backdrop-blur-sm transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                isVisible ? "translate-y-0 opacity-100" : "translate-y-7 opacity-0"
+              }`}
+              style={{ transitionDelay: `${index * 120 + 100}ms` }}
+            >
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-[0.83rem] tracking-[0.08em] text-[#7a726b] uppercase">{review.timeAgo}</p>
+                <Stars count={review.rating} />
+              </div>
+              <p className="mt-4 line-clamp-4 text-[0.98rem] leading-7 text-[#302924]">“{review.review}”</p>
+              <p className="mt-4 text-[0.95rem] font-medium text-[#171311]">{review.name}</p>
+            </article>
           ))}
         </div>
       </div>
