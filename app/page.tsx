@@ -94,8 +94,7 @@ export default function Home() {
             </p>
           </article>
 
-          <div id="instagram" className="mt-16 w-full">
-            <SectionLabel>LATEST FROM INSTAGRAM</SectionLabel>
+          <div id="instagram" className="mt-16 w-full max-w-5xl">
             <InstagramShowcase posts={instagramPosts} handle="teamhairpro" subtitle="Follow our latest work" />
           </div>
         </CenteredSection>
