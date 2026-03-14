@@ -125,8 +125,6 @@ export function ServicesSpotlight() {
 
   return (
     <section ref={sectionRef} className="testimonial-composition relative isolate overflow-hidden bg-white px-5 py-[84px] sm:px-6 sm:py-28">
-      <div className="pointer-events-none absolute -left-20 top-8 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(195,151,91,0.2),rgba(255,255,255,0))] blur-2xl" aria-hidden />
-      <div className="pointer-events-none absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(66,51,35,0.12),rgba(255,255,255,0))] blur-3xl" aria-hidden />
 
       <div className="mx-auto w-full max-w-6xl">
         <div
