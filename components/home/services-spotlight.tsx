@@ -9,55 +9,66 @@ type Review = {
   name: string;
   role: string;
   rating: number;
-  timeAgo: string;
+  timeAgo?: string;
   review: string;
 };
 
 const reviews: Review[] = [
   {
-    id: "hilal-akbalik",
-    name: "Hilal Akbalik",
+    id: "denise-yantin",
+    name: "Denise Yantin",
     role: "Google Review",
     rating: 5,
-    timeAgo: "1 month ago",
     review:
-      "Andy and his team created exactly the dimensional color I had in mind. Every detail felt intentional, and my hair held its shape and shine beautifully all week.",
+      "I just got a cut and highlights from the wonderful owner and couldn’t be happier. Andy is very warm, professional, and humble given the fact that he has a stellar background in hair and is super talented in this area. I will definitely be returning, and not just for myself but for the kids too! Thank you Andy! 😊",
   },
   {
-    id: "cindy-garzon",
-    name: "Cindy Garzon",
+    id: "diana-nahim",
+    name: "Diana Nahim",
     role: "Google Review",
     rating: 5,
-    timeAgo: "1 month ago",
     review:
-      "Khan listened closely and refined every step of the cut. The final finish looked polished, modern, and still effortless days later.",
+      "It's a whole day affair for me to visit Erdinc. The commute from Brooklyn to Jersey on public transportation is no joke, but so worth it every time. Erdinc is a master of his craft, understands hair, SPEAKS to hair, and has an unmatched attention to detail and result. Go see him.",
   },
   {
-    id: "simge-cicek",
-    name: "Simge Cicek",
+    id: "deniz-akturk",
+    name: "Deniz Akturk",
     role: "Google Review",
     rating: 5,
-    timeAgo: "2 months ago",
     review:
-      "TeamHairPro understands balance and texture in a way that feels rare. The whole appointment was calm, elevated, and genuinely luxurious.",
+      "We’ve been going to Hair Pro as a family—my husband, my son, and I—and we are extremely happy every time. Not only is Andy an excellent choice for adults, but his friendly approach to my son and the way he cuts his hair with the same professionalism and precision as an adult truly means a lot to me. He is professional, friendly, and incredibly talented. I highly recommend him to everyone!",
   },
   {
-    id: "emily-tepper",
-    name: "Emily Tepper",
+    id: "canan-uslugel",
+    name: "Canan Uslugel",
     role: "Google Review",
     rating: 5,
-    timeAgo: "3 weeks ago",
     review:
-      "From consultation to finish, everything felt thoughtful. The tone match was precise and the shape framed my face better than I expected.",
+      "I came in with dull, uneven hair, and I left with the most beautiful transformation. The color is rich, shiny, and perfectly blended, and the haircut gave my hair so much shape and freshness. My hair looks healthier, smoother, and so much more vibrant than before. I’m really happy with the result amazing work!",
   },
   {
-    id: "nora-vasquez",
-    name: "Nora Vasquez",
+    id: "isik-surdum",
+    name: "Isik Surdum",
     role: "Google Review",
     rating: 5,
-    timeAgo: "3 months ago",
     review:
-      "The consistency here is unmatched. My color remains luminous, my hair feels healthier, and the studio atmosphere always feels refined.",
+      "The definition of a luxury hairstylist and experience. Andy is incredible and a magician with your hair, I completely trust his vision and expertise and he has blown me away every time with his talent. If you are looking for an expert level haircut, this is your place.",
+  },
+  {
+    id: "leticia-oliveira",
+    name: "Leticia Oliveira",
+    role: "Google Review",
+    rating: 5,
+    review:
+      "I had the best experience here! They’re amazing with cuts and blowouts, but I’m absolutely in love with my highlights. The customer service is outstanding, and Andy is the best, such a skilled professional and a truly nice person. Highly recommend!❤️",
+  },
+  {
+    id: "gulhan-a",
+    name: "Gulhan A.",
+    role: "Google Review",
+    rating: 5,
+    review:
+      "Andy is truly a gem! His attention to detail is unmatched, and he always takes the time to really listen to what I want. I leave his chair feeling confident and refreshed every single time. Trusting someone with your hair isn’t easy but with Andy, it’s a no-brainer!",
   },
 ];
 
@@ -75,8 +86,12 @@ function ReviewMeta({ review }: { review: Review }) {
   return (
     <div className="flex items-center gap-2 text-[0.76rem] tracking-[0.08em] text-[#7a7169] uppercase">
       <span>{review.role}</span>
-      <span aria-hidden>•</span>
-      <span>{review.timeAgo}</span>
+      {review.timeAgo ? (
+        <>
+          <span aria-hidden>•</span>
+          <span>{review.timeAgo}</span>
+        </>
+      ) : null}
     </div>
   );
 }
@@ -125,7 +140,6 @@ export function ServicesSpotlight() {
 
   return (
     <section ref={sectionRef} className="testimonial-composition relative isolate overflow-hidden bg-white px-5 py-[84px] sm:px-6 sm:py-28">
-
       <div className="mx-auto w-full max-w-6xl">
         <div
           className={`testimonial-stage relative mx-auto grid min-h-[28rem] items-center gap-5 py-2 sm:min-h-[30rem] lg:min-h-[33rem] ${
@@ -156,7 +170,6 @@ export function ServicesSpotlight() {
             <footer className="mt-8 flex items-center justify-between gap-3 border-t border-[#f0ebe6] pt-6">
               <div>
                 <p className="text-[1.04rem] font-medium tracking-[0.02em] text-[#171311]">{featuredReview.name}</p>
-                <p className="mt-1 text-sm text-[#7f766f]">Verified client</p>
               </div>
 
               <div className="flex items-center gap-1.5" aria-label="Review pagination">
