@@ -108,6 +108,35 @@ body {
   .luxury-float {
     animation: luxury-float 9s ease-in-out infinite;
   }
+
+  .testimonial-composition::before {
+    content: "";
+    position: absolute;
+    inset: 10% -18% auto;
+    height: clamp(14rem, 30vw, 24rem);
+    background: radial-gradient(circle at center, rgba(190, 152, 95, 0.13), rgba(252, 251, 249, 0));
+    animation: ambient-drift 16s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .testimonial-support-card {
+    animation: testimonial-float 11s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .testimonial-support-card:nth-child(2) {
+    animation-delay: -2s;
+  }
+
+  .testimonial-support-card:nth-child(3) {
+    animation-delay: -4s;
+  }
+
+  .testimonial-support-card:hover {
+    transform: translateY(-4px) scale(1.008);
+    box-shadow: 0 28px 66px rgba(38, 25, 14, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
 }
 
 @keyframes luxury-float {
@@ -121,24 +150,30 @@ body {
   }
 }
 
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .google-reviews-enter {
-      animation: google-reviews-enter 0.9s ease-out both;
-      animation-timeline: view();
-      animation-range: entry 8% cover 34%;
-    }
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-composition::before,
+  .testimonial-support-card {
+    animation: none;
   }
 }
 
-@keyframes google-reviews-enter {
+@keyframes testimonial-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes ambient-drift {
   from {
-    opacity: 0;
-    transform: translateY(18px);
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 12px, 0);
   }
 }
