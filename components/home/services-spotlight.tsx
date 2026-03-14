@@ -124,9 +124,9 @@ export function ServicesSpotlight() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="testimonial-composition relative isolate overflow-hidden bg-[#fcfbf9] px-5 py-[84px] sm:px-6 sm:py-28">
-      <div className="pointer-events-none absolute -left-20 top-8 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(195,151,91,0.2),rgba(252,251,249,0))] blur-2xl" aria-hidden />
-      <div className="pointer-events-none absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(66,51,35,0.12),rgba(252,251,249,0))] blur-3xl" aria-hidden />
+    <section ref={sectionRef} className="testimonial-composition relative isolate overflow-hidden bg-white px-5 py-[84px] sm:px-6 sm:py-28">
+      <div className="pointer-events-none absolute -left-20 top-8 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(195,151,91,0.2),rgba(255,255,255,0))] blur-2xl" aria-hidden />
+      <div className="pointer-events-none absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(66,51,35,0.12),rgba(255,255,255,0))] blur-3xl" aria-hidden />
 
       <div className="mx-auto w-full max-w-6xl">
         <div
@@ -134,7 +134,7 @@ export function ServicesSpotlight() {
             isVisible ? "translate-y-0 opacity-100" : "translate-y-7 opacity-0"
           }`}
         >
-          <article className="testimonial-stage-card testimonial-stage-card--left" aria-hidden>
+          <article key={`${leftReview.id}-left`} className="testimonial-stage-card testimonial-stage-card--left testimonial-stage-card--animate-in" aria-hidden>
             <div className="flex items-center justify-between gap-3">
               <ReviewMeta review={leftReview} />
               <Stars count={leftReview.rating} />
@@ -143,7 +143,11 @@ export function ServicesSpotlight() {
             <p className="mt-5 text-[0.98rem] font-medium text-[#171311]">{leftReview.name}</p>
           </article>
 
-          <article className="testimonial-stage-card testimonial-stage-card--center luxury-float" aria-live="polite">
+          <article
+            key={`${featuredReview.id}-center`}
+            className="testimonial-stage-card testimonial-stage-card--center testimonial-stage-card--animate-in luxury-float"
+            aria-live="polite"
+          >
             <div className="flex items-center justify-between gap-4">
               <ReviewMeta review={featuredReview} />
               <Stars count={featuredReview.rating} />
@@ -174,7 +178,7 @@ export function ServicesSpotlight() {
             </footer>
           </article>
 
-          <article className="testimonial-stage-card testimonial-stage-card--right" aria-hidden>
+          <article key={`${rightReview.id}-right`} className="testimonial-stage-card testimonial-stage-card--right testimonial-stage-card--animate-in" aria-hidden>
             <div className="flex items-center justify-between gap-3">
               <ReviewMeta review={rightReview} />
               <Stars count={rightReview.rating} />

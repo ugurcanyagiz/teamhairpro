@@ -120,6 +120,18 @@ body {
   position: relative;
 }
 
+.testimonial-stage-card--animate-in {
+  animation: testimonial-card-enter 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.testimonial-stage-card--left.testimonial-stage-card--animate-in {
+  animation-name: testimonial-side-left-enter;
+}
+
+.testimonial-stage-card--right.testimonial-stage-card--animate-in {
+  animation-name: testimonial-side-right-enter;
+}
+
 .testimonial-stage-card:hover {
   box-shadow: 0 34px 74px rgba(38, 25, 14, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.88);
 }
@@ -209,7 +221,7 @@ body {
     position: absolute;
     inset: 10% -18% auto;
     height: clamp(14rem, 30vw, 24rem);
-    background: radial-gradient(circle at center, rgba(190, 152, 95, 0.13), rgba(252, 251, 249, 0));
+    background: radial-gradient(circle at center, rgba(190, 152, 95, 0.13), rgba(255, 255, 255, 0));
     animation: ambient-drift 16s ease-in-out infinite;
     pointer-events: none;
     z-index: -1;
@@ -237,6 +249,54 @@ body {
   .testimonial-stage,
   .testimonial-stage-card {
     transition-duration: 1ms;
+  }
+
+  .testimonial-stage-card--animate-in {
+    animation: none;
+  }
+}
+
+
+
+@keyframes testimonial-card-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+    filter: blur(2px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes testimonial-side-left-enter {
+  0% {
+    opacity: 0;
+    transform: translate(-16%, -48%) rotate(-7deg) scale(0.84);
+    filter: blur(2px);
+  }
+
+  100% {
+    opacity: 0.74;
+    transform: translate(-8%, -50%) rotate(-5deg) scale(0.9);
+    filter: blur(0);
+  }
+}
+
+@keyframes testimonial-side-right-enter {
+  0% {
+    opacity: 0;
+    transform: translate(16%, -48%) rotate(7deg) scale(0.84);
+    filter: blur(2px);
+  }
+
+  100% {
+    opacity: 0.74;
+    transform: translate(8%, -50%) rotate(5deg) scale(0.9);
+    filter: blur(0);
   }
 }
 
