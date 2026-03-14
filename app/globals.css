@@ -288,6 +288,21 @@ body {
   }
 }
 
+@keyframes testimonial-side-right-enter {
+  0% {
+    opacity: 0;
+    transform: translate(16%, -48%) rotate(7deg) scale(0.84);
+    filter: blur(2px);
+  }
+
+  100% {
+    opacity: 0.74;
+    transform: translate(8%, -50%) rotate(5deg) scale(0.9);
+    filter: blur(0);
+  }
+}
+
+
 @keyframes ambient-drift {
   from {
     transform: translate3d(0, 0, 0);
