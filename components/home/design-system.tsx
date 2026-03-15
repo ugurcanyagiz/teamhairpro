@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import { type ReactNode } from "react";
 
 type SectionLabelProps = {
@@ -202,7 +203,10 @@ export function HeroImageSection() {
 
 function HeroBookingCard() {
   return (
-    <aside className="w-full max-w-xl justify-self-end rounded-[1.75rem] border border-[rgba(255,255,255,0.36)] bg-[rgba(251,247,243,0.96)] p-6 text-[#211b17] shadow-[0_28px_70px_rgba(0,0,0,0.24)] backdrop-blur-[1px] sm:p-7" aria-label="Quick reservation panel">
+    <aside
+      className="hero-booking-card w-full max-w-xl justify-self-end rounded-[1.75rem] border border-[rgba(255,255,255,0.36)] bg-[rgba(251,247,243,0.96)] p-6 text-[#211b17] shadow-[0_28px_70px_rgba(0,0,0,0.24)] backdrop-blur-[1px] sm:p-7"
+      aria-label="Quick reservation panel"
+    >
       <div className="flex items-start justify-between gap-3 border-b border-[rgba(26,22,19,0.12)] pb-5">
         <div>
           <p className="text-[0.67rem] font-semibold uppercase tracking-[0.22em] text-[#7f6553]">Booking Assistant</p>
@@ -211,40 +215,32 @@ function HeroBookingCard() {
         <span className="rounded-full bg-[#efe2d4] px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[#705644]">Vagaro Ready</span>
       </div>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        <BookingField label="Service" value="Select service" />
-        <BookingField label="Stylist" value="No preference" />
-        <BookingField label="Preferred Date" value="Choose date" />
-        <BookingField label="Preferred Time" value="Choose time" />
+      <div className="mt-5 w-full">
+        <div
+          id="frameTitle"
+          className="embedded-widget-title"
+          style={{
+            fontSize: "23px",
+            color: "#333",
+            fontFamily: "Arial, Helvetica, sans-serif",
+            lineHeight: "24px",
+            padding: "18px 10px 8px",
+            textAlign: "center",
+            boxSizing: "border-box",
+          }}
+        />
+        <div className="vagaro" style={{ padding: 0, border: 0, margin: "0 auto", textAlign: "center" }}>
+          <style>{`.vagaro a {font-size:14px; color:#AAA; text-decoration:none;}`}</style>
+          <a href="https://www.vagaro.com/pro/">Powered by Vagaro</a>
+          &nbsp;
+          <a href="https://www.vagaro.com/pro/salon-software">Salon Software</a>,
+          &nbsp;
+          <a href="https://www.vagaro.com/pro/spa-software">Spa Software</a>
+          &nbsp;&amp;
+          <a href="https://www.vagaro.com/pro/fitness-software">Fitness Software</a>
+          <Script src="https://www.vagaro.com//resources/WidgetEmbeddedLoader/OZqqC3avDZScT3qmV35y79oz34mC2PeFJ4mC30m9dSycvCu7gevEhAJDXwOapcUbfY?v=UOe1zEnXh3J2p1uzcXEaU8SPPXUAqUPbrA6RzNTayhOW#" strategy="afterInteractive" />
+        </div>
       </div>
-
-      <button
-        type="button"
-        className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full border border-[#1d1714] bg-[#1d1714] px-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#f8f1ea] transition duration-300 hover:-translate-y-0.5 hover:bg-[#0f0d0b]"
-      >
-        Continue Booking
-      </button>
-
-      <p className="mt-4 text-center text-[0.7rem] uppercase tracking-[0.14em] text-[#7e6d61]">Future integration point for Vagaro widget embed</p>
     </aside>
-  );
-}
-
-type BookingFieldProps = {
-  label: string;
-  value: string;
-};
-
-function BookingField({ label, value }: BookingFieldProps) {
-  return (
-    <label className="block rounded-2xl border border-[rgba(26,22,19,0.13)] bg-white px-4 py-3">
-      <span className="text-[0.62rem] font-semibold uppercase tracking-[0.17em] text-[#7f6553]">{label}</span>
-      <span className="mt-1.5 flex items-center justify-between text-sm text-[#2a2420]">
-        {value}
-        <svg viewBox="0 0 24 24" className="h-4 w-4 text-[#8e7868]" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-          <path d="m7 10 5 5 5-5" />
-        </svg>
-      </span>
-    </label>
   );
 }
