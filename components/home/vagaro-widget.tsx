@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 const VAGARO_SCRIPT_SRC =
-  "https://www.vagaro.com//resources/WidgetEmbeddedLoader/OZqqC3avDZScT3qmV35y79oz34mC2PeFJ4mC30m9dSycvCu7gevEhAJDXwOapcUbfY?v=UOe1zEnXh3J2p1uzcXEaU8SPPXUAqUPbrA6RzNTayhOW#";
+  "https://www.vagaro.com//resources/WidgetEmbeddedLoader/OZqqC3avDZScT3qnV3avV34mC2PeFJ4mC30m9dSycvCu7gevEhAJDXwPapcUbfY?v=EjR1slLOtteJ7Oytc5o3zknprqZpzM47VHNFH0pia3z0#";
 
 export function VagaroWidget() {
   const scriptHostRef = useRef<HTMLDivElement>(null);
@@ -31,8 +31,22 @@ export function VagaroWidget() {
 
   return (
     <div className="w-full">
-      <div id="frameTitle" className="embedded-widget-title" />
-      <div className="vagaro" style={{ width: "100%", maxWidth: "420px", padding: 0, border: 0, margin: "0 auto", textAlign: "center" }}>
+      <div
+        id="frameTitle"
+        className="embedded-widget-title"
+        style={{
+          fontSize: "23px",
+          color: "#333",
+          fontFamily: "Arial, Helvetica, sans-serif",
+          lineHeight: "24px",
+          padding: "18px 10px 8px",
+          textAlign: "center",
+          WebkitBoxSizing: "border-box",
+          MozBoxSizing: "border-box",
+          boxSizing: "border-box",
+        }}
+      />
+      <div className="vagaro" style={{ width: "250px", padding: 0, border: 0, margin: "0 auto", textAlign: "center" }}>
         <style>{`.vagaro a {font-size:14px; color:#AAA; text-decoration:none;}`}</style>
         <a href="https://www.vagaro.com/pro/">Powered by Vagaro</a>&nbsp;
         <a href="https://www.vagaro.com/pro/salon-software">Salon Software</a>,&nbsp;
