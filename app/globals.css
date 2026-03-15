@@ -312,3 +312,14 @@ body {
     transform: translate3d(0, 12px, 0);
   }
 }
+
+
+.hero-booking-card {
+  display: flex;
+  justify-content: center;
+}
+
+.vagaro {
+  width: 100%;
+  max-width: 420px;
+}
