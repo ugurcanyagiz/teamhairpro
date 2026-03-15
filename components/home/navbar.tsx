@@ -24,7 +24,7 @@ type NavbarProps = {
 };
 
 const navLinkClass =
-  "group relative inline-flex items-center pb-1 text-[0.74rem] font-medium uppercase tracking-[0.16em] text-[#2b2622] transition duration-300 hover:text-[#12100f]";
+  "group relative inline-flex items-center pb-1 text-[0.92rem] font-medium uppercase tracking-[0.12em] text-[#2b2622] transition duration-300 hover:text-[#12100f]";
 
 export function Navbar({ overlay = false }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -94,7 +94,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
                 key={item.label}
                 href={getNavHref(item.href)}
                 onClick={() => setIsMenuOpen(false)}
-                className="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-[#272320] transition duration-300 hover:opacity-70"
+                className="text-[0.9rem] font-medium uppercase tracking-[0.12em] text-[#272320] transition duration-300 hover:opacity-70"
               >
                 {item.label}
               </Link>
