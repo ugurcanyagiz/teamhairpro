@@ -316,7 +316,11 @@ body {
 
 .hero-booking-card {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+}
+
+.hero-booking-card .vagaro {
+  margin-inline: auto;
 }
 
 .vagaro {

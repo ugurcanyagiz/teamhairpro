@@ -3,6 +3,8 @@ import Link from "next/link";
 import Script from "next/script";
 import { type ReactNode } from "react";
 
+import { VagaroWidget } from "./vagaro-widget";
+
 type SectionLabelProps = {
   children: ReactNode;
 };
@@ -216,30 +218,7 @@ function HeroBookingCard() {
       </div>
 
       <div className="mt-5 w-full">
-        <div
-          id="frameTitle"
-          className="embedded-widget-title"
-          style={{
-            fontSize: "23px",
-            color: "#333",
-            fontFamily: "Arial, Helvetica, sans-serif",
-            lineHeight: "24px",
-            padding: "18px 10px 8px",
-            textAlign: "center",
-            boxSizing: "border-box",
-          }}
-        />
-        <div className="vagaro" style={{ padding: 0, border: 0, margin: "0 auto", textAlign: "center" }}>
-          <style>{`.vagaro a {font-size:14px; color:#AAA; text-decoration:none;}`}</style>
-          <a href="https://www.vagaro.com/pro/">Powered by Vagaro</a>
-          &nbsp;
-          <a href="https://www.vagaro.com/pro/salon-software">Salon Software</a>,
-          &nbsp;
-          <a href="https://www.vagaro.com/pro/spa-software">Spa Software</a>
-          &nbsp;&amp;
-          <a href="https://www.vagaro.com/pro/fitness-software">Fitness Software</a>
-          <Script src="https://www.vagaro.com//resources/WidgetEmbeddedLoader/OZqqC3avDZScT3qmV35y79oz34mC2PeFJ4mC30m9dSycvCu7gevEhAJDXwOapcUbfY?v=UOe1zEnXh3J2p1uzcXEaU8SPPXUAqUPbrA6RzNTayhOW#" strategy="afterInteractive" />
-        </div>
+        <VagaroWidget />
       </div>
     </aside>
   );
