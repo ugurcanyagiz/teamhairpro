@@ -206,7 +206,7 @@ export function HeroImageSection() {
 function HeroBookingCard() {
   return (
     <aside
-      className="hero-booking-card w-full max-w-xl justify-self-end rounded-[1.75rem] border border-[rgba(255,255,255,0.36)] bg-[rgba(251,247,243,0.96)] p-6 text-[#211b17] shadow-[0_28px_70px_rgba(0,0,0,0.24)] backdrop-blur-[1px] sm:p-7"
+      className="hero-booking-card w-full max-w-[30rem] justify-self-end overflow-hidden rounded-[1.75rem] border border-[rgba(255,255,255,0.55)] bg-white p-4 text-[#211b17] shadow-[0_30px_75px_rgba(0,0,0,0.22)] sm:p-5"
       aria-label="Quick reservation panel"
     >
       <div className="w-full">

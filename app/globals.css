@@ -319,7 +319,18 @@ body {
   flex-direction: column;
 }
 
+
 .hero-booking-card .vagaro {
   margin-inline: auto;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.hero-booking-card .vagaro iframe {
+  width: 100% !important;
+  min-height: 33.5rem !important;
+  height: 33.5rem !important;
+  border: 0;
+  display: block;
 }
 
