@@ -24,7 +24,7 @@ type NavbarProps = {
 };
 
 const navLinkClass =
-  "group relative inline-flex items-center pb-1 text-[0.92rem] font-medium uppercase tracking-[0.12em] text-[#2b2622] transition duration-300 hover:text-[#12100f]";
+  "group relative inline-flex items-center justify-center whitespace-nowrap rounded-full px-4 py-2.5 text-[1rem] font-semibold uppercase tracking-[0.14em] text-[#211b17] transition duration-300 hover:-translate-y-0.5 hover:bg-[#efe7dc] hover:text-[#100d0b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b79a78] 2xl:px-5 2xl:text-[1.06rem]";
 
 export function Navbar({ overlay = false }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,29 +36,29 @@ export function Navbar({ overlay = false }: NavbarProps) {
   };
 
   return (
-    <header className={`z-40 w-full border-b border-[rgba(40,30,20,0.12)] bg-[#f9f7f3]/95 backdrop-blur ${overlay ? "sticky top-0" : ""}`}>
-      <nav className="mx-auto hidden w-full max-w-[1400px] grid-cols-[1fr_auto_1fr] items-center gap-8 px-10 py-5 xl:grid" aria-label="Main navigation">
-        <ul className="flex min-w-0 items-center gap-7 justify-self-start 2xl:gap-8">
+    <header className={`z-40 w-full border-b border-[rgba(40,30,20,0.1)] bg-[#f9f7f3]/95 shadow-[0_12px_35px_rgba(32,24,18,0.06)] backdrop-blur ${overlay ? "sticky top-0" : ""}`}>
+      <nav className="mx-auto hidden w-full max-w-[1450px] grid-cols-[1fr_auto_1fr] items-center gap-7 px-8 py-4 xl:grid 2xl:gap-10 2xl:px-10" aria-label="Main navigation">
+        <ul className="flex min-w-0 items-center justify-self-start rounded-full border border-[rgba(46,35,25,0.12)] bg-white/45 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] 2xl:px-4">
           {leftLinks.map((item) => (
             <li key={item.label}>
               <Link href={getNavHref(item.href)} className={navLinkClass}>
                 {item.label}
-                <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-current transition duration-300 group-hover:scale-x-100" />
+                <span className="absolute inset-x-4 bottom-1.5 h-px origin-center scale-x-0 bg-[#b28c62] transition duration-300 group-hover:scale-x-100" />
               </Link>
             </li>
           ))}
         </ul>
 
-        <Link href="/" className="flex items-center justify-center justify-self-center" aria-label="Team Hair Pro home">
-          <Image src="/logo.svg" alt="Team Hair Pro" width={292} height={88} priority className="h-auto w-[250px] 2xl:w-[292px]" />
+        <Link href="/" className="flex items-center justify-center justify-self-center rounded-[2rem] border border-[rgba(46,35,25,0.1)] bg-white/55 px-8 py-3 shadow-[0_16px_38px_rgba(31,23,16,0.08)]" aria-label="Team Hair Pro home">
+          <Image src="/logo.svg" alt="Team Hair Pro" width={292} height={88} priority className="h-auto w-[255px] 2xl:w-[292px]" />
         </Link>
 
-        <ul className="flex min-w-0 items-center justify-self-end gap-7 2xl:gap-8">
+        <ul className="flex min-w-0 items-center justify-self-end rounded-full border border-[rgba(46,35,25,0.12)] bg-white/45 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] 2xl:px-4">
           {rightLinks.map((item) => (
             <li key={item.label}>
               <Link href={getNavHref(item.href)} className={navLinkClass}>
                 {item.label}
-                <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-current transition duration-300 group-hover:scale-x-100" />
+                <span className="absolute inset-x-4 bottom-1.5 h-px origin-center scale-x-0 bg-[#b28c62] transition duration-300 group-hover:scale-x-100" />
               </Link>
             </li>
           ))}
@@ -94,7 +94,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
                 key={item.label}
                 href={getNavHref(item.href)}
                 onClick={() => setIsMenuOpen(false)}
-                className="text-[0.9rem] font-medium uppercase tracking-[0.12em] text-[#272320] transition duration-300 hover:opacity-70"
+                className="w-full rounded-full border border-[rgba(46,35,25,0.1)] bg-white/55 px-5 py-3 text-center text-[1rem] font-semibold uppercase tracking-[0.14em] text-[#211b17] transition duration-300 hover:-translate-y-0.5 hover:bg-[#efe7dc]"
               >
                 {item.label}
               </Link>
