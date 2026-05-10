@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const VAGARO_SCRIPT_SRC =
   "https://www.vagaro.com//resources/WidgetEmbeddedLoader/OZqqC3avDZScT3qnV3avV34mC2PeFJ4mC30m9dSycvCu7gevEhAJDXwPapcUbfY?v=EjR1slLOtteJ7Oytc5o3zknprqZpzM47VHNFH0pia3z0#";
 
 export function VagaroWidget() {
+  const widgetRef = useRef<HTMLDivElement>(null);
   const scriptHostRef = useRef<HTMLDivElement>(null);
+  const observedFrameRef = useRef<HTMLIFrameElement | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const scriptId = "vagaro-widget-loader";
@@ -16,6 +19,30 @@ export function VagaroWidget() {
       previousScript.remove();
     }
 
+    const markLoaded = () => setIsLoaded(true);
+    const attachFrameLoadHandler = () => {
+      const iframe = widgetRef.current?.querySelector<HTMLIFrameElement>("iframe");
+
+      if (!iframe) {
+        return;
+      }
+
+      if (observedFrameRef.current === iframe) {
+        return;
+      }
+
+      observedFrameRef.current = iframe;
+      iframe.addEventListener("load", markLoaded, { once: true });
+    };
+
+    const observer = new MutationObserver(() => {
+      attachFrameLoadHandler();
+    });
+
+    if (widgetRef.current) {
+      observer.observe(widgetRef.current, { childList: true, subtree: true });
+    }
+
     const script = document.createElement("script");
     script.id = scriptId;
     script.type = "text/javascript";
@@ -23,14 +50,17 @@ export function VagaroWidget() {
     script.async = true;
 
     scriptHostRef.current?.appendChild(script);
+    attachFrameLoadHandler();
 
     return () => {
+      observer.disconnect();
       script.remove();
     };
   }, []);
 
   return (
-    <div className="w-full">
+    <div ref={widgetRef} className="vagaro-booking-frame" data-loaded={isLoaded}>
+      <div className="vagaro-booking-placeholder" aria-hidden="true" />
       <div
         id="frameTitle"
         className="embedded-widget-title"
