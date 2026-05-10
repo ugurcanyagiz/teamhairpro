@@ -62,7 +62,7 @@ export function Navbar({ overlay = false }: NavbarProps) {
     ? "text-white drop-shadow-[0_4px_14px_rgba(0,0,0,0.45)] hover:text-[#f6dcc1]"
     : "text-[#211b17] hover:text-[#8a6035]";
   const headerClassName = overlay
-    ? `sticky top-0 z-50 -mb-[5rem] w-full transition duration-300 xl:-mb-[7.5rem] ${hasScrolled ? "border-b border-[rgba(40,30,20,0.1)] bg-[#f9f7f3]/88 shadow-[0_12px_35px_rgba(32,24,18,0.08)] backdrop-blur" : "bg-transparent"}`
+    ? `fixed inset-x-0 z-50 w-full transition-[top,background-color,box-shadow,border-color,backdrop-filter] duration-300 ${hasScrolled ? "top-0 border-b border-[rgba(40,30,20,0.1)] bg-[#f9f7f3]/88 shadow-[0_12px_35px_rgba(32,24,18,0.08)] backdrop-blur" : "top-[1.625rem] bg-transparent sm:top-[1.875rem]"}`
     : "sticky top-0 z-50 w-full border-b border-[rgba(40,30,20,0.1)] bg-[#f9f7f3]/95 backdrop-blur";
 
   return (
