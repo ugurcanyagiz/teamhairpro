@@ -13,6 +13,42 @@ type InstagramEmbedWindow = Window & {
   };
 };
 
+type InstagramEmbedCardProps = {
+  className?: string;
+  label: string;
+  permalink: string;
+};
+
+function InstagramEmbedCard({ className = "", label, permalink }: InstagramEmbedCardProps) {
+  return (
+    <div
+      className={`overflow-hidden rounded-[1.75rem] border border-[rgba(80,58,38,0.1)] bg-white shadow-[0_20px_55px_rgba(42,31,23,0.09)] ring-1 ring-white/80 ${className}`}
+    >
+      <blockquote
+        aria-label={label}
+        className="instagram-media mx-auto w-full bg-white"
+        data-instgrm-permalink={permalink}
+        data-instgrm-version="14"
+        style={{
+          background: "#fff",
+          border: 0,
+          borderRadius: "1.75rem",
+          boxShadow: "none",
+          margin: "0 auto",
+          maxWidth: "540px",
+          minWidth: 0,
+          padding: 0,
+          width: "100%",
+        }}
+      >
+        <a className="sr-only" href={permalink} rel="noreferrer" target="_blank">
+          View on Instagram
+        </a>
+      </blockquote>
+    </div>
+  );
+}
+
 export function InstagramEmbedSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
