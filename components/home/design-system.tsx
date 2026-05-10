@@ -205,12 +205,10 @@ export function HeroImageSection() {
 function HeroBookingCard() {
   return (
     <aside
-      className="hero-booking-card w-full max-w-[30rem] justify-self-end overflow-hidden rounded-[1.75rem] border border-[rgba(255,255,255,0.55)] bg-white p-4 text-[#211b17] shadow-[0_30px_75px_rgba(0,0,0,0.22)] sm:p-5"
+      className="hero-booking-card w-full justify-self-end overflow-hidden rounded-[1.75rem] border border-[rgba(255,255,255,0.55)] bg-white text-[#211b17] shadow-[0_30px_75px_rgba(0,0,0,0.22)]"
       aria-label="Quick reservation panel"
     >
-      <div className="w-full">
-        <VagaroWidget />
-      </div>
+      <VagaroWidget />
     </aside>
   );
 }
