@@ -159,7 +159,7 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-[#f5f2ee] text-[#171412] antialiased">
       <ContactBanner />
-      <Navbar overlay />
+      <Navbar />
 
       <main>
         <ServicesCatalog serviceCategories={serviceCategories} />
