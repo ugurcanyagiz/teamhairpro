@@ -180,13 +180,6 @@ const heroFeatureItems = [
   { label: "Easy Online Booking", icon: <CalendarCheckIcon /> },
 ];
 
-const heroValueItems = [
-  { title: "Beauty That Inspires", description: "Looks that highlight your natural beauty.", icon: <SparkleIcon /> },
-  { title: "You’re in Good Hands", description: "Our team listens, cares, and delivers.", icon: <HeartIcon /> },
-  { title: "Premium Experience", description: "From products to service, we do not compromise.", icon: <LeafIcon /> },
-  { title: "Made For You", description: "Every appointment is personalized.", icon: <ClockIcon /> },
-];
-
 export function HeroImageSection() {
   return (
     <section
@@ -206,11 +199,11 @@ export function HeroImageSection() {
           </p>
 
           <h1 className="mt-5 leading-[0.9] tracking-[-0.055em] md:mt-7">
-            <span className="block whitespace-nowrap text-[clamp(3.45rem,15.2vw,6.4rem)] font-black text-[#fffdf7] drop-shadow-[0_14px_34px_rgba(0,0,0,0.44)] [font-family:var(--font-league-spartan)] md:text-[clamp(5.25rem,8.2vw,7.3rem)] xl:text-[clamp(5.8rem,6.7vw,7.45rem)]">
-              Great Hair.
+            <span className="block whitespace-nowrap text-[clamp(2.7rem,11.5vw,4.9rem)] font-black text-[#fffdf7] drop-shadow-[0_14px_34px_rgba(0,0,0,0.44)] [font-family:var(--font-league-spartan)] md:text-[clamp(4.2rem,6vw,5.6rem)] xl:text-[clamp(4.9rem,5vw,6.2rem)]">
+              Signature Style.
             </span>
-            <span className="mt-1 block whitespace-nowrap text-[clamp(3.1rem,14vw,5.9rem)] font-serif italic text-[#d9b474] drop-shadow-[0_12px_28px_rgba(0,0,0,0.42)] md:text-[clamp(4.8rem,7.7vw,6.95rem)] xl:text-[clamp(5.35rem,6.2vw,7.05rem)]">
-              Great You.
+            <span className="mt-1 block whitespace-nowrap text-[clamp(2.75rem,12.2vw,5.1rem)] font-serif italic text-[#d9b474] drop-shadow-[0_12px_28px_rgba(0,0,0,0.42)] md:text-[clamp(4.3rem,6.2vw,5.85rem)] xl:text-[clamp(4.85rem,5.2vw,6.35rem)]">
+              Elevated You.
             </span>
           </h1>
 
@@ -237,17 +230,6 @@ export function HeroImageSection() {
 
         <HeroBookingCard />
 
-        <div className="hero-value-strip lg:col-span-2">
-          {heroValueItems.map((item) => (
-            <article key={item.title} className="hero-value-card">
-              <span className="hero-value-icon">{item.icon}</span>
-              <div>
-                <h2>{item.title}</h2>
-                <p>{item.description}</p>
-              </div>
-            </article>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -296,42 +278,6 @@ function CalendarCheckIcon() {
       <path d="M16 3v4" />
       <path d="M4 10h16" />
       <path d="m9 15 2 2 4-4" />
-    </svg>
-  );
-}
-
-function SparkleIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M12 2.8 13.8 9l6.2 1.9-6.2 1.9L12 19l-1.8-6.2L4 10.9 10.2 9Z" />
-      <path d="M19 17v4" />
-      <path d="M17 19h4" />
-    </svg>
-  );
-}
-
-function HeartIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M20.8 8.7c0 5.4-8.8 10.1-8.8 10.1S3.2 14.1 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3Z" />
-    </svg>
-  );
-}
-
-function LeafIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M20.5 3.5C12 4 6.5 8.7 5 16.8c7.7.7 13.8-4.8 15.5-13.3Z" />
-      <path d="M4 20c3.4-5.4 7.8-8.9 13-10.7" />
-    </svg>
-  );
-}
-
-function ClockIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <circle cx="12" cy="12" r="8.5" />
-      <path d="M12 7.5V12l3 2" />
     </svg>
   );
 }
