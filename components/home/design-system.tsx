@@ -176,24 +176,27 @@ export function InstagramShowcase({
 
 export function HeroImageSection() {
   return (
-    <section className="relative isolate flex min-h-[70vh] w-full items-center overflow-hidden px-5 py-16 sm:min-h-[75vh] sm:px-6 sm:py-20" aria-label="Salon hero image">
+    <section
+      className="relative isolate flex w-full items-start overflow-hidden px-4 pb-8 pt-[7.25rem] md:min-h-[75vh] md:items-center md:px-6 md:py-20"
+      aria-label="Salon hero image"
+    >
       <Image src="/andy.png" alt="Interior of Team Hair Pro salon" fill priority sizes="100vw" className="object-cover object-center" />
       <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(11,10,9,0.7)_0%,rgba(11,10,9,0.56)_40%,rgba(11,10,9,0.24)_100%)]" />
-      <div className="relative z-10 mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-14">
-        <div className="max-w-xl text-left text-[#f9f5f1]">
-          <p className="inline-flex rounded-full border border-[rgba(255,255,255,0.35)] bg-[rgba(255,255,255,0.1)] px-4 py-1.5 text-[0.64rem] font-medium tracking-[0.28em] text-[#f6ede3]">
+      <div className="relative z-10 mx-auto grid w-full max-w-6xl gap-6 md:gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-14">
+        <div className="mx-auto max-w-xl text-center text-[#f9f5f1] md:mx-0 md:text-left">
+          <p className="inline-flex max-w-[min(100%,19rem)] justify-center rounded-full border border-[rgba(255,255,255,0.35)] bg-[rgba(255,255,255,0.1)] px-3.5 py-1.5 text-center text-[0.58rem] font-medium leading-4 tracking-[0.2em] text-[#f6ede3] md:max-w-none md:px-4 md:text-[0.64rem] md:tracking-[0.28em]">
             PREMIUM HAIR &amp; BEAUTY EXPERIENCE
           </p>
-          <h1 className="mt-6 text-[clamp(2rem,5vw,4rem)] font-medium leading-[1.08] tracking-[0.03em] text-white">
+          <h1 className="mt-4 text-[clamp(1.85rem,9.5vw,2.45rem)] font-medium leading-[1.05] tracking-[0.03em] text-white md:mt-6 md:text-[clamp(2rem,5vw,4rem)] md:leading-[1.08]">
             Effortless Booking, Elevated Beauty Care
           </h1>
-          <p className="mt-6 max-w-lg text-sm leading-7 tracking-[0.02em] text-[#ece4dc] sm:text-base sm:leading-8">
+          <p className="mx-auto mt-4 max-w-lg text-sm leading-6 tracking-[0.02em] text-[#ece4dc] md:mx-0 md:mt-6 md:text-base md:leading-8">
             Schedule your next salon experience with expert styling, personalized care, and a seamless reservation process designed around you.
           </p>
-          <BeigeButton href="#call" className="mt-9 px-12 py-4 text-[0.68rem] tracking-[0.22em] shadow-[0_16px_35px_rgba(15,12,10,0.4)]">
+          <BeigeButton href="#call" className="mt-6 px-10 py-3.5 text-[0.66rem] tracking-[0.2em] shadow-[0_16px_35px_rgba(15,12,10,0.4)] md:mt-9 md:px-12 md:py-4 md:text-[0.68rem] md:tracking-[0.22em]">
             BOOK NOW
           </BeigeButton>
-          <p className="mt-4 text-xs tracking-[0.08em] text-[#dfd1c2] sm:text-sm">Consultation-first appointments. Walk-ins welcome based on availability.</p>
+          <p className="mx-auto mt-3 max-w-sm text-xs leading-5 tracking-[0.07em] text-[#dfd1c2] md:mx-0 md:mt-4 md:max-w-none md:text-sm md:tracking-[0.08em]">Consultation-first appointments. Walk-ins welcome based on availability.</p>
         </div>
 
         <HeroBookingCard />
