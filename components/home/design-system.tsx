@@ -199,17 +199,17 @@ export function HeroImageSection() {
       <div className="absolute left-0 top-0 h-full w-[58%] bg-[linear-gradient(90deg,rgba(0,0,0,0.54),rgba(0,0,0,0))]" />
       <div className="pointer-events-none absolute -left-24 top-24 h-72 w-72 rounded-full bg-[#c99b63]/18 blur-3xl md:h-96 md:w-96" />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-[1450px] gap-7 md:gap-9 lg:grid-cols-[minmax(0,1.08fr)_minmax(390px,0.74fr)] lg:items-center lg:gap-12 xl:gap-16">
-        <div className="mx-auto max-w-[640px] text-center text-[#f9f5f1] md:mx-0 md:text-left xl:max-w-[690px]">
+      <div className="relative z-10 mx-auto grid w-full max-w-[1450px] gap-7 md:gap-9 lg:grid-cols-[minmax(0,1.18fr)_minmax(390px,0.7fr)] lg:items-center lg:gap-10 xl:gap-12">
+        <div className="mx-auto max-w-[640px] text-center text-[#f9f5f1] md:mx-0 md:text-left xl:max-w-[780px]">
           <p className="inline-flex max-w-[min(100%,22rem)] justify-center rounded-full border border-[#d6b17a]/70 bg-black/18 px-4 py-2 text-center text-[0.58rem] font-bold uppercase leading-4 tracking-[0.24em] text-[#fff4e4] shadow-[0_12px_34px_rgba(0,0,0,0.24)] backdrop-blur-md md:max-w-none md:px-6 md:text-[0.68rem] md:tracking-[0.3em]">
             Premium Hair &amp; Beauty Experience
           </p>
 
           <h1 className="mt-5 leading-[0.9] tracking-[-0.055em] md:mt-7">
-            <span className="block text-[clamp(4.05rem,17vw,6.4rem)] font-black text-[#fffdf7] drop-shadow-[0_14px_34px_rgba(0,0,0,0.44)] [font-family:var(--font-league-spartan)] md:text-[clamp(5.4rem,9vw,8.5rem)] xl:text-[clamp(6.75rem,8vw,9.25rem)]">
+            <span className="block whitespace-nowrap text-[clamp(3.45rem,15.2vw,6.4rem)] font-black text-[#fffdf7] drop-shadow-[0_14px_34px_rgba(0,0,0,0.44)] [font-family:var(--font-league-spartan)] md:text-[clamp(5.25rem,8.2vw,7.3rem)] xl:text-[clamp(5.8rem,6.7vw,7.45rem)]">
               Great Hair.
             </span>
-            <span className="mt-1 block text-[clamp(3.7rem,15.5vw,5.9rem)] font-serif italic text-[#d9b474] drop-shadow-[0_12px_28px_rgba(0,0,0,0.42)] md:text-[clamp(5rem,8.4vw,7.75rem)] xl:text-[clamp(6.1rem,7.5vw,8.4rem)]">
+            <span className="mt-1 block whitespace-nowrap text-[clamp(3.1rem,14vw,5.9rem)] font-serif italic text-[#d9b474] drop-shadow-[0_12px_28px_rgba(0,0,0,0.42)] md:text-[clamp(4.8rem,7.7vw,6.95rem)] xl:text-[clamp(5.35rem,6.2vw,7.05rem)]">
               Great You.
             </span>
           </h1>
@@ -220,26 +220,16 @@ export function HeroImageSection() {
             Expert styling, personalized care, and a seamless experience designed to bring out your best look.
           </p>
 
-          <Link
-            href="#hero-booking"
-            className="group mt-7 inline-flex h-15 items-center justify-center gap-5 rounded-full border border-[#f5ead8]/80 bg-[#eadcc8] px-9 text-[0.72rem] font-black uppercase tracking-[0.21em] text-[#16100b] shadow-[0_18px_40px_rgba(0,0,0,0.36)] transition duration-300 hover:-translate-y-1 hover:bg-[#f8efe2] hover:shadow-[0_24px_48px_rgba(0,0,0,0.46)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f8efe2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#15100c] md:mt-9 md:h-16 md:px-12"
-          >
-            Book Your Appointment
-            <span className="grid h-8 w-8 place-items-center rounded-full border border-[#21170f]/20 transition duration-300 group-hover:translate-x-1 group-hover:border-[#21170f]/35" aria-hidden>
-              <ArrowRightIcon />
-            </span>
-          </Link>
-
-          <div className="mt-7 flex flex-wrap justify-center gap-3 md:mt-9 md:justify-start md:gap-0">
+          <div className="mt-7 grid grid-cols-3 justify-center gap-1.5 md:mt-9 md:flex md:justify-start md:gap-0">
             {heroFeatureItems.map((item, index) => (
               <div
                 key={item.label}
-                className={`flex items-center gap-3 px-2.5 py-1.5 text-left md:px-5 ${index === 0 ? "md:pl-0" : "md:border-l md:border-white/24"}`}
+                className={`flex min-w-0 flex-col items-center gap-1.5 px-1 py-1 text-center md:flex-row md:gap-3 md:px-5 md:py-1.5 md:text-left ${index === 0 ? "md:pl-0" : "md:border-l md:border-white/24"}`}
               >
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-[#d9b474]/70 bg-black/18 text-[#e6c283] shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] backdrop-blur">
+                <span className="grid h-8 w-8 shrink-0 place-items-center md:h-10 md:w-10 rounded-full border border-[#d9b474]/70 bg-black/18 text-[#e6c283] shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] backdrop-blur">
                   {item.icon}
                 </span>
-                <span className="max-w-28 text-[0.68rem] font-black uppercase leading-5 tracking-[0.2em] text-[#fff7ec]">{item.label}</span>
+                <span className="max-w-[4.8rem] text-[0.5rem] font-black uppercase leading-3 tracking-[0.13em] md:max-w-28 md:text-[0.68rem] md:leading-5 md:tracking-[0.2em] text-[#fff7ec]">{item.label}</span>
               </div>
             ))}
           </div>
@@ -272,15 +262,6 @@ function HeroBookingCard() {
     >
       <VagaroWidget />
     </aside>
-  );
-}
-
-function ArrowRightIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M5 12h14" />
-      <path d="m13 6 6 6-6 6" />
-    </svg>
   );
 }
 
