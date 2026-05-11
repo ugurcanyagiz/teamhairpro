@@ -139,10 +139,10 @@ export function ServicesSpotlight() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="testimonial-composition relative isolate overflow-hidden bg-white px-5 py-[84px] sm:px-6 sm:py-28">
+    <section ref={sectionRef} className="testimonial-composition relative isolate overflow-hidden bg-white px-3 py-[72px] sm:px-6 sm:py-28">
       <div className="mx-auto w-full max-w-6xl">
         <div
-          className={`testimonial-stage relative mx-auto grid min-h-[28rem] items-center gap-5 py-2 sm:min-h-[30rem] lg:min-h-[33rem] ${
+          className={`testimonial-stage relative mx-auto grid min-h-[25rem] items-center gap-5 py-2 sm:min-h-[30rem] lg:min-h-[33rem] ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-7 opacity-0"
           }`}
         >
@@ -165,9 +165,9 @@ export function ServicesSpotlight() {
               <Stars count={featuredReview.rating} />
             </div>
 
-            <p className="mt-8 text-[1.22rem] leading-[1.7] tracking-[0.01em] text-[#1f1a16] sm:text-[1.45rem]">“{featuredReview.review}”</p>
+            <p className="testimonial-stage-card__quote mt-6 text-[clamp(0.92rem,3.35vw,1.22rem)] leading-[1.6] tracking-[0.01em] text-[#1f1a16] sm:mt-8 sm:text-[1.45rem] sm:leading-[1.7]">“{featuredReview.review}”</p>
 
-            <footer className="mt-8 flex items-center justify-between gap-3 border-t border-[#f0ebe6] pt-6">
+            <footer className="mt-6 flex items-center justify-between gap-3 border-t border-[#f0ebe6] pt-5 sm:mt-8 sm:pt-6">
               <div>
                 <p className="text-[1.04rem] font-medium tracking-[0.02em] text-[#171311]">{featuredReview.name}</p>
               </div>
