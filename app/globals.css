@@ -314,67 +314,15 @@ body {
 }
 
 
-.hero-value-strip {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
-  margin-top: clamp(0.5rem, 2vw, 1.5rem);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  border-radius: 1.35rem;
-  background: linear-gradient(110deg, rgba(19, 15, 12, 0.72), rgba(255, 246, 232, 0.13));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 24px 70px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(16px);
-}
-
-.hero-value-card {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 1rem;
-  align-items: flex-start;
-  min-height: 7.25rem;
-  padding: clamp(1rem, 1.4vw, 1.45rem) clamp(1rem, 1.65vw, 1.65rem);
-  color: #fffaf3;
-}
-
-.hero-value-card + .hero-value-card {
-  border-left: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-.hero-value-icon {
-  display: grid;
-  place-items: center;
-  color: #d9b474;
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.25));
-}
-
-.hero-value-card h2 {
-  margin: 0;
-  font-family: var(--font-league-spartan), Arial, Helvetica, sans-serif;
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.17em;
-  line-height: 1.25;
-  text-transform: uppercase;
-}
-
-.hero-value-card p {
-  margin: 0.55rem 0 0;
-  max-width: 16rem;
-  color: rgba(255, 249, 241, 0.86);
-  font-size: 0.9rem;
-  line-height: 1.65;
-}
-
 
 .hero-booking-card {
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 430px;
-  height: 585px;
-  min-height: 585px;
-  max-height: 585px;
+  height: 430px;
+  min-height: 430px;
+  max-height: 430px;
   overflow: hidden;
 }
 
@@ -382,8 +330,8 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 585px;
-  max-height: 585px;
+  min-height: 430px;
+  max-height: 430px;
   overflow: hidden;
   background: #fffaf4;
 }
@@ -429,8 +377,8 @@ body {
 .hero-booking-card .vagaro {
   width: 100% !important;
   height: 100% !important;
-  min-height: 585px !important;
-  max-height: 585px !important;
+  min-height: 430px !important;
+  max-height: 430px !important;
   margin: 0 auto !important;
   overflow: hidden;
   border-radius: 1.35rem;
@@ -446,8 +394,8 @@ body {
 .hero-booking-card .vagaro-booking-frame iframe {
   width: 100% !important;
   height: 100% !important;
-  min-height: 585px !important;
-  max-height: 585px !important;
+  min-height: 430px !important;
+  max-height: 430px !important;
   border: none !important;
   display: block;
 }
@@ -462,46 +410,14 @@ body {
   }
 }
 
-@media (max-width: 1023px) {
-  .hero-value-strip {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .hero-value-card:nth-child(odd) {
-    border-left: 0;
-  }
-
-  .hero-value-card:nth-child(n + 3) {
-    border-top: 1px solid rgba(255, 255, 255, 0.22);
-  }
-}
 
 @media (max-width: 767px) {
-  .hero-value-strip {
-    display: none;
-  }
-
-  .hero-value-card {
-    min-height: auto;
-    padding: 1rem;
-  }
-
-  .hero-value-card + .hero-value-card {
-    border-left: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .hero-value-card p {
-    font-size: 0.84rem;
-    line-height: 1.5;
-  }
-
   .hero-booking-card {
     width: calc(100vw - 32px);
     max-width: 390px;
-    height: 540px;
-    min-height: 540px;
-    max-height: 540px;
+    height: 410px;
+    min-height: 410px;
+    max-height: 410px;
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
@@ -514,17 +430,17 @@ body {
   .hero-booking-card .vagaro-booking-frame iframe {
     width: 100% !important;
     height: 100% !important;
-    min-height: 540px !important;
-    max-height: 540px !important;
+    min-height: 410px !important;
+    max-height: 410px !important;
     overflow: hidden;
   }
 }
 
 @media (max-width: 389px) {
   .hero-booking-card {
-    height: 520px;
-    min-height: 520px;
-    max-height: 520px;
+    height: 390px;
+    min-height: 390px;
+    max-height: 390px;
   }
 
   .vagaro-booking-frame,
@@ -532,7 +448,7 @@ body {
   .hero-booking-card .vagaro iframe,
   .hero-booking-card .vagaro > div,
   .hero-booking-card .vagaro-booking-frame iframe {
-    min-height: 520px !important;
-    max-height: 520px !important;
+    min-height: 390px !important;
+    max-height: 390px !important;
   }
 }
