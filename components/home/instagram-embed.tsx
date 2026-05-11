@@ -13,42 +13,6 @@ type InstagramEmbedWindow = Window & {
   };
 };
 
-type InstagramEmbedCardProps = {
-  className?: string;
-  label: string;
-  permalink: string;
-};
-
-function InstagramEmbedCard({ className = "", label, permalink }: InstagramEmbedCardProps) {
-  return (
-    <div
-      className={`overflow-hidden rounded-[1.75rem] border border-[rgba(80,58,38,0.1)] bg-white shadow-[0_20px_55px_rgba(42,31,23,0.09)] ring-1 ring-white/80 ${className}`}
-    >
-      <blockquote
-        aria-label={label}
-        className="instagram-media mx-auto w-full bg-white"
-        data-instgrm-permalink={permalink}
-        data-instgrm-version="14"
-        style={{
-          background: "#fff",
-          border: 0,
-          borderRadius: "1.75rem",
-          boxShadow: "none",
-          margin: "0 auto",
-          maxWidth: "540px",
-          minWidth: 0,
-          padding: 0,
-          width: "100%",
-        }}
-      >
-        <a className="sr-only" href={permalink} rel="noreferrer" target="_blank">
-          View on Instagram
-        </a>
-      </blockquote>
-    </div>
-  );
-}
-
 export function InstagramEmbedSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -60,6 +24,8 @@ export function InstagramEmbedSection() {
         iframe.style.width = "100%";
         iframe.style.minWidth = "0";
         iframe.style.maxWidth = "100%";
+        iframe.style.border = "0";
+        iframe.style.boxShadow = "none";
       });
     }, 250);
   }, []);
@@ -72,7 +38,7 @@ export function InstagramEmbedSection() {
     <section id="instagram" ref={sectionRef} className="mt-16 flex w-full justify-center px-4 sm:mt-18">
       <Script src="https://www.instagram.com/embed.js" strategy="afterInteractive" onLoad={processEmbeds} onReady={processEmbeds} />
 
-      <div className="luxury-float w-full max-w-[36rem] overflow-hidden rounded-[1.75rem] border border-[rgba(80,58,38,0.1)] bg-white p-2 shadow-[0_28px_70px_rgba(42,31,23,0.14)] ring-1 ring-white/80 sm:p-3">
+      <div className="luxury-float w-full max-w-[36rem] drop-shadow-[0_28px_70px_rgba(42,31,23,0.14)]">
         <blockquote
           aria-label="Andy Hair Pro Instagram profile"
           className="instagram-media mx-auto w-full bg-white"
@@ -81,7 +47,7 @@ export function InstagramEmbedSection() {
           style={{
             background: "#fff",
             border: 0,
-            borderRadius: "1.75rem",
+            borderRadius: 0,
             boxShadow: "none",
             margin: "0 auto",
             maxWidth: "540px",
