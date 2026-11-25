@@ -42,84 +42,111 @@ function chair(x:number,z:number,tint:string) {
   box(x+.47,.80,z,.12,.16,.65,"#483d33");
 }
 
+const haircut: Point = [-3.12,1.70,1.46];
+const color: Point = [3.10,1.70,-1.38];
+const styling: Point = [3.10,1.70,1.42];
+const treatment: Point = [-1.78,1.68,-4.03];
+const lights = [[-3.5,-2.5],[3.5,-2.5],[-3.5,1.3],[3.5,1.3],[-2,-4.9],[2,-4.9]];
+
+function rotateFixture(x:number,z:number,yaw:number,build:()=>void) {
+  const start=model.length;
+  const cos=Math.cos(yaw),sin=Math.sin(yaw);
+  build();
+  for(let i=start;i<model.length;i++){
+    model[i].points=model[i].points.map(([dx,y,dz])=>[x+dx*cos+dz*sin,y,z-dx*sin+dz*cos]);
+  }
+}
+
 for(let i=0;i<23;i++) {
-  box(-4.49+i*.409,-.07,0,.405,.15,9.8,["#a97950","#bd8a5e","#9f6d47","#c99768"][i%4],0,0);
+  const x=-4.48+i*.407;
+  for(let row=0;row<5;row++){
+    const ends=row===0 ? -5.52 : -5.52+row*2.12+(i%3-1)*.56;
+    const next=row===4 ? 5.52 : -5.52+(row+1)*2.12+(i%3-1)*.56;
+    box(x,-.067,(ends+next)/2,.404,.13,next-ends-.014,["#a97950","#bd8a5e","#9f6d47","#c99768","#b78555"][(i+row*3)%5],0,0);
+    box(x+(row%3-1)*.071,.005,(ends+next)/2,.009,.003,next-ends-.19,"#a9754b",0,.10);
+  }
 }
-box(0,1.87,-4.96,9.43,3.75,.13,"#c9bcab",0,0);
-box(-4.70,1.87,-.06,.14,3.75,9.8,"#9d8977",0,0);
-for(let i=0;i<14;i++) box(-4.598,.14+i*.25,-.1,.026,.021,9.58,"#8e7764",0,0);
-for(const x of [-3.55,3.57]) {
-  arch(x,-4.865,.79,1.58,2.58,"#4e382a",.20);
-  arch(x,-4.846,.88,1.38,2.39,"#829499",.24);
-  arch(x-.36,-4.830,1.03,.23,1.97,"#a6b1ae",.28);
-  box(x,.74,-4.54,1.77,.14,.54,"#dcc5a7");
-  box(x,.54,-4.59,1.70,.29,.38,"#644c3a");
+box(0,1.53,-5.56,9.38,3.06,.15,"#d5c6b3",0,0);
+box(-4.69,1.53,0,.14,3.06,11.05,"#cbb6a0",0,0);
+box(4.69,.20,0,.14,.40,11.05,"#b49c83",0,0);
+box(-4.59,.12,0,.055,.22,11.02,"#776153",0,0);
+box(4.59,.12,0,.055,.22,11.02,"#776153",0,0);
+box(0,.12,-5.45,9.16,.22,.08,"#776153",0,0);
+
+for(const side of [-1,1]){
+  for(const z of [-1.38,1.44]){
+    rotateFixture(side*4.36,z,-side*1.02,()=>{
+      arch(0,.01,.68,1.17,2.29,"#342c28",1);
+      arch(0,.035,.88,1.02,1.99,"#80918f",1);
+      arch(0,-.028,.88,1.02,1.99,"#768784",1);
+      model.push({points:[[-.33,1.10,.049],[-.15,1.10,.049],[.22,2.68,.049],[.03,2.73,.049]],color:"#afbbb0",layer:1});
+      model.push({points:[[-.33,1.10,-.042],[-.15,1.10,-.042],[.22,2.68,-.042],[.03,2.73,-.042]],color:"#a7b2a8",layer:1});
+      box(0,.81,.16,1.28,.09,.47,"#dec2a3");
+      box(0,.58,-.025,1.18,.36,.23,"#645042");
+      for(const x of [-.49,.49]) box(x,.32,.02,.052,.64,.14,"#392d28");
+      for(const [x,tint] of [[-.43,"#b08965"],[-.29,"#604d45"]] as const) {
+        box(x,.95,.25,.096,.19,.09,tint);
+        box(x,1.06,.25,.06,.043,.063,"#3f3630");
+      }
+    });
+    rotateFixture(side*3.10,z,-side*Math.PI/2,()=>chair(0,0,"#38312f"));
+  }
 }
-for(const z of [-3.37,2.12]) {
-  for(const [w,h,y,plane,color,layer] of [[1.35,2.28,.79,-4.597,"#4d362b",.20],[1.18,2.10,.88,-4.586,"#899e9d",.24]] as const){
-    const points:Point[]=[[plane,y,z-w/2],[plane,y,z+w/2]];
-    for(let i=0;i<=18;i++){
-      const angle=i/18*Math.PI;
-      points.push([plane,y+h-w/2+Math.sin(angle)*w/2,z+Math.cos(angle)*w/2]);
+for(const x of [-1.6,1.6]) {
+  box(x,1.36,-.04,.17,2.72,.20,"#392b25");
+  for(const q of [-.053,0,.053]) box(x+q,1.34,.071,.013,2.42,.021,"#755540");
+  box(x,2.70,-.04,.29,.17,.30,"#533b2f");
+  box(x,.12,-.04,.28,.24,.29,"#49362b");
+}
+
+for(const x of [-1.78,.19,2.16]){
+  rotateFixture(x,-4.02,0,()=>chair(0,.33,"#443b35"));
+  box(x,.44,-4.58,.70,.87,.59,"#443b35");
+  box(x,.92,-4.56,1.07,.23,.82,"#dfd2bf");
+  box(x,1.047,-4.59,.78,.03,.54,"#727e7b");
+  box(x,1.09,-4.91,.072,.21,.071,"#b3aa9e");
+  box(x,1.18,-4.83,.066,.05,.21,"#b3aa9e");
+}
+for(const x of [-2.95,-1.47,0,1.47,2.95]){
+  box(x,1.71,-5.44,1.36,2.02,.065,"#beac97",0,.18);
+  box(x,1.71,-5.393,1.29,1.94,.021,"#dec9ad",0,.22);
+}
+for(const [x,z] of [[-3.61,-4.35],[3.55,-3.52]]){
+  for(let shelf=0;shelf<4;shelf++){
+    box(x,.42+shelf*.42,z,1.07,.072,.51,"#856448");
+    for(let item=0;item<5;item++){
+      box(x-.38+item*.186,.55+shelf*.42,z,.10,.18,.11,["#61514e","#a48367","#d0b5a0","#68796b"][item%4]);
     }
-    model.push({points,color,layer});
   }
-  box(-4.38,.76,z,.51,.12,1.44,"#d0af8f");
-}
-box(0,1.47,-4.86,1.38,2.94,.05,"#503a30",0,.20);
-box(0,1.65,-4.82,1.11,2.33,.027,"#8fa39c",0,.24);
-box(0,1.59,-4.79,.055,2.28,.019,"#4a3631",0,.28);
-for(const x of [-1.52,1.52]){
-  box(x,1.74,-4.85,1.45,2.27,.05,"#543d30",0,.20);
-  box(x,1.74,-4.81,1.30,2.11,.025,"#a0aba1",0,.24);
-  box(x,1.42,-4.77,1.28,.052,.031,"#755b46",0,.28);
-}
-for(const x of [-.91,.91]) {
-  box(x,1.47,-.21,.23,2.95,.24,"#4e382b");
-  for(const q of [-.08,0,.08]) box(x+q,1.45,-.078,.023,2.74,.024,"#89644b");
-  box(x,2.89,-.21,.36,.24,.35,"#987358");
-  box(x,.18,-.21,.32,.36,.31,"#876548");
-}
-chair(-2.70,1.22,"#44352f");
-chair(-3.38,-.72,"#443631");
-chair(2.64,2.53,"#4c3d36");
-chair(2.92,.61,"#463833");
-box(-2.73,.83,-3.05,1.48,.21,1.25,"#62514b");
-box(-2.76,1.07,-3.55,.91,.39,.66,"#dfd6c5");
-box(-2.76,1.279,-3.55,.64,.025,.40,"#6b8585");
-box(-2.77,.52,-2.90,.98,.57,1.07,"#8a6a60");
-box(2.70,.47,-2.48,2.12,.94,.85,"#654d3c");
-box(2.70,.97,-2.48,2.20,.12,.93,"#c9b19a");
-for(let i=0;i<11;i++){
-  const x=1.75+i*.18;
-  box(x,1.125,-2.69,.12,.20,.13,["#a36362","#d4a27d","#d7c0a4","#598487"][i%4]);
-  box(x,1.245,-2.69,.081,.050,.085,"#d9c6ac");
-}
-box(2.60,.87,1.48,1.67,.12,.65,"#ceb79d");
-box(2.04,.43,1.50,.15,.86,.49,"#664d3e");
-box(3.18,.43,1.50,.15,.86,.49,"#664d3e");
-box(2.73,.96,1.63,.34,.12,.13,"#55463e",-.21);
-for(const [x,z] of [[-3.96,3.35],[3.96,-3.83]]) {
-  box(x,.28,z,.58,.56,.57,"#866955");
-  box(x,.92,z,.07,1.23,.07,"#4a5c37");
-  for(let i=0;i<8;i++){
-    const off=(i%2===0?-1:1)*(.15+i*.024);
-    box(x+off,.72+i*.103,z+(i%3-1)*.15,.48,.096,.29,["#697e55","#415a3a","#7e8a59"][i%3],off*1.6);
-  }
+  for(const side of [-1,1])box(x+side*.51,1.05,z,.048,2.1,.49,"#453329");
 }
 
-
-// Small fixtures and warm backlighting give the room its material contrast.
-for(const x of [-3.55,-1.23,1.20,3.57]){
-  box(x,3.36,-4.75,.40,.12,.28,"#d1ab77");
-  box(x,3.27,-4.65,.31,.082,.22,"#f9dca7");
-  box(x-.63,.89,-4.31,.17,.14,.21,"#e3c8a6");
-}
-for(let i=0;i<5;i++) {
-  box(-4.49,1.38+i*.32,-1.08,.38,.075,1.80,"#a57a55");
-  for(let j=0;j<6;j++){
-    box(-4.39,1.51+i*.32,-1.75+j*.24,.15,.20,.15,["#795044","#2a3f3d","#ba916d","#ded4bd"][j%4]);
+box(-3.37,.29,4.25,1.82,.55,.78,"#4e4338");
+box(-3.37,.60,4.56,1.83,.67,.16,"#44382f");
+for(const x of [-4.26,-2.48])box(x,.50,4.24,.12,.42,.74,"#55463a");
+for(const x of [-3.78,-2.96])box(x,.61,4.17,.76,.12,.57,"#786455");
+box(-2.98,.25,3.38,.83,.42,.46,"#664a35");
+box(-2.98,.49,3.38,.92,.095,.52,"#b49475");
+box(3.44,.52,4.05,1.82,1.04,.86,"#594131");
+box(3.44,1.07,4.05,1.94,.11,.98,"#d0b79a");
+for(let i=0;i<11;i++)box(2.65+i*.158,.54,4.496,.045,.91,.023,"#957055");
+box(3.43,1.19,4.06,.29,.12,.22,"#4c4038");
+box(3.43,1.38,4.02,.55,.32,.075,"#302b2a",-.05);
+box(3.86,1.16,4.33,.20,.09,.13,"#544940");
+for(const x of [-1.05,1.05])box(x,1.17,5.44,.09,2.34,.12,"#3d3029");
+box(0,.028,4.96,1.81,.043,.71,"#574c45");
+for(const x of [-3.94,4.10]){
+  const z=4.97;
+  box(x,.23,z,.45,.46,.46,"#806553");
+  box(x,.81,z,.065,.97,.065,"#4a5c37");
+  for(let i=0;i<7;i++){
+    const off=(i%2===0?-1:1)*(.13+i*.023);
+    box(x+off,.58+i*.095,z+(i%3-1)*.13,.42,.084,.23,["#697e55","#415a3a","#7e8a59"][i%3],off*1.6);
   }
+}
+for(const [x,z] of lights){
+  box(x,2.91,z,.43,.089,.29,"#513b31");
+  box(x,2.82,z,.31,.095,.20,"#f6d49f");
 }
 
 type Look = { top:string; bottom:string; skin:string; hair:string; shoes:string; style:"andy"|"crop"|"bun"|"waves"; cape?:string };
@@ -258,54 +285,57 @@ function person(faces:Face[], x:number,z:number,yaw:number,look:Look,pose:Pose={
   }
 }
 
-const workers: {x:number;z:number;look:Look;tool:Pose["tool"];phase:number}[]=[
-  {x:-2.70,z:1.22,look:andy,tool:"shears",phase:0},
-  {x:2.64,z:2.53,look:stylist,tool:"dryer",phase:1.24}
+const workers: {point:Point;look:Look;tool:Pose["tool"];phase:number}[]=[
+  {point:haircut,look:andy,tool:"shears",phase:0},
+  {point:styling,look:stylist,tool:"dryer",phase:1.24},
+  {point:color,look:assistant,tool:"brush",phase:2.1}
 ];
 
 function salonActors(t:number,faces:Face[]){
-  person(faces,-2.70,1.13,Math.PI-.21,guest,{sitting:true,nod:Math.sin(t*.68)*.25});
-  person(faces,2.64,2.43,Math.PI+.01,colorGuest,{sitting:true,nod:Math.sin(t*.54)*.24});
-  person(faces,-2.72,-3.00,.16,washGuest,{sitting:true,nod:Math.sin(t*.42)*.16});
+  person(faces,haircut[0],haircut[2],Math.PI/2,guest,{sitting:true,nod:Math.sin(t*.68)*.25});
+  person(faces,styling[0],styling[2],-Math.PI/2,colorGuest,{sitting:true,nod:Math.sin(t*.54)*.24});
+  person(faces,color[0],color[2],-Math.PI/2,guest,{sitting:true,nod:Math.sin(t*.85)*.18});
+  person(faces,treatment[0],treatment[2]+.32,0,washGuest,{sitting:true,nod:Math.sin(t*.42)*.16});
   for(const worker of workers){
+    const [x,,z]=worker.point;
     const a=t*1.08+worker.phase;
-    const moving=.13*Math.sin(a*.81);
-    const side=worker.look===andy?-.61:.63;
-    const yaw=Math.atan2(-side,worker.look===andy ? .12 : -.19)+.40*Math.sin(a*.61);
-    person(faces,worker.x+side+moving,worker.z+(worker.look===andy ? -.06 : .27)+.12*Math.sin(a),yaw,worker.look,{
+    const side=Math.sign(x)*.54;
+    const offset=.63+.12*Math.sin(a*.81);
+    const yaw=Math.atan2(-side,offset)+.22*Math.sin(a*.61);
+    person(faces,x+side,z-offset,yaw,worker.look,{
       left:[-.18,1.45+.12*Math.sin(a*1.86),.35+.06*Math.cos(a)],
       right:[.18,1.49+.12*Math.cos(a*2.05),.39+.07*Math.sin(a)],
       nod:Math.sin(a*2.1),tool:worker.tool
     });
   }
   const path=t*.48+1;
-  const ax=.57*Math.sin(path);
-  const az=1.8+1.64*Math.cos(path);
-  const ayaw=Math.atan2(.57*Math.cos(path),-1.64*Math.sin(path));
+  const ax=.62*Math.sin(path);
+  const az=-.08+2.97*Math.cos(path);
+  const ayaw=Math.atan2(.62*Math.cos(path),-2.97*Math.sin(path));
   person(faces,ax,az,ayaw,assistant,{stride:t*8.1,right:[.235,1.09,.28],left:[-.20,1.08,.27],tool:"towel"});
 
-  const pace=t*.36+2.65;
-  const gx=2.30+.75*Math.cos(pace);
-  const gz=-.97+.65*Math.sin(pace);
-  person(faces,gx,gz,Math.atan2(-.75*Math.sin(pace),.65*Math.cos(pace)),visitor,{stride:t*7.6});
-  person(faces,-2.03,-3.50,-1.33,stylist,{
-    left:[-.16,1.28,.36],right:[.18,1.35+.08*Math.sin(t*2.2),.43],
-    nod:Math.sin(t*1.2)*.3,tool:"brush"
+  const pace=t*.44+2.65;
+  const gx=1.43+.64*Math.cos(pace);
+  const gz=3.47+.97*Math.sin(pace);
+  person(faces,gx,gz,Math.atan2(-.64*Math.sin(pace),.97*Math.cos(pace)),visitor,{stride:t*7.6});
+  person(faces,-3.65,4.17,Math.PI,visitor,{sitting:true,nod:Math.sin(t*.69)*.22});
+  person(faces,3.33,3.45,.12,assistant,{right:[.20,1.26,.42],nod:Math.sin(t*1.5)*.25});
+  person(faces,treatment[0]+.72,treatment[2]-.32,-1.11,stylist,{
+    left:[-.16,1.24,.36],right:[.18,1.26+.08*Math.sin(t*2.2),.43],
+    nod:Math.sin(t*1.2)*.3,tool:"towel"
   });
 }
-
-
 
 type Service = { name:string; duration:string; price:string; summary:string; consultation?:boolean };
 
 const stations = [
-  {title:"Haircuts",point:[-2.72,1.71,1.15],services:[
+  {title:"Haircuts",point:haircut,services:[
     {name:"Men’s Haircut",duration:"30 min",price:"$45",summary:"A tailored haircut and clean finish based on your features, hair texture and routine."},
     {name:"Women’s Haircut",duration:"60 min",price:"$120",summary:"A personalized cut and shape refinement that suits your features and at-home styling routine."},
     {name:"Girl’s Haircut (Ages 10–15)",duration:"45 min",price:"$70",summary:"A gentle, age-appropriate cut with an easy-to-maintain shape."},
     {name:"Clean-Up Cut",duration:"30 min",price:"$70",summary:"A quick trim to refresh your shape and tidy split ends between full cuts."},
   ]},
-  {title:"Color Services",point:[2.92,1.44,-2.58],services:[
+  {title:"Color Services",point:color,services:[
     {name:"L’Oréal INOA Color",duration:"75 min",price:"$120",summary:"INOA color applied to create an even, rich tone."},
     {name:"L’Oréal Majirel Color",duration:"75 min",price:"$100",summary:"Long-wear color with dependable coverage and a smooth finish."},
     {name:"Highlights",duration:"180 min",price:"$225–$350",summary:"Custom-placed highlights to add dimension and brighten selected sections.",consultation:true},
@@ -313,13 +343,13 @@ const stations = [
     {name:"Partial Highlights",duration:"120 min",price:"$225",summary:"Focused highlights in selected sections for a subtle lift.",consultation:true},
     {name:"Partial Balayage",duration:"120 min",price:"$225",summary:"Hand-painted lightening in selected sections for depth and brightness.",consultation:true},
   ]},
-  {title:"Styling & Finish",point:[2.67,1.72,2.44],services:[
+  {title:"Styling & Finish",point:styling,services:[
     {name:"Blow Dry (30 min)",duration:"30 min",price:"$50",summary:"A wash and blowout with brush styling for a smooth finish and movement."},
     {name:"Blow Dry (45 min)",duration:"45 min",price:"$75",summary:"An extended blowout with extra time for detailing and smoothing."},
     {name:"Blow Dry with Iron",duration:"45 min",price:"$75",summary:"A blowout finished with an iron for extra smoothness or definition."},
     {name:"Updo",duration:"60 min",price:"$150",summary:"An occasion hairstyle shaped and pinned for a secure finish."},
   ]},
-  {title:"Treatments",point:[-2.73,1.68,-3.12],services:[
+  {title:"Treatments",point:treatment,services:[
     {name:"Nourishing Treatment",duration:"15 min",price:"$35",summary:"A conditioning treatment to improve softness, shine and manageability."},
     {name:"Keratin Complex",duration:"180 min",price:"$350",summary:"A keratin smoothing treatment designed to reduce frizz and improve manageability."},
   ]},
@@ -347,16 +377,16 @@ function paintRound(ctx:CanvasRenderingContext2D, points:Point[], color:string) 
   ctx.fill();
 }
 
-function renderStudio(ctx:CanvasRenderingContext2D,width:number,height:number,time:number,turn:number,focus:{x:number;z:number;zoom:number}){
-  const yaw=.65+Math.sin(time*.092)*.105+turn;
+function renderStudio(ctx:CanvasRenderingContext2D,width:number,height:number,time:number,turn:number,focus:{x:number;y:number;z:number;zoom:number;yaw:number;pitch:number}){
+  const yaw=focus.yaw+Math.sin(time*.092)*.065/focus.zoom+turn/focus.zoom;
   const sy=Math.sin(yaw),cy=Math.cos(yaw);
-  const pitch=.75,cp=Math.cos(pitch),sp=Math.sin(pitch);
+  const cp=Math.cos(focus.pitch),sp=Math.sin(focus.pitch);
   const scale=Math.min(width*(width<680?1.09:1.08),height*1.12)*1.15*focus.zoom;
   const project=([x,y,z]:Point):Point=>{
-    const dx=x-focus.x,dz=z-focus.z,dy=y-.77;
+    const dx=x-focus.x,dz=z-focus.z,dy=y-focus.y;
     const forward=dx*sy+dz*cy;
     const depth=19-cp*forward-sp*dy;
-    return [width*.5+(dx*cy-dz*sy)*scale/depth,height*(width < 680 ? .48 : .52)-(cp*dy-sp*forward)*scale/depth,depth];
+    return [width*.5+(dx*cy-dz*sy)*scale/depth,height*(width < 680 ? .46 : .50)-(cp*dy-sp*forward)*scale/depth,depth];
   };
   const backdrop=ctx.createRadialGradient(width*.49,height*.46,0,width*.49,height*.46,Math.max(width,height)*.67);
   backdrop.addColorStop(0,"#796553");
@@ -375,9 +405,9 @@ function renderStudio(ctx:CanvasRenderingContext2D,width:number,height:number,ti
   for(const face of depth){
     if(!shadows&&(face.layer??0)>=1){
       shadows=true;
-      for(const [x,z] of [[-2.70,1.20],[-3.38,-.72],[2.64,2.53],[2.92,.61],[-2.76,-3.1],[.91,-.21],[-.91,-.21],[2.70,-2.48]]){
+      for(const [x,z] of [[-3.10,1.44],[-3.10,-1.38],[3.10,1.44],[3.10,-1.38],[-1.78,-4.02],[.19,-4.02],[2.16,-4.02],[-3.37,4.25],[3.44,4.05]]){
         const [sx,sy]=project([x,.032,z]);
-        const radius=Math.max(9,scale*.042);
+        const radius=Math.max(8,scale*.033);
         const shadow=ctx.createRadialGradient(sx,sy,0,sx,sy,radius);
         shadow.addColorStop(0,"#37241a69");
         shadow.addColorStop(1,"#37241a00");
@@ -402,8 +432,8 @@ function renderStudio(ctx:CanvasRenderingContext2D,width:number,height:number,ti
       ctx.stroke();
     }
   }
-  for(const x of [-3.55,-1.23,1.20,3.57]){
-    const [px,py]=project([x,3.22,-4.73]);
+  for(const [x,z] of lights){
+    const [px,py]=project([x,2.77,z]);
     const radius=Math.min(width,height)*.13;
     const light=ctx.createRadialGradient(px,py,0,px,py,radius);
     light.addColorStop(0,"#ffdb9f50");
@@ -448,7 +478,7 @@ export default function LivingSalon() {
     if(!node||!ctx)return;
     const reduced=matchMedia("(prefers-reduced-motion: reduce)");
     let width=0,height=0,frame=0,previous=0,elapsed=0,turn=0;
-    const focus={x:0,z:0,zoom:1};
+    const focus={x:0,y:.77,z:0,zoom:1,yaw:.27,pitch:.79};
     function schedule(){
       if(!frame&&!document.hidden)frame=requestAnimationFrame(draw);
     }
@@ -456,26 +486,33 @@ export default function LivingSalon() {
       frame=0;
       if(!ctx||!width||!height)return;
       if(!reduced.matches&&previous&&now-previous<22){schedule();return;}
-      if(previous)elapsed+=Math.min((now-previous)/1000,.075);
+      const delta=previous?Math.min((now-previous)/1000,.075):1/30;
+      elapsed+=delta;
       previous=now;
-      turn+=(target.current-turn)*.12;
+      turn+=(target.current-turn)*(1-Math.exp(-delta*6));
       const active=selected.current;
       const point=active===null?null:stations[active].point;
-      const easing=reduced.matches?1:.085;
-      focus.x+=((point?.[0]??0)*.18-focus.x)*easing;
-      focus.z+=((point?.[2]??0)*.16-focus.z)*easing;
-      focus.zoom+=((point&&width>680?1.08:1)-focus.zoom)*easing;
+      const easing=reduced.matches?1:1-Math.exp(-delta*5.7);
+      const closeZoom=width<680?2.22:2.16;
+      focus.x+=((point?.[0]??0)-focus.x)*easing;
+      focus.y+=((point?1.03:.77)-focus.y)*easing;
+      focus.z+=((point?.[2]??0)-focus.z)*easing;
+      focus.zoom+=((point?closeZoom:1)-focus.zoom)*easing;
+      focus.yaw+=((point ? (point[0]>0 ? -.26 : .36) : .27)-focus.yaw)*easing;
+      const pitch=point ? (point===treatment ? .74 : .66) : .79;
+      focus.pitch+=(pitch-focus.pitch)*easing;
       const marks=renderStudio(ctx,width,height,reduced.matches?3.1:elapsed,reduced.matches?0:turn,focus);
       marks.forEach(([x,y],i)=>{
         const label=anchors.current[i];
         if(!label)return;
-        const margin=width<680?60:85;
+        const margin=width<680?72:85;
         const left=Math.max(margin,Math.min(width-margin,x));
         label.style.left=left+"px";
-        const top=Math.max(82,Math.min(height-65,y-15));
+        const closeTop=Math.min(height*.39,height-170);
+        const top=Math.max(82,Math.min(active===i&&width<680?Math.max(82,closeTop):height-76,y-15));
         label.style.top=top+"px";
         label.style.setProperty("--panel-shift",Math.max(144,Math.min(width-144,left))-left+"px");
-        label.dataset.rise=String(top>height*.47);
+        label.dataset.rise=String(top>height*.47&&width>=680);
         label.dataset.side=left>width-320 || (left<width*.47 && left>310) ? "left" : "right";
       });
       if(!reduced.matches)schedule();
@@ -572,12 +609,14 @@ const styles=[
   ".thp-film .thp-film-book{position:absolute;z-index:4;left:max(20px,env(safe-area-inset-left));top:max(20px,env(safe-area-inset-top));background:#f7e5ca;color:#32221b;text-decoration:none;border:1px solid #fff0d6;border-radius:99px;display:inline-flex;align-items:center;min-height:48px;padding:.66rem 1.21rem;font-weight:720;box-shadow:0 6px 24px #21120960}",
   ".thp-labels{position:absolute;inset:0;pointer-events:none;z-index:3}",
   ".thp-anchor{position:absolute;transform:translate(-50%,-50%);left:35%;top:45%;pointer-events:auto}.thp-anchor:nth-child(2){left:73%;top:41%}.thp-anchor:nth-child(3){left:68%;top:66%}.thp-anchor:nth-child(4){left:45%;top:32%}.thp-anchor[data-open=true]{z-index:3}",
+  ".thp-labels:has([data-open=true]){display:flex;justify-content:center;align-items:flex-end;gap:clamp(4px,1.3vw,14px);padding:0 6px max(18px,env(safe-area-inset-bottom))}.thp-labels:has([data-open=true]) .thp-anchor:not([data-open=true]){position:relative;inset:auto!important;transform:none}.thp-labels:has([data-open=true]) .thp-anchor:not([data-open=true])::after{display:none}",
   ".thp-anchor::after{content:'';height:14px;width:1px;background:#ffe6baa6;position:absolute;top:100%;left:50%;pointer-events:none}",
   ".thp-heading{position:relative;display:flex;align-items:center;gap:.62rem;border-radius:99px;border:1px solid #f7d8ab91;background:#29201bed;color:#ffecd1;padding:.38rem .45rem .38rem .76rem;min-height:42px;white-space:nowrap;font-size:.83rem;font-weight:680;cursor:pointer;box-shadow:0 5px 18px #24150f67}",
   ".thp-heading[aria-expanded=true]{background:#f7deba;color:#392821;border-color:#fff0cf}.thp-toggle{height:22px;width:22px;display:grid;place-items:center;border-radius:50%;background:#b4916760;font-size:1rem;line-height:1}",
-  ".thp-services{position:absolute;top:0;left:calc(100% + 9px);list-style:none;width:max-content;min-width:155px;margin:0;padding:.24rem .65rem;background:#fff0dc;color:#3a2a23;border:1px solid #fff6e6;border-radius:13px;box-shadow:0 10px 32px #28181171;font-size:.84rem;animation:thp-film-in .23s ease both}",
+  ".thp-services{position:absolute;top:0;left:calc(100% + 9px);list-style:none;width:max-content;min-width:155px;max-height:min(320px,42svh);overflow:auto;margin:0;padding:.24rem .65rem;background:#fff0dc;color:#3a2a23;border:1px solid #fff6e6;border-radius:13px;box-shadow:0 10px 32px #28181171;font-size:.84rem;animation:thp-film-in .23s ease both}",
   ".thp-anchor[data-side=left] .thp-services{left:auto;right:calc(100% + 9px)}.thp-anchor[data-rise=true] .thp-services{top:auto;bottom:0}.thp-services ul{list-style:none;margin:0;padding:0}.thp-services li+li{border-top:1px solid #d2b99e9c}.thp-service-list button{display:flex;align-items:center;justify-content:space-between;gap:.7rem;text-align:left;width:100%;font:inherit;background:none;border:0;color:inherit;padding:.47rem .1rem;cursor:pointer}.thp-service-list button:hover{background:#ead4bb}.thp-service-list button span{font-size:1rem;color:#6d4c3b}.thp-anchor[data-detail=true] .thp-services{width:min(265px,calc(100vw - 30px));padding:.73rem .8rem}.thp-service-detail h2{font:650 1.08rem system-ui;margin:.36rem 0}.thp-service-detail p{font-size:.79rem;line-height:1.4;margin:.27rem 0 .5rem}.thp-service-price{display:flex;align-items:baseline;gap:.6rem;margin:.52rem 0;color:#402b1e}.thp-service-price strong{font-size:1.06rem}.thp-service-price span{font-size:.76rem}.thp-back{border:0;background:none;color:#624332;font:650 .72rem system-ui;text-decoration:underline;text-underline-offset:3px;padding:.25rem 0;cursor:pointer}.thp-reserve{background:#37291f;color:#fff0dc;text-decoration:none;font:700 .82rem system-ui;padding:.57rem .75rem;border-radius:999px;display:inline-block}.thp-service-detail .thp-note{font-size:.69rem;color:#624838;margin:.42rem 0 0}.thp-services :is(a,button):focus-visible{outline:2px solid #80583a;outline-offset:2px}",
   ".thp-film :is(a,button):focus-visible{outline:2px solid white;outline-offset:4px}@keyframes thp-film-in{from{opacity:0;translate:0 5px}to{opacity:1;translate:0 0}}",
-  "@media(max-width:680px){.thp-heading{min-height:38px;font-size:.7rem;padding:.31rem .36rem .31rem .52rem;gap:.33rem}.thp-toggle{height:18px;width:18px;font-size:.85rem}.thp-labels:has([data-open=true]) .thp-anchor:not([data-open=true]){opacity:.64}.thp-anchor[data-open=true]{z-index:3}.thp-services,.thp-anchor[data-side=left] .thp-services{position:fixed;top:calc(100% + 10px);left:calc(50% + var(--panel-shift,0px));right:auto;translate:-50% 0;font-size:.77rem;max-height:45svh;overflow:auto;animation:none}.thp-anchor[data-rise=true] .thp-services{top:auto;bottom:calc(100% + 8px)}}",
+  "@media(max-width:680px){.thp-heading{min-height:38px;font-size:.7rem;padding:.31rem .36rem .31rem .52rem;gap:.33rem}.thp-toggle{height:18px;width:18px;font-size:.85rem}.thp-labels:has([data-open=true]) .thp-anchor:not([data-open=true]) .thp-heading{gap:.15rem;padding-inline:.44rem}.thp-labels:has([data-open=true]) .thp-anchor:not([data-open=true]) .thp-toggle{display:none}.thp-anchor[data-open=true]{z-index:3}.thp-services,.thp-anchor[data-side=left] .thp-services{position:fixed;top:calc(100% + 10px);left:calc(50% + var(--panel-shift,0px));right:auto;translate:-50% 0;font-size:.77rem;max-height:45svh;overflow:auto;animation:none}.thp-anchor[data-rise=true] .thp-services{top:auto;bottom:calc(100% + 8px)}}",
   "@media(prefers-reduced-motion:reduce){.thp-services{animation:none}.thp-film canvas{cursor:default}}"
 ].join("\n");
+
