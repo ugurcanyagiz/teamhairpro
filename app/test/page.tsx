@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 type Point = [number, number, number];
 type Face = { points: Point[]; color: string; layer?: number; round?: boolean; skin?: boolean };
-const booking = "https://www.vagaro.com/teamhairpro";
+const booking = "https://www.vagaro.com/teamhairpro/book-now";
 
 function shade(hex: string, amount: number) {
   const n = parseInt(hex.slice(1), 16);
@@ -43,27 +43,47 @@ function chair(x:number,z:number,tint:string) {
 }
 
 for(let i=0;i<23;i++) {
-  box(-4.49+i*.409,-.07,0,.405,.15,9.8,["#bda28a","#c6aa8e","#ad8d73","#d0b398"][i%4],0,0);
+  box(-4.49+i*.409,-.07,0,.405,.15,9.8,["#a97950","#bd8a5e","#9f6d47","#c99768"][i%4],0,0);
 }
 box(0,1.87,-4.96,9.43,3.75,.13,"#c9bcab",0,0);
 box(-4.70,1.87,-.06,.14,3.75,9.8,"#9d8977",0,0);
 for(let i=0;i<14;i++) box(-4.598,.14+i*.25,-.1,.026,.021,9.58,"#8e7764",0,0);
-for(const x of [-3.55,-1.23,1.20,3.57]) {
+for(const x of [-3.55,3.57]) {
   arch(x,-4.865,.79,1.58,2.58,"#4e382a",.20);
   arch(x,-4.846,.88,1.38,2.39,"#829499",.24);
   arch(x-.36,-4.830,1.03,.23,1.97,"#a6b1ae",.28);
   box(x,.74,-4.54,1.77,.14,.54,"#dcc5a7");
   box(x,.54,-4.59,1.70,.29,.38,"#644c3a");
 }
+for(const z of [-3.37,2.12]) {
+  for(const [w,h,y,plane,color,layer] of [[1.35,2.28,.79,-4.597,"#4d362b",.20],[1.18,2.10,.88,-4.586,"#899e9d",.24]] as const){
+    const points:Point[]=[[plane,y,z-w/2],[plane,y,z+w/2]];
+    for(let i=0;i<=18;i++){
+      const angle=i/18*Math.PI;
+      points.push([plane,y+h-w/2+Math.sin(angle)*w/2,z+Math.cos(angle)*w/2]);
+    }
+    model.push({points,color,layer});
+  }
+  box(-4.38,.76,z,.51,.12,1.44,"#d0af8f");
+}
+box(0,1.47,-4.86,1.38,2.94,.05,"#503a30",0,.20);
+box(0,1.65,-4.82,1.11,2.33,.027,"#8fa39c",0,.24);
+box(0,1.59,-4.79,.055,2.28,.019,"#4a3631",0,.28);
+for(const x of [-1.52,1.52]){
+  box(x,1.74,-4.85,1.45,2.27,.05,"#543d30",0,.20);
+  box(x,1.74,-4.81,1.30,2.11,.025,"#a0aba1",0,.24);
+  box(x,1.42,-4.77,1.28,.052,.031,"#755b46",0,.28);
+}
 for(const x of [-.91,.91]) {
-  box(x,1.47,-.21,.23,2.95,.24,"#72513b");
+  box(x,1.47,-.21,.23,2.95,.24,"#4e382b");
+  for(const q of [-.08,0,.08]) box(x+q,1.45,-.078,.023,2.74,.024,"#89644b");
   box(x,2.89,-.21,.36,.24,.35,"#987358");
   box(x,.18,-.21,.32,.36,.31,"#876548");
 }
-chair(-2.70,1.22,"#946b58");
-chair(-3.38,-.72,"#665450");
-chair(2.64,2.53,"#c9a389");
-chair(2.92,.61,"#877163");
+chair(-2.70,1.22,"#44352f");
+chair(-3.38,-.72,"#443631");
+chair(2.64,2.53,"#4c3d36");
+chair(2.92,.61,"#463833");
 box(-2.73,.83,-3.05,1.48,.21,1.25,"#62514b");
 box(-2.76,1.07,-3.55,.91,.39,.66,"#dfd6c5");
 box(-2.76,1.279,-3.55,.64,.025,.40,"#6b8585");
@@ -115,7 +135,7 @@ const tau=Math.PI*2;
 
 function person(faces:Face[], x:number,z:number,yaw:number,look:Look,pose:Pose={}) {
   const side=Math.cos(yaw),front=Math.sin(yaw);
-  const world=([a,b,c]:Point):Point=>[x+a*side+c*front,b,z-a*front+c*side];
+  const world=([a,b,c]:Point):Point=>[x+(a*side+c*front)*.91,b*(sitting ? .79 : .82)+(sitting ? .155 : 0),z+(-a*front+c*side)*.91];
   const sitting=!!pose.sitting;
   const step=pose.stride ?? 0;
   const swing=Math.sin(step);
@@ -189,7 +209,7 @@ function person(faces:Face[], x:number,z:number,yaw:number,look:Look,pose:Pose={
     }
     return lat>(facing > .35 ? .20 : .065)||facing<-.22&&lat>-.275?look.hair:look.skin;
   };
-  oval([0,head,.012],[.178,.206,.159],look.skin,faceColor,18,12);
+  oval([0,head,.012],[.192,.218,.165],look.skin,faceColor,18,12);
   for(const sign of [-1,1]){
     oval([sign*.172,head-.018,.011],[.026,.051,.032],look.skin);
     oval([sign*.069,head+.013,.163],[.037,.023,.012],"#ded0bd");
@@ -248,7 +268,7 @@ function salonActors(t:number,faces:Face[]){
   person(faces,2.64,2.43,Math.PI+.01,colorGuest,{sitting:true,nod:Math.sin(t*.54)*.24});
   person(faces,-2.72,-3.00,.16,washGuest,{sitting:true,nod:Math.sin(t*.42)*.16});
   for(const worker of workers){
-    const a=t*.78+worker.phase;
+    const a=t*1.08+worker.phase;
     const moving=.13*Math.sin(a*.81);
     const side=worker.look===andy?-.61:.63;
     const yaw=Math.atan2(-side,worker.look===andy ? .12 : -.19)+.40*Math.sin(a*.61);
@@ -258,16 +278,16 @@ function salonActors(t:number,faces:Face[]){
       nod:Math.sin(a*2.1),tool:worker.tool
     });
   }
-  const path=t*.32+1;
+  const path=t*.48+1;
   const ax=.57*Math.sin(path);
   const az=1.8+1.64*Math.cos(path);
   const ayaw=Math.atan2(.57*Math.cos(path),-1.64*Math.sin(path));
-  person(faces,ax,az,ayaw,assistant,{stride:t*6.2,right:[.235,1.09,.28],left:[-.20,1.08,.27],tool:"towel"});
+  person(faces,ax,az,ayaw,assistant,{stride:t*8.1,right:[.235,1.09,.28],left:[-.20,1.08,.27],tool:"towel"});
 
-  const pace=t*.22+2.65;
+  const pace=t*.36+2.65;
   const gx=2.30+.75*Math.cos(pace);
   const gz=-.97+.65*Math.sin(pace);
-  person(faces,gx,gz,Math.atan2(-.75*Math.sin(pace),.65*Math.cos(pace)),visitor,{stride:t*5});
+  person(faces,gx,gz,Math.atan2(-.75*Math.sin(pace),.65*Math.cos(pace)),visitor,{stride:t*7.6});
   person(faces,-2.03,-3.50,-1.33,stylist,{
     left:[-.16,1.28,.36],right:[.18,1.35+.08*Math.sin(t*2.2),.43],
     nod:Math.sin(t*1.2)*.3,tool:"brush"
@@ -275,12 +295,35 @@ function salonActors(t:number,faces:Face[]){
 }
 
 
+
+type Service = { name:string; duration:string; price:string; summary:string; consultation?:boolean };
+
 const stations = [
-  {title:"Haircuts", point:[-2.80,1.94,1.20], services:["Men’s Haircut","Women’s Haircut","Girl’s Haircut","Clean-Up Cut"]},
-  {title:"Color Services", point:[2.92,1.53,-2.58], services:["INOA Color","Majirel Color","Highlights","Balayage","Partial Highlights","Partial Balayage"]},
-  {title:"Styling & Finish", point:[2.67,1.96,2.44], services:["Blow Dry · 30 min","Blow Dry · 45 min","Blow Dry with Iron","Updo"]},
-  {title:"Treatments", point:[-2.73,1.92,-3.12], services:["Nourishing Treatment","Keratin Complex"]},
-] satisfies {title:string;point:Point;services:string[]}[];
+  {title:"Haircuts",point:[-2.72,1.71,1.15],services:[
+    {name:"Men’s Haircut",duration:"30 min",price:"$45",summary:"A tailored haircut and clean finish based on your features, hair texture and routine."},
+    {name:"Women’s Haircut",duration:"60 min",price:"$120",summary:"A personalized cut and shape refinement that suits your features and at-home styling routine."},
+    {name:"Girl’s Haircut (Ages 10–15)",duration:"45 min",price:"$70",summary:"A gentle, age-appropriate cut with an easy-to-maintain shape."},
+    {name:"Clean-Up Cut",duration:"30 min",price:"$70",summary:"A quick trim to refresh your shape and tidy split ends between full cuts."},
+  ]},
+  {title:"Color Services",point:[2.92,1.44,-2.58],services:[
+    {name:"L’Oréal INOA Color",duration:"75 min",price:"$120",summary:"INOA color applied to create an even, rich tone."},
+    {name:"L’Oréal Majirel Color",duration:"75 min",price:"$100",summary:"Long-wear color with dependable coverage and a smooth finish."},
+    {name:"Highlights",duration:"180 min",price:"$225–$350",summary:"Custom-placed highlights to add dimension and brighten selected sections.",consultation:true},
+    {name:"Balayage",duration:"180 min",price:"$225–$350",summary:"Hand-painted lightening for a blended, natural-looking transition.",consultation:true},
+    {name:"Partial Highlights",duration:"120 min",price:"$225",summary:"Focused highlights in selected sections for a subtle lift.",consultation:true},
+    {name:"Partial Balayage",duration:"120 min",price:"$225",summary:"Hand-painted lightening in selected sections for depth and brightness.",consultation:true},
+  ]},
+  {title:"Styling & Finish",point:[2.67,1.72,2.44],services:[
+    {name:"Blow Dry (30 min)",duration:"30 min",price:"$50",summary:"A wash and blowout with brush styling for a smooth finish and movement."},
+    {name:"Blow Dry (45 min)",duration:"45 min",price:"$75",summary:"An extended blowout with extra time for detailing and smoothing."},
+    {name:"Blow Dry with Iron",duration:"45 min",price:"$75",summary:"A blowout finished with an iron for extra smoothness or definition."},
+    {name:"Updo",duration:"60 min",price:"$150",summary:"An occasion hairstyle shaped and pinned for a secure finish."},
+  ]},
+  {title:"Treatments",point:[-2.73,1.68,-3.12],services:[
+    {name:"Nourishing Treatment",duration:"15 min",price:"$35",summary:"A conditioning treatment to improve softness, shine and manageability."},
+    {name:"Keratin Complex",duration:"180 min",price:"$350",summary:"A keratin smoothing treatment designed to reduce frizz and improve manageability."},
+  ]},
+] satisfies {title:string;point:Point;services:Service[]}[];
 
 function paintRound(ctx:CanvasRenderingContext2D, points:Point[], color:string) {
   const [center,...axes]=points;
@@ -307,13 +350,13 @@ function paintRound(ctx:CanvasRenderingContext2D, points:Point[], color:string) 
 function renderStudio(ctx:CanvasRenderingContext2D,width:number,height:number,time:number,turn:number,focus:{x:number;z:number;zoom:number}){
   const yaw=.65+Math.sin(time*.092)*.105+turn;
   const sy=Math.sin(yaw),cy=Math.cos(yaw);
-  const pitch=.56,cp=Math.cos(pitch),sp=Math.sin(pitch);
-  const scale=Math.min(width*(width<680?1.11:1.12),height*1.15)*1.25*focus.zoom;
+  const pitch=.75,cp=Math.cos(pitch),sp=Math.sin(pitch);
+  const scale=Math.min(width*(width<680?1.09:1.08),height*1.12)*1.15*focus.zoom;
   const project=([x,y,z]:Point):Point=>{
     const dx=x-focus.x,dz=z-focus.z,dy=y-.77;
     const forward=dx*sy+dz*cy;
     const depth=19-cp*forward-sp*dy;
-    return [width*.5+(dx*cy-dz*sy)*scale/depth,height*(width < 680 ? .48 : .53)-(cp*dy-sp*forward)*scale/depth,depth];
+    return [width*.5+(dx*cy-dz*sy)*scale/depth,height*(width < 680 ? .48 : .52)-(cp*dy-sp*forward)*scale/depth,depth];
   };
   const backdrop=ctx.createRadialGradient(width*.49,height*.46,0,width*.49,height*.46,Math.max(width,height)*.67);
   backdrop.addColorStop(0,"#796553");
@@ -373,6 +416,9 @@ function renderStudio(ctx:CanvasRenderingContext2D,width:number,height:number,ti
 
 export default function LivingSalon() {
   const [open,setOpen]=useState<number|null>(null);
+  const [service,setService]=useState<Service|null>(null);
+  const serviceTrigger=useRef<HTMLButtonElement|null>(null);
+  const backButton=useRef<HTMLButtonElement|null>(null);
   const selected=useRef<number|null>(null);
   const canvas=useRef<HTMLCanvasElement>(null);
   const anchors=useRef<(HTMLDivElement|null)[]>([]);
@@ -385,8 +431,16 @@ export default function LivingSalon() {
     const next=selected.current===index?null:index;
     selected.current=next;
     setOpen(next);
+    setService(null);
     request.current();
   }
+
+  function backToServices(){
+    setService(null);
+    requestAnimationFrame(()=>serviceTrigger.current?.focus());
+  }
+
+  useEffect(()=>{if(service)backButton.current?.focus();},[service]);
 
   useEffect(()=>{
     const node=canvas.current;
@@ -420,9 +474,9 @@ export default function LivingSalon() {
         label.style.left=left+"px";
         const top=Math.max(82,Math.min(height-65,y-15));
         label.style.top=top+"px";
-        label.style.setProperty("--panel-shift",Math.max(102,Math.min(width-102,left))-left+"px");
-        label.dataset.rise=String(top>height*.57);
-        label.dataset.side=left>width-245 || (left<width*.47 && left>240) ? "left" : "right";
+        label.style.setProperty("--panel-shift",Math.max(144,Math.min(width-144,left))-left+"px");
+        label.dataset.rise=String(top>height*.47);
+        label.dataset.side=left>width-320 || (left<width*.47 && left>310) ? "left" : "right";
       });
       if(!reduced.matches)schedule();
     }
@@ -452,6 +506,7 @@ export default function LivingSalon() {
   return (
     <main className="thp-film" onKeyDown={event=>{
       if(event.key==="Escape"&&selected.current!==null){
+        if(service){backToServices();return;}
         const index=selected.current;
         toggle(index);
         buttons.current[index]?.focus();
@@ -475,16 +530,34 @@ export default function LivingSalon() {
       <a className="thp-film-book" href={booking}>Book Now!</a>
       <nav aria-label="Salon services" className="thp-labels">
         {stations.map((station,index)=>(
-          <div className="thp-anchor" key={station.title} data-open={open===index} ref={element=>{anchors.current[index]=element;}}>
+          <div className="thp-anchor" key={station.title} data-open={open===index} data-detail={open===index&&!!service} ref={element=>{anchors.current[index]=element;}}>
             <button className="thp-heading" type="button" aria-expanded={open===index}
               aria-controls={open===index?"thp-services-"+index:undefined} onClick={()=>toggle(index)}
               ref={element=>{buttons.current[index]=element;}}>
               <span>{station.title}</span><span className="thp-toggle" aria-hidden="true">{open===index?"−":"+"}</span>
             </button>
             {open===index&&(
-              <ul className="thp-services" id={"thp-services-"+index} aria-label={station.title}>
-                {station.services.map(service=><li key={service}>{service}</li>)}
-              </ul>
+              <div className="thp-services" id={"thp-services-"+index}>
+                <ul className="thp-service-list" hidden={!!service} aria-label={station.title}>
+                  {station.services.map(item=>(
+                    <li key={item.name}><button type="button" onClick={event=>{
+                      serviceTrigger.current=event.currentTarget;
+                      setService(item);
+                    }}>{item.name}<span aria-hidden="true">›</span></button></li>
+                  ))}
+                </ul>
+                {service&&(
+                  <section className="thp-service-detail" aria-label={service.name}>
+                    <button className="thp-back" type="button" ref={backButton} onClick={backToServices}>Back to {station.title}</button>
+                    <h2>{service.name}</h2>
+                    <p>{service.summary}</p>
+                    <div className="thp-service-price"><strong>{service.price}</strong><span>{service.duration}</span></div>
+                    {service.consultation&&<p className="thp-note">Consultation required.</p>}
+                    <a className="thp-reserve" href={booking}>Book Now!</a>
+                    <p className="thp-note">Salon menu price. Select your service and confirm pricing in Vagaro.</p>
+                  </section>
+                )}
+              </div>
             )}
           </div>
         ))}
@@ -503,8 +576,8 @@ const styles=[
   ".thp-heading{position:relative;display:flex;align-items:center;gap:.62rem;border-radius:99px;border:1px solid #f7d8ab91;background:#29201bed;color:#ffecd1;padding:.38rem .45rem .38rem .76rem;min-height:42px;white-space:nowrap;font-size:.83rem;font-weight:680;cursor:pointer;box-shadow:0 5px 18px #24150f67}",
   ".thp-heading[aria-expanded=true]{background:#f7deba;color:#392821;border-color:#fff0cf}.thp-toggle{height:22px;width:22px;display:grid;place-items:center;border-radius:50%;background:#b4916760;font-size:1rem;line-height:1}",
   ".thp-services{position:absolute;top:0;left:calc(100% + 9px);list-style:none;width:max-content;min-width:155px;margin:0;padding:.24rem .65rem;background:#fff0dc;color:#3a2a23;border:1px solid #fff6e6;border-radius:13px;box-shadow:0 10px 32px #28181171;font-size:.84rem;animation:thp-film-in .23s ease both}",
-  ".thp-anchor[data-side=left] .thp-services{left:auto;right:calc(100% + 9px)}.thp-anchor[data-rise=true] .thp-services{top:auto;bottom:0}.thp-services li{padding:.43rem .1rem}.thp-services li+li{border-top:1px solid #d2b99e9c}",
+  ".thp-anchor[data-side=left] .thp-services{left:auto;right:calc(100% + 9px)}.thp-anchor[data-rise=true] .thp-services{top:auto;bottom:0}.thp-services ul{list-style:none;margin:0;padding:0}.thp-services li+li{border-top:1px solid #d2b99e9c}.thp-service-list button{display:flex;align-items:center;justify-content:space-between;gap:.7rem;text-align:left;width:100%;font:inherit;background:none;border:0;color:inherit;padding:.47rem .1rem;cursor:pointer}.thp-service-list button:hover{background:#ead4bb}.thp-service-list button span{font-size:1rem;color:#6d4c3b}.thp-anchor[data-detail=true] .thp-services{width:min(265px,calc(100vw - 30px));padding:.73rem .8rem}.thp-service-detail h2{font:650 1.08rem system-ui;margin:.36rem 0}.thp-service-detail p{font-size:.79rem;line-height:1.4;margin:.27rem 0 .5rem}.thp-service-price{display:flex;align-items:baseline;gap:.6rem;margin:.52rem 0;color:#402b1e}.thp-service-price strong{font-size:1.06rem}.thp-service-price span{font-size:.76rem}.thp-back{border:0;background:none;color:#624332;font:650 .72rem system-ui;text-decoration:underline;text-underline-offset:3px;padding:.25rem 0;cursor:pointer}.thp-reserve{background:#37291f;color:#fff0dc;text-decoration:none;font:700 .82rem system-ui;padding:.57rem .75rem;border-radius:999px;display:inline-block}.thp-service-detail .thp-note{font-size:.69rem;color:#624838;margin:.42rem 0 0}.thp-services :is(a,button):focus-visible{outline:2px solid #80583a;outline-offset:2px}",
   ".thp-film :is(a,button):focus-visible{outline:2px solid white;outline-offset:4px}@keyframes thp-film-in{from{opacity:0;translate:0 5px}to{opacity:1;translate:0 0}}",
-  "@media(max-width:680px){.thp-heading{min-height:38px;font-size:.7rem;padding:.31rem .36rem .31rem .52rem;gap:.33rem}.thp-toggle{height:18px;width:18px;font-size:.85rem}.thp-labels:has([data-open=true]) .thp-anchor:not([data-open=true]){opacity:.64}.thp-anchor[data-open=true]{z-index:3}.thp-services,.thp-anchor[data-side=left] .thp-services{position:fixed;top:calc(100% + 10px);left:calc(50% + var(--panel-shift,0px));right:auto;translate:-50% 0;font-size:.77rem;max-height:34svh;overflow:auto;animation:none}.thp-anchor[data-rise=true] .thp-services{top:auto;bottom:calc(100% + 8px)}}",
+  "@media(max-width:680px){.thp-heading{min-height:38px;font-size:.7rem;padding:.31rem .36rem .31rem .52rem;gap:.33rem}.thp-toggle{height:18px;width:18px;font-size:.85rem}.thp-labels:has([data-open=true]) .thp-anchor:not([data-open=true]){opacity:.64}.thp-anchor[data-open=true]{z-index:3}.thp-services,.thp-anchor[data-side=left] .thp-services{position:fixed;top:calc(100% + 10px);left:calc(50% + var(--panel-shift,0px));right:auto;translate:-50% 0;font-size:.77rem;max-height:45svh;overflow:auto;animation:none}.thp-anchor[data-rise=true] .thp-services{top:auto;bottom:calc(100% + 8px)}}",
   "@media(prefers-reduced-motion:reduce){.thp-services{animation:none}.thp-film canvas{cursor:default}}"
 ].join("\n");
