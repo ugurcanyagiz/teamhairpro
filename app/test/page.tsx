@@ -1,16 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 type Point = [number, number, number];
 type Face = { points: Point[]; color: string; layer?: number };
 const booking = "https://www.vagaro.com/teamhairpro";
-const stations = [
-  { id: "haircuts", label: "Haircuts", name: "The cutting chair", copy: "Precision cuts shaped around your hair, features and everyday routine.", focus: [-2.55, .85, 1.1], yaw: .47, accent: "#e9bd82" },
-  { id: "color-services", label: "Color Services", name: "The color bar", copy: "Explore balayage, highlights and all-over color. A consultation can help set your shade, timing and price.", focus: [2.7, .9, -2.4], yaw: .73, accent: "#e1a0a0" },
-  { id: "styling-finish", label: "Styling & Finish", name: "The styling mirror", copy: "Explore blowouts, iron finishes and updos.", focus: [2.5, .8, 2.42], yaw: .42, accent: "#d7ba95" },
-  { id: "treatments", label: "Treatments", name: "The wash station", copy: "Explore conditioning and smoothing treatments.", focus: [-2.62, .82, -2.8], yaw: .64, accent: "#a5d1c5" },
-] as const;
 
 function shade(hex: string, amount: number) {
   const n = parseInt(hex.slice(1), 16);
@@ -94,205 +88,280 @@ for(const [x,z] of [[-3.96,3.35],[3.96,-3.83]]) {
   }
 }
 
-function renderStudio(ctx: CanvasRenderingContext2D, width:number,height:number,camera:{x:number;y:number;z:number;yaw:number;zoom:number}, active:number,time:number, reduced:boolean) {
-  const sy=Math.sin(camera.yaw), cy=Math.cos(camera.yaw);
-  const pitch=.55, cp=Math.cos(pitch),sp=Math.sin(pitch);
-  const scale=Math.min(width*.96,height*1.17)*1.46*camera.zoom;
-  const project=([x,y,z]:Point):Point=>{
-    const dx=x-camera.x,dy=y-camera.y,dz=z-camera.z;
-    const forward=dx*sy+dz*cy;
-    const depth=18-cp*forward-sp*dy;
-    return [width*.52+(dx*cy-dz*sy)*scale/depth,height*.54-(cp*dy-sp*forward)*scale/depth,depth];
+
+type Look = { top:string; bottom:string; skin:string; hair:string; shoes:string; style:"andy"|"crop"|"bun"|"waves"; cape?:string };
+type Pose = { left?:Point; right?:Point; sitting?:boolean; stride?:number; nod?:number; tool?:"shears"|"dryer"|"brush"|"towel" };
+const andy:Look={top:"#37353a",bottom:"#27262b",skin:"#b68162",hair:"#28262a",shoes:"#202124",style:"andy"};
+const stylist:Look={top:"#917362",bottom:"#413b3d",skin:"#a16a51",hair:"#221a1d",shoes:"#302520",style:"bun"};
+const assistant:Look={top:"#635c63",bottom:"#34323b",skin:"#bc8e70",hair:"#483028",shoes:"#2d2931",style:"crop"};
+const guest:Look={top:"#b99282",bottom:"#443d43",skin:"#bb886c",hair:"#50342b",shoes:"#51493b",style:"waves",cape:"#746f80"};
+const colorGuest:Look={top:"#b5958c",bottom:"#3a343d",skin:"#be907a",hair:"#92634a",shoes:"#3e3834",style:"waves",cape:"#544751"};
+const washGuest:Look={top:"#566a72",bottom:"#625757",skin:"#a97458",hair:"#302528",shoes:"#564747",style:"crop",cape:"#71898b"};
+const visitor:Look={top:"#bc9c81",bottom:"#6e5652",skin:"#ad785d",hair:"#5e4331",shoes:"#32272d",style:"waves"};
+const tau=Math.PI*2;
+
+function person(faces:Face[], x:number,z:number,yaw:number,look:Look,pose:Pose={}) {
+  const side=Math.cos(yaw),front=Math.sin(yaw);
+  const world=([a,b,c]:Point):Point=>[x+a*side+c*front,b,z-a*front+c*side];
+  const sitting=!!pose.sitting;
+  const step=pose.stride ?? 0;
+  const swing=Math.sin(step);
+  const bounce=step===0?0:Math.abs(Math.cos(step))*.045;
+  const hip=(sitting ? .78 : .89)+bounce;
+  const upper=hip+.59;
+  const head=upper+.26+(pose.nod??0)*.03;
+
+  function polygon(points:Point[],color:string) {
+    faces.push({points:points.map(world),color,layer:1});
+  }
+
+  function oval(center:Point, size:Point, color:string, paint?:(latitude:number,azimuth:number)=>string, segments=7,bands=5) {
+    for(let j=0;j<bands;j++) for(let i=0;i<segments;i++){
+      const vertex=(a:number,b:number):Point=>{
+        const theta=a/segments*tau,phi=(b/bands-.5)*Math.PI;
+        return [center[0]+size[0]*Math.sin(theta)*Math.cos(phi),center[1]+size[1]*Math.sin(phi),center[2]+size[2]*Math.cos(theta)*Math.cos(phi)];
+      };
+      const az=(i+.5)/segments*tau, lat=(j+.5)/bands-.5;
+      const tone=.79+.18*Math.sin((j+.5)/bands*Math.PI*.79)+.15*Math.cos(az+.65);
+      polygon([vertex(i,j),vertex(i+1,j),vertex(i+1,j+1),vertex(i,j+1)],shade(paint?.(lat,az)??color,tone));
+    }
+  }
+
+  function limb(a:Point,b:Point,ra:number,rb:number,color:string) {
+    const dx=b[0]-a[0],dy=b[1]-a[1],dz=b[2]-a[2];
+    const distance=Math.hypot(dx,dy,dz)||1;
+    const y:Point=[dx/distance,dy/distance,dz/distance];
+    const axis:Point=Math.abs(y[1])>.93?[1,0,0]:[0,1,0];
+    const u:Point=[y[1]*axis[2]-y[2]*axis[1],y[2]*axis[0]-y[0]*axis[2],y[0]*axis[1]-y[1]*axis[0]];
+    const length=Math.hypot(...u)||1;
+    const s:Point=[u[0]/length,u[1]/length,u[2]/length];
+    const t:Point=[y[1]*s[2]-y[2]*s[1],y[2]*s[0]-y[0]*s[2],y[0]*s[1]-y[1]*s[0]];
+    function edge(center:Point,r:number,index:number):Point {
+      const angle=index/6*tau,p=Math.cos(angle)*r,q=Math.sin(angle)*r;
+      return [center[0]+s[0]*p+t[0]*q,center[1]+s[1]*p+t[1]*q,center[2]+s[2]*p+t[2]*q];
+    }
+    for(let i=0;i<6;i++) polygon([edge(a,ra,i),edge(a,ra,i+1),edge(b,rb,i+1),edge(b,rb,i)],shade(color,[.76,.92,1.09,1.14,.87,.71][i]));
+    polygon(Array.from({length:6},(_,i)=>edge(b,rb,i)),shade(color,.94));
+  }
+
+  for(const sign of [-1,1]){
+    const legX=sign*.111;
+    const knee:Point=sitting?[legX,.62,.43]:[legX,.48,swing*sign*.22+.06];
+    const foot:Point=sitting?[legX,.125,.50]:[legX,.115,swing*sign*.41];
+    limb([legX,hip,0],knee,.106,.087,look.bottom);
+    limb(knee,foot,.086,.064,look.bottom);
+    oval([legX,.092,foot[2]+.069],[.085,.074,.145],look.shoes,undefined,5,3);
+  }
+  oval([0,hip+.28,-.006],[.262,.356,.151],look.cape??look.top,undefined,8,5);
+  if(look.cape) {
+    polygon([[-.262,upper-.055,.025],[.262,upper-.055,.025],[.31,hip-.085,.37],[-.31,hip-.085,.37]],shade(look.cape,.98));
+    polygon([[-.22,upper-.10,.067],[-.11,upper-.10,.12],[-.22,hip-.08,.38],[-.29,hip-.08,.37]],shade(look.cape,1.13));
+  }
+  limb([0,upper-.035,0],[0,head-.14,.006],.087,.079,look.skin);
+  if(look.style==="bun") oval([0,head+.095,-.154],[.106,.104,.104],look.hair,undefined,6,4);
+  if(look.style==="waves") oval([0,head-.086,-.099],[.165,.218,.115],look.hair,undefined,7,4);
+  const faceColor=(lat:number,az:number)=>{
+    const facing=Math.cos(az);
+    if(look.style==="andy"){
+      if(lat<-.065&&lat>-.415&&facing>.15)return lat<-.17?"#2b2425":"#483533";
+      if(facing<.43&&(lat>.04||facing<-.28&&lat>-.14))return lat>.16?"#594d4b":"#403734";
+      return look.skin;
+    }
+    return lat>(facing > .35 ? .20 : .065)||facing<-.22&&lat>-.275?look.hair:look.skin;
   };
-  ctx.clearRect(0,0,width,height);
-  const backdrop=ctx.createRadialGradient(width*.49,height*.48,0,width*.49,height*.48,width*.69);
-  backdrop.addColorStop(0,"#524334");
-  backdrop.addColorStop(.49,"#292320");
-  backdrop.addColorStop(1,"#171513");
+  oval([0,head,.012],[.153,.187,.143],look.skin,faceColor,10,7);
+  for(const sign of [-1,1]){
+    oval([sign*.145,head-.02,.011],[.026,.052,.032],look.skin,undefined,5,3);
+    polygon([[sign*.040,head+.028,.145],[sign*.104,head+.031,.126],[sign*.093,head+.003,.134],[sign*.045,head+.008,.151]],look.hair);
+    if(look.style==="andy") {
+      polygon([[sign*.033,head+.067,.146],[sign*.105,head+.060,.125],[sign*.099,head+.041,.134],[sign*.041,head+.049,.151]],"#3e3030");
+    }
+  }
+  oval([0,head-.035,.143],[.038,.047,.043],look.skin,undefined,6,4);
+  if(look.style==="andy"){
+    polygon([[-.057,head-.092,.144],[.056,head-.092,.144],[.036,head-.107,.151],[-.033,head-.107,.151]],"#dbbdad");
+    polygon([[-.081,upper-.017,.104],[-.005,upper-.085,.149],[-.068,upper-.19,.151],[-.155,upper-.043,.102]],"#25242a");
+    polygon([[.081,upper-.017,.104],[.008,upper-.085,.149],[.068,upper-.19,.151],[.155,upper-.043,.102]],"#25242a");
+    for(let i=0;i<3;i++) oval([0,upper-.22-i*.088,.150],[.013,.014,.012],"#807671",undefined,5,3);
+  }
+
+  for(const sign of [-1,1]){
+    const shoulder:Point=[sign*.204,upper-.04,0];
+    const hand=(sign<0?pose.left:pose.right)??(sitting?[sign*.22,hip+.15,.35]:[sign*.29,hip-.03,-sign*swing*.32+.06]);
+    const elbow:Point=[sign*(.27+Math.abs(hand[0]-shoulder[0])*.22),upper-.25+(hand[1]-hip)*.24,hand[2]*.28-.08];
+    limb(shoulder,elbow,.089,.066,look.cape??look.top);
+    if(!look.cape)limb(elbow,hand,.060,.037,look.skin);
+    else limb(elbow,hand,.061,.042,look.cape);
+    oval(hand,[.042,.056,.038],look.skin,undefined,6,3);
+    if(look.style==="andy"&&sign<0){
+      oval([hand[0],hand[1]-.044,hand[2]-.025],[.041,.032,.040],"#1d2128",undefined,5,3);
+    }
+    if(sign===1&&pose.tool){
+      const [hx,hy,hz]=hand;
+      if(pose.tool==="shears"){
+        const opening=.038+.032*Math.sin((pose.nod??0)*8);
+        limb([hx-.011,hy+.021,hz],[hx+.082,hy+.065,hz+opening],.012,.003,"#d3d4d3");
+        limb([hx-.012,hy+.018,hz],[hx+.086,hy+.043,hz-opening],.011,.003,"#bec8c7");
+      }else if(pose.tool==="dryer"){
+        limb([hx,hy+.018,hz],[hx,hy+.106,hz],.032,.037,"#2c2429");
+        limb([hx,hy+.105,hz-.085],[hx,hy+.105,hz+.113],.056,.038,"#433842");
+      }else if(pose.tool==="brush"){
+        limb([hx,hy,hz],[hx,hy+.036,hz+.15],.024,.036,"#a47459");
+      }else{
+        oval([hx,hy-.037,hz+.064],[.11,.052,.118],"#e9dccc",undefined,7,4);
+      }
+    }
+  }
+}
+
+const workers: {x:number;z:number;look:Look;tool:Pose["tool"];phase:number}[]=[
+  {x:-2.70,z:1.22,look:andy,tool:"shears",phase:0},
+  {x:2.64,z:2.53,look:stylist,tool:"dryer",phase:1.24}
+];
+
+function salonActors(t:number,faces:Face[]){
+  person(faces,-2.70,1.13,Math.PI-.21,guest,{sitting:true,nod:Math.sin(t*.68)*.25});
+  person(faces,2.64,2.43,Math.PI+.01,colorGuest,{sitting:true,nod:Math.sin(t*.54)*.24});
+  person(faces,-2.72,-3.00,.16,washGuest,{sitting:true,nod:Math.sin(t*.42)*.16});
+  for(const worker of workers){
+    const a=t*.78+worker.phase;
+    const moving=.13*Math.sin(a*.81);
+    const side=worker.look===andy?-.61:.63;
+    const yaw=Math.atan2(-side,worker.look===andy ? .12 : -.19)+.40*Math.sin(a*.61);
+    person(faces,worker.x+side+moving,worker.z+(worker.look===andy ? -.06 : .27)+.12*Math.sin(a),yaw,worker.look,{
+      left:[-.18,1.45+.12*Math.sin(a*1.86),.35+.06*Math.cos(a)],
+      right:[.18,1.49+.12*Math.cos(a*2.05),.39+.07*Math.sin(a)],
+      nod:Math.sin(a*2.1),tool:worker.tool
+    });
+  }
+  const path=t*.32+1;
+  const ax=.57*Math.sin(path);
+  const az=1.8+1.64*Math.cos(path);
+  const ayaw=Math.atan2(.57*Math.cos(path),-1.64*Math.sin(path));
+  person(faces,ax,az,ayaw,assistant,{stride:t*6.2,right:[.235,1.09,.28],left:[-.20,1.08,.27],tool:"towel"});
+
+  const pace=t*.22+2.65;
+  const gx=2.30+.75*Math.cos(pace);
+  const gz=-.97+.65*Math.sin(pace);
+  person(faces,gx,gz,Math.atan2(-.75*Math.sin(pace),.65*Math.cos(pace)),visitor,{stride:t*5});
+  person(faces,-2.03,-3.50,-1.33,stylist,{
+    left:[-.16,1.28,.36],right:[.18,1.35+.08*Math.sin(t*2.2),.43],
+    nod:Math.sin(t*1.2)*.3,tool:"brush"
+  });
+}
+
+function renderStudio(ctx:CanvasRenderingContext2D,width:number,height:number,time:number,turn:number){
+  const yaw=.64+Math.sin(time*.092)*.125+turn;
+  const sy=Math.sin(yaw),cy=Math.cos(yaw);
+  const pitch=.57,cp=Math.cos(pitch),sp=Math.sin(pitch);
+  const scale=Math.min(width*(width < 620 ? .94 : 1.11),height*1.12)*1.30;
+  const project=([x,y,z]:Point):Point=>{
+    const dy=y-.72;
+    const forward=x*sy+z*cy;
+    const depth=18.9-cp*forward-sp*dy;
+    return [width*.5+(x*cy-z*sy)*scale/depth,height*.53-(cp*dy-sp*forward)*scale/depth,depth];
+  };
+  const backdrop=ctx.createRadialGradient(width*.51,height*.48,0,width*.51,height*.48,Math.max(width,height)*.65);
+  backdrop.addColorStop(0,"#504031");
+  backdrop.addColorStop(.52,"#292320");
+  backdrop.addColorStop(1,"#141311");
   ctx.fillStyle=backdrop;
   ctx.fillRect(0,0,width,height);
-  const faces=model.map(face=>{
+
+  const ground=ctx.createRadialGradient(width*.51,height*.78,0,width*.51,height*.78,Math.min(width,height)*.65);
+  ground.addColorStop(0,"#0e0a08c9");
+  ground.addColorStop(1,"#0e0a0800");
+  ctx.fillStyle=ground;
+  ctx.fillRect(0,height*.50,width,height*.5);
+
+  const faces=model.slice();
+  salonActors(time,faces);
+  const polygons=faces.map(face=>{
     const points=face.points.map(project);
-    return {...face,points,depth:points.reduce((sum,v)=>sum+v[2],0)/points.length};
-  }).sort((a,b)=>(a.layer??0)-(b.layer??0)||b.depth-a.depth);
-  for(const face of faces){
+    return {points,color:face.color,layer:face.layer??0,depth:points.reduce((sum,v)=>sum+v[2],0)/points.length};
+  }).sort((a,b)=>a.layer-b.layer||b.depth-a.depth);
+  for(const face of polygons){
     ctx.beginPath();
     face.points.forEach(([x,y],i)=>i===0?ctx.moveTo(x,y):ctx.lineTo(x,y));
     ctx.closePath();
     ctx.fillStyle=face.color;
     ctx.fill();
   }
-  const marks:Point[]=[[-2.60,1.63,1.15],[2.70,1.68,-2.42],[2.60,1.55,2.51],[-2.71,1.66,-3.02]];
-  marks.forEach((point,i)=>{
+
+  for(const point of [[-2.75,2.33,-4.72],[-.36,2.35,-4.72],[2.14,2.38,-4.72]] as Point[]){
     const [x,y]=project(point);
-    if(active!==i) {
-      ctx.beginPath();
-      ctx.arc(x,y,3.4,0,Math.PI*2);
-      ctx.fillStyle="#fff3dc";
-      ctx.fill();
-      return;
-    }
-    const radius=Math.min(width,height)*.17;
+    const radius=Math.min(width,height)*.08;
     const glow=ctx.createRadialGradient(x,y,0,x,y,radius);
-    glow.addColorStop(0,stations[i].accent+"72");
-    glow.addColorStop(1,stations[i].accent+"00");
+    glow.addColorStop(0,"#ffdfab2c");
+    glow.addColorStop(1,"#ffdfab00");
     ctx.fillStyle=glow;
-    ctx.fillRect(x-radius,y-radius,radius*2,radius*2);
-    const clock=reduced ? .5 : time*.001;
-    for(let j=0;j<4;j++){
-      const phase=(clock*.48+j*.23)%1;
-      ctx.beginPath();
-      ctx.strokeStyle=stations[i].accent+(j%2?"a0":"58");
-      ctx.lineWidth=1.2;
-      if(i===1) {
-        ctx.moveTo(x-27+9*j,y+12-phase*26);
-        ctx.bezierCurveTo(x-19,y-20-phase*7,x+14,y+19-phase*25,x+25-6*j,y-15-phase*9);
-      } else {
-        ctx.ellipse(x,y+4,9+phase*23,4+phase*10,i===2?-.45:0,phase*3,phase*3+Math.PI*(i===3?1.8:.76));
-      }
-      ctx.stroke();
-    }
-  });
-  return marks.map(project);
+    ctx.fillRect(x-radius,y-radius,2*radius,2*radius);
+  }
 }
 
-export default function StudioTest() {
-  const [selected,setSelected]=useState(1);
-  const current=useRef(1);
+export default function LivingSalon() {
   const canvas=useRef<HTMLCanvasElement>(null);
-  const stage=useRef<HTMLDivElement>(null);
-  const pins=useRef<(HTMLButtonElement|null)[]>([]);
-  const turn=useRef(0);
-  const grab=useRef<{id:number;x:number}|null>(null);
-
-  function select(index:number) {
-    current.current=index;
-    turn.current=0;
-    setSelected(index);
-  }
+  const target=useRef(0);
+  const drag=useRef<{id:number;x:number}|null>(null);
 
   useEffect(()=>{
     const node=canvas.current;
-    const room=stage.current;
-    const ctx=node?.getContext("2d");
-    if(!node||!room||!ctx) return;
+    const ctx=node?.getContext("2d",{alpha:false});
+    if(!node||!ctx)return;
     const reduced=matchMedia("(prefers-reduced-motion: reduce)");
-    const camera={x:0,y:.68,z:0,yaw:.55,zoom:1};
-    let width=0,height=0,frame=0,last=0;
-    const schedule=()=>{if(!frame&&!document.hidden)frame=requestAnimationFrame(draw);};
-    function draw(time:number){
+    let width=0,height=0,frame=0,previous=0,elapsed=0,turn=0;
+    function schedule(){
+      if(!frame&&!document.hidden)frame=requestAnimationFrame(draw);
+    }
+    function draw(now:number){
       frame=0;
-      if(!width||!height)return;
-      if(!reduced.matches && time-last<24){schedule();return;}
-      last=time;
-      const index=current.current;
-      const chosen=stations[index];
-      const [x,y,z]=chosen?.focus??[0,.68,0];
-      const target={x,y,z,yaw:(chosen?.yaw??.55)+turn.current,zoom:chosen?1.34:1};
-      for(const key of ["x","y","z","yaw","zoom"] as const){
-        camera[key]+=(target[key]-camera[key])*(reduced.matches?1:.12);
-      }
-      if(!ctx) return;
-      const markers=renderStudio(ctx,width,height,camera,index,time,reduced.matches);
-      markers.forEach(([x,y],i)=>{
-        const pin=pins.current[i];
-        if(!pin)return;
-        pin.style.left=x+"px";
-        pin.style.top=(y-17)+"px";
-        pin.hidden=x<24||x>width-24||y<38||y>height-25;
-      });
+      if(!ctx||!width||!height)return;
+      if(!reduced.matches&&previous&&now-previous<28){schedule();return;}
+      if(previous)elapsed+=Math.min((now-previous)/1000,.08);
+      previous=now;
+      turn+=(target.current-turn)*.12;
+      renderStudio(ctx,width,height,reduced.matches?2.6:elapsed,reduced.matches?0:turn);
       if(!reduced.matches)schedule();
     }
     const resize=()=>{
-      width=room.clientWidth;height=room.clientHeight;
-      const ratio=Math.min(devicePixelRatio||1,1.5);
-      node.width=Math.round(width*ratio);node.height=Math.round(height*ratio);
-      ctx.setTransform(ratio,0,0,ratio,0,0);
+      width=node.clientWidth;height=node.clientHeight;
+      const dpi=Math.min(devicePixelRatio||1,1.7);
+      node.width=Math.round(width*dpi);node.height=Math.round(height*dpi);
+      ctx.setTransform(dpi,0,0,dpi,0,0);
       schedule();
     };
-    const redraw=()=>schedule();
-    const motionChange=()=>schedule();
     const observer=new ResizeObserver(resize);
-    observer.observe(room);
-    room.addEventListener("studio-change",redraw);
-    reduced.addEventListener("change",motionChange);
-    document.addEventListener("visibilitychange",schedule);
+    observer.observe(node);
+    const sync=()=>{previous=0;schedule();};
+    reduced.addEventListener("change",sync);
+    document.addEventListener("visibilitychange",sync);
     resize();
     return ()=>{
       cancelAnimationFrame(frame);
       observer.disconnect();
-      room.removeEventListener("studio-change",redraw);
-      reduced.removeEventListener("change",motionChange);
-      document.removeEventListener("visibilitychange",schedule);
+      reduced.removeEventListener("change",sync);
+      document.removeEventListener("visibilitychange",sync);
     };
   },[]);
 
-  useEffect(()=>{stage.current?.dispatchEvent(new Event("studio-change"));},[selected]);
-
-  const info=stations[selected];
   return (
-    <main className="thp-test">
+    <main className="thp-living">
       <meta name="robots" content="noindex, nofollow" />
-      <style>{styles}</style>
-      <header className="thp-test-header">
-        <a className="thp-home" href="/" aria-label="Team Hair Pro home">hair pro<span>all about hair</span></a>
-        <a className="thp-book" href={booking}>Book Now</a>
-      </header>
-      <section className="thp-tour" aria-labelledby="studio-title">
-        <div className="thp-intro">
-          <p className="thp-kicker">TENAFLY STUDIO</p>
-          <h1 id="studio-title">In the <br />stylist’s chair.</h1>
-          <nav aria-label="Salon stations" className="thp-stations">
-            {stations.map((station,i)=><button type="button" key={station.id} onClick={()=>select(i)} aria-pressed={selected===i}>{station.label}</button>)}
-            <button type="button" onClick={()=>select(-1)} aria-pressed={selected===-1}>Studio view</button>
-          </nav>
-          <div className="thp-detail" aria-live="polite">
-            <h2>{info?.name??"Explore the salon"}</h2>
-            <p>{info?.copy??"Choose a station to see its services."}</p>
-            <a href={info?"/services#"+info.id:"/services"}>View services</a>
-          </div>
-        </div>
-        <div className="thp-scene" ref={stage}>
-          <canvas ref={canvas} aria-hidden="true"
-            onPointerDown={event=>{
-              if(!event.isPrimary||event.button!==0||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-              grab.current={id:event.pointerId,x:event.clientX};
-              event.currentTarget.setPointerCapture(event.pointerId);
-            }}
-            onPointerMove={event=>{
-              if(grab.current?.id!==event.pointerId)return;
-              turn.current=Math.max(-.21,Math.min(.38,turn.current+(event.clientX-grab.current.x)*.005));
-              grab.current.x=event.clientX;
-            }}
-            onPointerUp={()=>{grab.current=null;}} onPointerCancel={()=>{grab.current=null;}}
-            onLostPointerCapture={()=>{grab.current=null;}} />
-          {stations.map((station,i)=><button key={station.id} className="thp-pin" type="button"
-            ref={element=>{pins.current[i]=element;}} aria-label={station.label} aria-pressed={selected===i}
-            onClick={()=>select(i)}>{station.label}</button>)}
-          <span className="thp-prototype">3D studio concept</span>
-        </div>
-      </section>
-      <footer className="thp-test-footer">9 W Railroad Ave, Tenafly, NJ <a href="tel:+12019271711">(201) 927-1711</a></footer>
+      <style>{".thp-living{position:fixed;inset:0;isolation:isolate;background:#24201b url('/andy.png') center/cover no-repeat;overflow:hidden}.thp-living canvas{width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab}.thp-living canvas:active{cursor:grabbing}.thp-living .thp-booking{position:absolute;z-index:2;left:max(20px,env(safe-area-inset-left));top:max(20px,env(safe-area-inset-top));display:inline-flex;align-items:center;min-height:49px;border-radius:999px;padding:.69rem 1.28rem;background:#f6e4c8;color:#35241b;font:650 .94rem system-ui,sans-serif;text-decoration:none;box-shadow:0 6px 24px #1b100f53;transition:background .18s}.thp-living .thp-booking:hover{background:#fff4df}.thp-living .thp-booking:focus-visible{outline:2px solid white;outline-offset:5px}@media(prefers-reduced-motion:reduce){.thp-living canvas{cursor:default}.thp-living .thp-booking{transition:none}}"}</style>
+      <canvas ref={canvas} role="img" aria-label="Animated TeamHairPro salon with Andy cutting a client’s hair and staff working around the salon"
+        onPointerDown={event=>{
+          if(!event.isPrimary||event.button!==0||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+          drag.current={id:event.pointerId,x:event.clientX};
+          event.currentTarget.setPointerCapture(event.pointerId);
+        }}
+        onPointerMove={event=>{
+          if(drag.current?.id!==event.pointerId)return;
+          target.current=Math.max(-.35,Math.min(.36,target.current+(event.clientX-drag.current.x)*.0035));
+          drag.current.x=event.clientX;
+        }}
+        onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}}
+        onLostPointerCapture={()=>{drag.current=null;}} />
+      <a className="thp-booking" href={booking}>Book Now!</a>
     </main>
   );
 }
-
-const styles = [
-  ".thp-test{min-height:100vh;background:#f6f1e9;color:#271e18;font-family:system-ui,sans-serif;padding:0 clamp(17px,4vw,64px);}",
-  ".thp-test *{box-sizing:border-box}.thp-test a{color:inherit}.thp-test :is(a,button):focus-visible{outline:2px solid #9b612a;outline-offset:4px}",
-  ".thp-test-header{display:flex;align-items:center;justify-content:space-between;min-height:88px;border-bottom:1px solid #d9cbbd;margin:0 auto;max-width:1440px;}",
-  ".thp-home{text-decoration:none;font-size:2.15rem;font-weight:800;letter-spacing:-.075em;line-height:.85;}.thp-home span{display:block;font-size:.55rem;letter-spacing:.22em;margin-top:.52rem;text-align:center;}",
-  ".thp-test .thp-book{color:#fff7ec;background:#372720;text-decoration:none;border-radius:99px;padding:.68rem 1.28rem;font-weight:660;white-space:nowrap;}",
-  ".thp-tour{margin:0 auto;display:grid;grid-template-columns:minmax(250px,.79fr) minmax(0,1.62fr);gap:clamp(20px,4vw,62px);max-width:1440px;align-items:center;padding:clamp(21px,4vw,59px) 0;}",
-  ".thp-kicker{font-size:.71rem;font-weight:750;letter-spacing:.20em;color:#654e3a;margin:0 0 1.2rem;}",
-  ".thp-intro h1{font:400 clamp(3.35rem,6.15vw,7rem)/.89 Georgia,serif;letter-spacing:-.072em;margin:0 0 2rem;}",
-  ".thp-stations{display:flex;flex-wrap:wrap;gap:8px}.thp-stations button,.thp-pin{cursor:pointer;font:600 .83rem system-ui,sans-serif;}",
-  ".thp-stations button{color:#3a2b21;background:transparent;border:1px solid #baa895;border-radius:999px;padding:.56rem .69rem;min-height:40px;}.thp-stations button[aria-pressed=true]{background:#3b2b21;color:#fff3e2;border-color:#3b2b21;}",
-  ".thp-detail{margin-top:1.55rem;padding-top:1.15rem;border-top:1px solid #d9cbbd;min-height:127px;}.thp-detail h2{font:1.62rem Georgia;margin:0 0 .45rem}.thp-detail p{margin:.3rem 0 .5rem;font-size:.92rem;color:#5c4c40;line-height:1.53}.thp-detail a{font-size:.86rem;text-underline-offset:.2em;font-weight:650}",
-  ".thp-scene{height:min(68vw,620px);min-height:460px;position:relative;isolation:isolate;border-radius:19px;overflow:hidden;background:#31271f url('/andy.png') center/cover no-repeat;box-shadow:0 18px 45px #281b202d;}",
-  ".thp-scene canvas{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:pan-y;}.thp-scene canvas:active{cursor:grabbing;}",
-  ".thp-pin{left:-9999px;position:absolute;transform:translate(-50%,-50%);border:1px solid #fff4d799;color:#fff4df;border-radius:99px;background:#2b201ce6;min-height:34px;padding:.28rem .56rem;white-space:nowrap;}.thp-pin[aria-pressed=true]{background:#f1cf9b;color:#271e18;border-color:#f1cf9b;}",
-  ".thp-prototype{position:absolute;bottom:14px;left:16px;text-shadow:0 1px 8px black;font-size:.74rem;color:#ffe8ca;pointer-events:none;}",
-  ".thp-test-footer{max-width:1440px;margin:0 auto;padding:12px 0 22px;border-top:1px solid #d9cbbd;font-size:.82rem;color:#675649;display:flex;gap:.65rem;justify-content:space-between;flex-wrap:wrap;}",
-  "@media(max-width:760px){.thp-test-header{min-height:66px}.thp-tour{display:flex;flex-direction:column;align-items:stretch;gap:16px;padding:20px 0}.thp-intro{display:contents}.thp-kicker{margin:0}.thp-intro h1{font-size:clamp(2.8rem,11vw,4.7rem);margin:0}.thp-intro h1 br{display:none}.thp-intro h1 br:after{content:' '}.thp-scene{height:clamp(300px,76vw,460px);min-height:0;order:2}.thp-stations{order:1;gap:5px}.thp-stations button{min-height:38px;padding:.42rem .59rem;font-size:.74rem}.thp-detail{order:3;margin:0;min-height:0}.thp-pin{font-size:.65rem;min-height:30px;padding:.23rem .42rem}}"
-].join("\n");
