@@ -30,13 +30,13 @@ function box(x:number,y:number,z:number,w:number,h:number,d:number,color:string,
   sides.forEach((side,i)=>model.push({points:side.map(index=>points[index]),color:shade(color,[.74,.92,.69,.84,1.15,.62][i]),layer}));
 }
 
-function arch(x:number,z:number,base:number,w:number,h:number,color:string) {
+function arch(x:number,z:number,base:number,w:number,h:number,color:string,layer:number) {
   const points: Point[]=[[x-w/2,base,z],[x+w/2,base,z]];
   for(let i=0;i<=16;i++) {
     const angle=i/16*Math.PI;
     points.push([x+Math.cos(angle)*w/2,base+h-w/2+Math.sin(angle)*w/2,z]);
   }
-  model.push({points,color,layer:1});
+  model.push({points,color,layer});
 }
 
 function chair(x:number,z:number,tint:string) {
@@ -55,9 +55,9 @@ box(0,1.87,-4.96,9.43,3.75,.13,"#c9bcab",0,0);
 box(-4.70,1.87,-.06,.14,3.75,9.8,"#9d8977",0,0);
 for(let i=0;i<14;i++) box(-4.598,.14+i*.25,-.1,.026,.021,9.58,"#8e7764",0,0);
 for(const x of [-3.55,-1.23,1.20,3.57]) {
-  arch(x,-4.865,.79,1.58,2.58,"#4e382a");
-  arch(x,-4.846,.88,1.38,2.39,"#85999b");
-  arch(x-.36,-4.830,1.03,.23,1.97,"#9fa8a2");
+  arch(x,-4.865,.79,1.58,2.58,"#4e382a",.20);
+  arch(x,-4.846,.88,1.38,2.39,"#829499",.24);
+  arch(x-.36,-4.830,1.03,.23,1.97,"#a6b1ae",.28);
   box(x,.74,-4.54,1.77,.14,.54,"#dcc5a7");
   box(x,.54,-4.59,1.70,.29,.38,"#644c3a");
 }
