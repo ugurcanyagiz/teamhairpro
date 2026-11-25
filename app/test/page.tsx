@@ -422,7 +422,7 @@ export default function LivingSalon() {
         label.style.top=top+"px";
         label.style.setProperty("--panel-shift",Math.max(102,Math.min(width-102,left))-left+"px");
         label.dataset.rise=String(top>height*.57);
-        label.dataset.side=left>width*.59?"left":"right";
+        label.dataset.side=left>width-245 || (left<width*.47 && left>240) ? "left" : "right";
       });
       if(!reduced.matches)schedule();
     }
