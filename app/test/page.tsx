@@ -34,8 +34,9 @@ function arch(x:number,z:number,base:number,w:number,h:number,color:string,layer
 }
 
 const chairSeat=.755;
-const chairFootrest=.146;
-const loungeSeat=.67;
+const chairFootrest=.281;
+const washFootrest=.313;
+const loungeSeat=.46;
 const floorY=-.002;
 const washSeatZ=-3.69;
 const washBasinZ=-4.56;
@@ -55,10 +56,11 @@ function chair(x:number,z:number,tint:string,recline=0) {
     box(x+side*.43,.69,z,.08,.30,.13,"#625449");
     box(x+side*.47,.83,z,.12,.13,.65,"#483d33");
   }
-  if(!recline){
-    box(x,.09,z+.51,.16,.12,.31,"#585750");
-    box(x,chairFootrest-.024,z+.65,.49,.048,.27,"#7a746b");
-  }
+  const footrest=recline ? washFootrest : chairFootrest;
+  const reach=recline ? .58 : .69;
+  box(x,.091,z+.52,.16,.13,.31,"#585750");
+  box(x,(footrest+.14)/2,z+reach,.10,footrest-.14,.12,"#585750");
+  box(x,footrest-.026,z+reach,recline?.57:.49,.052,.28,"#7a746b");
 }
 
 const haircut: Point = [-3.10,1.70,1.44];
@@ -144,10 +146,10 @@ for(const [x,z] of [[-3.61,-4.35],[3.55,-3.52]]){
   for(const side of [-1,1])box(x+side*.51,1.05,z,.048,2.1,.49,"#453329");
 }
 
-box(-3.37,.28,4.25,1.82,.56,.78,"#4e4338");
-box(-3.37,.60,4.56,1.83,.67,.16,"#44382f");
-for(const x of [-4.26,-2.48])box(x,.50,4.24,.12,.42,.74,"#55463a");
-for(const x of [-3.78,-2.96])box(x,.61,4.17,.76,.12,.57,"#786455");
+box(-3.37,.18,4.25,1.82,.36,.78,"#4e4338");
+box(-3.37,.49,4.56,1.83,.67,.16,"#44382f");
+for(const x of [-4.26,-2.48])box(x,.38,4.24,.12,.42,.74,"#55463a");
+for(const x of [-3.78,-2.96])box(x,loungeSeat-.06,4.17,.76,.12,.57,"#786455");
 box(-2.98,.25,3.38,.83,.42,.46,"#664a35");
 box(-2.98,.49,3.38,.92,.095,.52,"#b49475");
 box(3.44,.52,4.05,1.82,1.04,.86,"#594131");
@@ -185,9 +187,9 @@ type Seat = {top:number; feet:number; reach:number; recline?:number};
 type Footfall = {position:Point;yaw:number};
 type Gait = {feet:[Footfall,Footfall];phase:number};
 type Pose = { left?:Point; right?:Point; seat?:Seat; gait?:Gait; nod?:number; tool?:"shears"|"dryer"|"brush"|"towel" };
-const stylingSeat:Seat={top:chairSeat,feet:chairFootrest,reach:.57};
-const shampooSeat:Seat={top:chairSeat,feet:floorY,reach:.48,recline:washRecline};
-const waitingSeat:Seat={top:loungeSeat,feet:floorY,reach:.48};
+const stylingSeat:Seat={top:chairSeat,feet:chairFootrest,reach:.73};
+const shampooSeat:Seat={top:chairSeat,feet:washFootrest,reach:.65,recline:washRecline};
+const waitingSeat:Seat={top:loungeSeat,feet:floorY,reach:.54};
 const andy:Look={top:"#37353a",bottom:"#27262b",skin:"#b68162",hair:"#28262a",shoes:"#202124",style:"andy"};
 const stylist:Look={top:"#917362",bottom:"#413b3d",skin:"#a16a51",hair:"#221a1d",shoes:"#302520",style:"bun"};
 const assistant:Look={top:"#635c63",bottom:"#34323b",skin:"#bc8e70",hair:"#483028",shoes:"#2d2931",style:"crop"};
